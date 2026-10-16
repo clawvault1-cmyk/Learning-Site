@@ -1,0 +1,1 @@
+cp /workspace/worksheets-site/assets/src/*.js /workspace/v2build/ && rm -rf /workspace/worksheets-site/assets/js/* && npx esbuild home.js --bundle --splitting --format=esm --minify --outdir=/workspace/worksheets-site/assets/js --chunk-names=[name]-[hash] --legal-comments=eof 2>&1 | grep -v '^$'
