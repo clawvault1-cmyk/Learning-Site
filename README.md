@@ -12,6 +12,6 @@ python3 -m http.server 8000
 
 Then go to [http://localhost:8000/](http://localhost:8000/).
 
-## Published site
+## GitHub Pages
 
-GitHub Pages serves this site from the `main` branch at `/`.
+The publishing source for this site is the `main` branch at `/`. `.github/workflows/pages.yml` deploys those static files once GitHub Pages is enabled for the repository.
