@@ -5,7 +5,6 @@ EMAIL="hello@example.com"
 LINKS=dict(
  cc_math="https://www.thecorestandards.org/Math/Content/K/OA/",
  cc_ela="https://www.thecorestandards.org/ELA-Literacy/RF/K/",
- fl_math="https://www.fldoe.org/academics/standards/subject-areas/math-science/mathematics/",
  elof="https://headstart.gov/interactive-head-start-early-learning-outcomes-framework-ages-birth-five",
  dap="https://www.naeyc.org/resources/position-statements/dap/definition",
  wwc_math="https://ies.ed.gov/ncee/WWC/PracticeGuide/18",
@@ -66,7 +65,7 @@ prods=[
   progress="The pages move from counting each group, to combining the groups, to a number sentence, and then to a short addition story. Totals stay at 5 or below.",
   guidance="Stay nearby. Let your child count out loud. A prompt you can use: “Point to the two groups. How many in all?” If they pause, count one group together, then let them count the rest.",
   repeat="Stay with this pack if you are helping with most of the problems. Move to the Intermediate pack when adding up to 5, including the short story, feels easy.",
-  standards="These pages practice goals from Common Core K.OA.A.1 (showing addition with objects and drawings) and K.OA.A.5 (adding within 5). Florida’s B.E.S.T. kindergarten benchmarks also introduce addition with objects, drawings, and equations. Totals in this pack stay at 5 or below.",
+  standards="These pages practice goals from Common Core K.OA.A.1 (showing addition with objects and drawings) and K.OA.A.5 (adding within 5). Totals in this pack stay at 5 or below.",
   marks=("on","on","on","on")),
  dict(slug="intermediate",lv="Intermediate",nm="Addition Within 10",k="i",bc="badge peach",checkout="k-add-intermediate",
   summary="Pictures turn into number sentences with totals up to 10.",
@@ -75,7 +74,7 @@ prods=[
   progress="Pages go from a picture of the groups, to the number sentence, to counting on from the bigger number. A number line on some pages shows that count.",
   guidance="Point to the bigger number and count the rest together one time. Then let your child try the next problem. If the ten-frame is new, fill it with counters before using the pencil.",
   repeat="Stay here if the number sentences still feel like a guess. Move to the Advanced pack when adding up to 10 feels comfortable.",
-  standards="These pages practice goals from Common Core K.OA.A.1 and K.OA.A.2: addition within 10 using objects, drawings, and equations. Florida’s B.E.S.T. benchmarks for kindergarten also explore addition from 0 to 10 with objects, drawings, number lines, and equations.",
+  standards="These pages practice goals from Common Core K.OA.A.1 and K.OA.A.2: addition within 10 using objects, drawings, and equations.",
   marks=("","","on","")),
  dict(slug="advanced",lv="Advanced",nm="Reasoning Within 10",k="a",bc="badge teal",checkout="k-add-advanced",
   summary="Break numbers into parts, find a missing number, make 10, and solve short stories.",
@@ -84,7 +83,7 @@ prods=[
   progress="This is the last step in the kindergarten addition path we have now: parts of a number, then a missing part, then a simple story. Subtraction packs are not ready yet.",
   guidance="Use objects to act out the story. Ask what is happening before you ask for the total. If a missing number is sticky, go back to two groups your child can see.",
   repeat="Stay with this pack if missing numbers still need a lot of help. When the pages feel comfortable, your child has finished the kindergarten addition levels available now. Subtraction is coming soon.",
-  standards="These pages practice goals from Common Core K.OA.A.2 (stories within 10), K.OA.A.3 (breaking numbers up to 10 into pairs), and K.OA.A.4 (finding the number that makes 10). Florida’s B.E.S.T. kindergarten benchmarks include making 10, finding pairs that make a sum, and solving real-world problems with objects, drawings, or equations. You can read the stories aloud.",
+  standards="These pages practice goals from Common Core K.OA.A.2 (stories within 10), K.OA.A.3 (breaking numbers up to 10 into pairs), and K.OA.A.4 (finding the number that makes 10). You can read the stories aloud.",
   marks=("","","on","on")),
 ]
 
@@ -97,7 +96,7 @@ def qa(p):
 <h3>What’s included?</h3>
 <ul class="ticks"><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDF for US Letter paper</li></ul>
 <p class="micro">The picture on this page is a sample layout. Page count will be listed with the final file.</p>
-<aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a> · <a href="{LINKS["fl_math"]}" target="_blank" rel="noopener">Florida B.E.S.T. mathematics</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>'''
+<aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>'''
 
 for p in prods:
     others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{o["bc"]}">{o["lv"]}</span><h3>{o["nm"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
@@ -129,7 +128,7 @@ page("products/k-addition-bundle.html","Kindergarten Addition Complete Bundle","
 <h3>What’s included?</h3>
 <ul class="ticks"><li>All three levels in one download</li><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDFs for US Letter paper</li></ul>
 <p class="micro">Page counts will be listed with the final files.</p>
-<aside class="standards-note"><h3>Learning goals</h3><p>The pages practice goals from the Common Core kindergarten addition standards and Florida’s B.E.S.T. kindergarten math benchmarks. <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a> · <a href="{LINKS["fl_math"]}" target="_blank" rel="noopener">Florida B.E.S.T. mathematics</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>
+<aside class="standards-note"><h3>Learning goals</h3><p>The collection practices selected Common Core kindergarten math goals, including representing addition, breaking numbers into parts, and finding combinations that make 10. <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>
 </div></section>
 <section class="tight"><div class="wrap"><h2>Inside the bundle</h2><div class="grid g3">{"".join(f'<a class="card link" href="k-addition-{p["slug"]}.html"><span class="{p["bc"]}">{p["lv"]}</span><h3>{p["nm"]}</h3><p>{p["summary"]}</p></a>' for p in prods)}</div></div></section>''')
 
@@ -174,13 +173,13 @@ page("our-educational-approach.html","Our Educational Approach","How learning st
 <section class="tight"><div class="wrap prose"><span class="eyebrow">Our educational approach</span>
 <h1>Designed around established learning standards and research-informed teaching practices.</h1>
 <p class="lead">You can help your child. We use established learning standards to choose the skills, and research-informed teaching practices to organize the practice.</p>
-<ul class="ticks"><li><strong>Common Core and Florida B.E.S.T.</strong> The learning goals practiced.</li><li><strong>IES guidance.</strong> Building skills progressively, and connecting objects, pictures, and equations.</li><li><strong>Structured literacy.</strong> Explicitly connecting sounds, letters, reading, and spelling.</li><li><strong>NAEYC.</strong> Adapting practice to the child, and hands-on learning.</li></ul>
+<ul class="ticks"><li><strong>Common Core learning standards.</strong> The learning goals practiced.</li><li><strong>IES guidance.</strong> Building skills progressively, and connecting objects, pictures, and equations.</li><li><strong>Structured literacy.</strong> Explicitly connecting sounds, letters, reading, and spelling.</li><li><strong>NAEYC.</strong> Adapting practice to the child, and hands-on learning.</li></ul>
 </div></section>
 <section class="tight white"><div class="wrap prose">
 <h2>Where each idea shows up</h2>
 <table class="sources"><thead><tr><th>Foundation</th><th>How it informs the materials</th></tr></thead><tbody>
-{row("Common Core and Florida B.E.S.T.","These standards name the learning goals. Kindergarten addition includes putting groups together with objects, drawings, and number sentences, with totals up to 10, breaking numbers into parts, and finding what makes 10. The packs practice those goals. You can read the stories aloud.",
-f'<a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core, kindergarten addition</a><br><a href="{LINKS["fl_math"]}" target="_blank" rel="noopener">Florida B.E.S.T. Standards for Mathematics</a>')}
+{row("Common Core learning standards","These standards name the learning goals. Kindergarten addition includes putting groups together with objects, drawings, and number sentences, with totals up to 10, breaking numbers into parts, and finding what makes 10. The packs practice those goals. You can read the stories aloud.",
+f'<a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core, kindergarten addition</a>')}
 {row("Institute of Education Sciences / What Works Clearinghouse","<em>Teaching Math to Young Children</em> recommends building number skills progressively and linking what children see to the symbols they write. <em>Foundational Skills to Support Reading</em> recommends connecting sounds in speech to letters, then reading and spelling the patterns that were taught. Pack levels follow that order. Reading packs are coming soon.",
 f'<a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">Teaching Math to Young Children</a><br><a href="{LINKS["wwc_read"]}" target="_blank" rel="noopener">Foundational reading skills, grades K–3</a>')}
 {row("NAEYC developmentally appropriate practice","NAEYC describes practice that fits the child and includes hands-on learning. Each pack says where to start. You can stay with a page or move on, based on what you see.",
@@ -207,7 +206,8 @@ f'<a href="{LINKS["elof"]}" target="_blank" rel="noopener">Interactive Head Star
 
 # ---------- SIMPLE PAGES ----------
 def prose(fn,title,desc,inner): page(fn,title,desc,f'<section class="tight"><div class="wrap prose"><h1>{title}</h1>{inner}</div></section>')
-prose("about.html","About Us","StepWise Printables makes printable worksheets for Pre-K through 2nd grade.",f'''<p class="lead">We make printable worksheets for parents, caregivers, homeschool families, and teachers of children in Pre-K through 2nd grade.</p>
+prose("about.html","About Us","Created for families across the United States, our printable learning packs make it easier to support early math and reading at home—with manageable steps and clear parent guidance.",f'''<p class="lead">We make printable worksheets for parents, caregivers, homeschool families, and teachers of children in Pre-K through 2nd grade.</p>
+<p>Created for families across the United States, our printable learning packs make it easier to support early math and reading at home—with manageable steps and clear parent guidance.</p>
 <p>You want to help. A pack tells you where to start, how to help, and what to practice next.</p>
 <h2>What you can count on</h2><ul class="ticks"><li>Each pack says what your child will practice, and what they should already be able to do.</li><li>Packs that are ready are marked Available now. Others are marked Coming soon.</li><li>A parent prompt, an answer key, and a progress tracker come with each pack.</li></ul>
 <h2>Where we are now</h2><p>Kindergarten addition is available now. Other grades, subtraction, and reading are coming soon. <a href="contact.html">Tell us what you need.</a></p>
@@ -222,7 +222,7 @@ faqs=[
 ("How do I get files after purchase?","Checkout is not open yet. When it opens, a download link will follow payment."),
 ("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
 ("Is there a subscription?","A new worksheet every week for $3.99 a month is coming later. There is no signup yet."),
-("Are the worksheets aligned to Common Core or Florida B.E.S.T.?","Kindergarten addition pages practice goals from those standards. The approach page links the original text. These sources have not endorsed these products."),
+("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
 ("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),
 ("Do you offer refunds?","Yes, in certain situations. See our Refund Policy."),
 ("Do you collect information from children?","No. This site is for adults. We do not knowingly collect personal information from children.")]
