@@ -3,8 +3,8 @@ import {WebGLRenderer,Scene,PerspectiveCamera,PlaneGeometry,Mesh,MeshStandardMat
 import {drawSheet,paperBump,blurShadow} from "./textures.js";
 
 export function initScene(canvas,{mobile}){
-  const dpr=Math.min(window.devicePixelRatio||1,mobile?1.5:2);
-  const r=new WebGLRenderer({canvas,antialias:!mobile||dpr<1.5,alpha:true,powerPreference:"high-performance"});
+  const dpr=Math.min(window.devicePixelRatio||1,mobile?1:2);
+  const r=new WebGLRenderer({canvas,antialias:!mobile,alpha:true,powerPreference:"high-performance"});
   r.setPixelRatio(dpr);r.outputColorSpace=SRGBColorSpace;r.toneMapping=NeutralToneMapping;r.toneMappingExposure=1.18;
   
   const scene=new Scene(),cam=new PerspectiveCamera(35,1,0.1,50);cam.position.set(0,0,5.2);

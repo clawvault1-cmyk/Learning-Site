@@ -6,9 +6,17 @@
  if(t)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o)});
  // checkout buttons: never fake a purchase
  document.querySelectorAll('[data-checkout]').forEach(b=>{
-  if(S.checkoutUrl){b.href=S.checkoutUrl+(S.checkoutUrl.includes('?')?'&':'?')+'product='+b.dataset.checkout;b.textContent=b.dataset.label||'Buy now';}
-  else{b.removeAttribute('href');b.classList.add('disabled');b.setAttribute('aria-disabled','true');b.textContent='Checkout coming soon';
-   b.addEventListener('click',e=>{e.preventDefault();const m=b.parentElement.querySelector('.checkout-note');if(m)m.hidden=false;});}
+  const href=b.getAttribute('href');
+  const real=b.tagName==='A'&&href&&href!=='#';
+  if(S.checkoutUrl){
+   const url=S.checkoutUrl+(S.checkoutUrl.includes('?')?'&':'?')+'product='+encodeURIComponent(b.dataset.checkout);
+   if(b.tagName==='A')b.href=url;
+   b.textContent=b.dataset.label||'Buy now';
+  }else if(!real){
+   if(b.tagName==='A')b.removeAttribute('href');
+   b.classList.add('disabled');b.setAttribute('aria-disabled','true');b.textContent='Checkout coming soon';
+   b.addEventListener('click',e=>e.preventDefault());
+  }
  });
  // grade → subject → skill → pack. Nothing is preselected.
  const chooser=document.getElementById('chooser');
@@ -16,12 +24,12 @@
   const stage=document.getElementById('chooser-stage');
   const path=document.getElementById('chooser-path');
   const back=document.getElementById('chooser-back');
-  const GRADES=["Pre-K","Kindergarten","1st Grade","2nd Grade"];
+  const GRADES=[{id:"Kindergarten",label:"Kindergarten"},{id:"Pre-K",label:"Preschool"},{id:"1st Grade",label:"1st Grade"},{id:"2nd Grade",label:"2nd Grade"}];
   const gradeNote={
-   "Pre-K":"Early counting and letters are on the way.",
-   "Kindergarten":"Addition packs are ready. Other skills are on the way.",
-   "1st Grade":"Math and reading packs are on the way.",
-   "2nd Grade":"Math and reading packs are on the way."
+   "Pre-K":"Coming soon.",
+   "Kindergarten":"Math is ready now.",
+   "1st Grade":"Coming soon.",
+   "2nd Grade":"Coming soon."
   };
   const skillNote={
    "Addition":"Putting groups together.",
@@ -43,16 +51,18 @@
   function skills(){const seen=[];items().forEach(p=>{if(!seen.includes(p.skill))seen.push(p.skill);});return seen;}
   function render(){
    const bits=[state.grade,state.subject,state.skill].filter(Boolean);
-   path.textContent=bits.length?bits.join(" · "):"Pick a grade to begin. Nothing is selected yet.";
+   const label=v=>v==="Pre-K"?"Preschool":v;
+   path.textContent=bits.length?bits.map(label).join(" · "):"Pick a grade to begin. Nothing is selected yet.";
    back.hidden=!state.grade;
    back.textContent=state.skill?"Change skill":state.subject?"Change subject":"Change grade";
-   if(!state.grade){stage.innerHTML='<div class="choice-grid grades">'+GRADES.map(g=>'<button type="button" class="choice" data-grade="'+esc(g)+'"><strong>'+esc(g)+'</strong><span>'+esc(gradeNote[g])+'</span></button>').join('')+'</div>';return;}
+   if(!state.grade){stage.innerHTML='<div class="choice-grid grades">'+GRADES.map(g=>'<button type="button" class="choice'+(g.id==="Kindergarten"?" choice-ready":"")+'" data-grade="'+esc(g.id)+'"><strong>'+esc(g.label)+'</strong><span>'+esc(gradeNote[g.id])+'</span></button>').join('')+'</div>';return;}
    if(!state.subject){
-    stage.innerHTML='<p class="chooser-lead">You chose <strong>'+esc(state.grade)+'</strong>. Math or reading?</p><div class="choice-grid subjects"><button type="button" class="choice" data-subject="Math"><strong>Math</strong><span>Numbers, counting, and operations.</span></button><button type="button" class="choice" data-subject="Reading"><strong>Reading</strong><span>Sounds, letters, and words.</span></button></div>';
+    const mathNote=state.grade==="Kindergarten"?"Ready now.":"Coming soon.";
+    stage.innerHTML='<p class="chooser-lead">You chose <strong>'+esc(state.grade==="Pre-K"?"Preschool":state.grade)+'</strong>. Math or reading?</p><div class="choice-grid subjects"><button type="button" class="choice'+(state.grade==="Kindergarten"?" choice-ready":"")+'" data-subject="Math"><strong>Math</strong><span>'+esc(mathNote)+'</span></button><button type="button" class="choice" data-subject="Reading"><strong>Reading</strong><span>Coming soon.</span></button></div>';
     return;
    }
    if(!state.skill){
-    const read=state.subject==="Reading"?'<p class="chooser-note">Reading packs are coming soon. They will connect sounds and letters. Children blend those sounds to read and spell patterns they have been taught. CVC words are simple words like cat, map, and sit. A high-frequency word occurs often in text. A sight word is a word a reader recognizes automatically, instantly.</p>':'';
+    const read=state.subject==="Reading"?'<p class="chooser-note">Reading packs are coming soon. CVC words are simple words like cat, map, and sit. A high-frequency word shows up often, like the or and. A sight word is one a reader knows right away. They are not the same.</p>':'';
     const list=skills();
     stage.innerHTML=read+'<p class="chooser-lead"><strong>'+esc(state.grade)+' · '+esc(state.subject)+'</strong>. Choose a skill.</p><div class="choice-grid skills">'+list.map(sk=>'<button type="button" class="choice" data-skill="'+esc(sk)+'"><strong>'+esc(sk)+'</strong><span>'+esc(skillNote[sk]||"")+'</span></button>').join('')+'</div>';
     return;
@@ -62,7 +72,8 @@
    if(av.length){
     stage.innerHTML='<p class="chooser-lead"><strong>'+esc(state.grade)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</strong> is ready to view.</p><ul class="f-list">'+av.map(p=>'<li><a href="'+R+p.url+'"><span><strong>'+esc(p.short||p.title)+'</strong><small>'+esc(p.summary)+'</small></span><span>$'+p.price.toFixed(2)+'</span></a></li>').join('')+'</ul>';
    }else{
-    stage.innerHTML='<div class="soon-card"><span class="badge soon">Coming soon</span><h3>'+esc(state.grade)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</h3><p>Coming soon. A free kindergarten addition sample is ready to print.</p><a class="btn" href="'+R+'free-printables.html">Get the free sample</a></div>';
+    const shown=state.grade==="Pre-K"?"Preschool":state.grade;
+    stage.innerHTML='<div class="soon-card"><span class="badge soon">Coming soon</span><h3>'+esc(shown)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</h3><p>Coming soon. A free kindergarten addition page is ready to print.</p><a class="btn" href="'+R+'free-printables.html">Print the free page</a></div>';
    }
   }
   stage.addEventListener('click',e=>{
@@ -87,7 +98,7 @@
   if(window.__lenis)window.__lenis.scrollTo(el,{offset:-84,immediate:!!immediate});
   else el.scrollIntoView({behavior:immediate?'auto':'smooth',block:'start'});
  }
- document.querySelectorAll('a[href="#grades"],a[href="#sequence"],a[href="#plan"],a[href="#packs"],a[href="#questions"],a[href$="index.html#grades"]').forEach(a=>{
+ document.querySelectorAll('a[href="#grades"],a[href="#price"],a[href="#pages"],a[href="#benefits"],a[href="#familiar"],a[href="#works"],a[href="#questions"],a[href$="index.html#grades"]').forEach(a=>{
   a.addEventListener('click',e=>{
    const href=a.getAttribute('href');
    const id=href.includes('#')?href.slice(href.indexOf('#')):'';
@@ -97,7 +108,7 @@
    jumpTo(id,true);
   },true);
  });
- if(onHome&&/^#(grades|sequence|plan|packs|questions)$/.test(location.hash)){
+ if(onHome&&/^#(grades|price|pages|benefits|familiar|works|questions)$/.test(location.hash)){
   let tries=0;const timer=setInterval(()=>{
    tries++;
    if(window.__lenis||document.documentElement.classList.contains('rm')||tries>25){
@@ -111,5 +122,9 @@
  const sticky=document.querySelector('.sticky-cta'),grades=document.getElementById('grades');
  if(sticky&&grades&&'IntersectionObserver' in window){
   new IntersectionObserver(([e])=>{sticky.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.2}).observe(grades);
+ }
+ const buybar=document.getElementById('buybar'),price=document.getElementById('price');
+ if(buybar&&price&&'IntersectionObserver' in window){
+  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.35}).observe(price);
  }
 })();

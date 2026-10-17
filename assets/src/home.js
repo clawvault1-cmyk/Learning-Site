@@ -4,7 +4,9 @@ const html=document.documentElement;
 const mobile=matchMedia("(max-width: 760px)").matches||matchMedia("(pointer: coarse)").matches&&innerWidth<900;
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const glOK=(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl2")||c.getContext("webgl"));}catch(e){return false}})();
-const thumb=(k,w=520)=>{const c=drawSheet(k,w);c.className="thumb";c.setAttribute("role","img");c.setAttribute("aria-label","Sample layout illustration of a "+k+" worksheet");return c;};
+const thumb=(k,w=520)=>{const c=drawSheet(k,w);c.className="thumb";c.setAttribute("aria-hidden","true");return c;};
+const root=document.body.dataset.root||"";
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement("script");s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
 
 // magnetic buttons (fine pointers only)
 if(matchMedia("(pointer:fine)").matches&&!reduce)$$(".mag").forEach(b=>{
@@ -16,12 +18,24 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 $$(".reveal").forEach(el=>io.observe(el));
 
 Promise.all([document.fonts.load("600 40px Fraunces"),document.fonts.load("500 20px Inter")]).catch(()=>{}).then(()=>document.fonts.ready).then(start);
+let booted=false;
 function start(){
-  // poster fan (shown instantly, replaced by WebGL)
-  const poster=$(".poster");["intermediate","beginner","advanced"].forEach(k=>poster.appendChild(thumb(k,mobile?360:560)));
-  if(reduce||!glOK||!window.gsap){staticMode();return;}
-  const kick=()=>import("./scene.js").then(m=>motion(m.initScene)).catch(e=>{console.error("motion failed",e&&e.stack||e);staticMode();});
-  ("requestIdleCallback" in window)?requestIdleCallback(kick,{timeout:900}):setTimeout(kick,300);
+  // poster fan (shown instantly, replaced by WebGL once someone scrolls)
+  const poster=$(".poster");["intermediate","beginner","advanced"].forEach(k=>poster.appendChild(thumb(k,mobile?280:560)));
+  if(reduce||!glOK){staticMode();return;}
+  const arm=()=>{if(booted)return;booted=true;boot();};
+  ["wheel","touchstart","pointerdown","keydown"].forEach(ev=>addEventListener(ev,arm,{passive:true}));
+}
+async function boot(){
+  try{
+    if(!window.gsap)await loadScript(root+"assets/vendor/gsap.min.js");
+    await Promise.all([
+      window.ScrollTrigger?null:loadScript(root+"assets/vendor/ScrollTrigger.min.js"),
+      window.Lenis?null:loadScript(root+"assets/vendor/lenis.min.js")
+    ]);
+    const m=await import("./scene.js");
+    motion(m.initScene);
+  }catch(e){console.error("motion failed",e&&e.stack||e);staticMode();}
 }
 
 function staticMode(){
@@ -33,9 +47,15 @@ function staticMode(){
 
 function motion(initScene){
   const gsap=window.gsap,ST=window.ScrollTrigger;gsap.registerPlugin(ST);
-  const lenis=new window.Lenis({lerp:.09,smoothWheel:true});window.__lenis=lenis;
-  lenis.on("scroll",ST.update);gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
-  $$('a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{const t=$(a.getAttribute("href"));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-70});}}));
+  const lenis=new window.Lenis({lerp:.09,smoothWheel:true,autoRaf:false});window.__lenis=lenis;
+  let rafId=0;
+  function pump(t){lenis.raf(t);if(lenis.isScrolling)rafId=requestAnimationFrame(pump);else rafId=0;}
+  function kick(){if(!rafId)rafId=requestAnimationFrame(pump);}
+  addEventListener("wheel",kick,{passive:true});
+  addEventListener("touchmove",kick,{passive:true});
+  addEventListener("keydown",kick);
+  lenis.on("scroll",ST.update);
+  $$('a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{const t=$(a.getAttribute("href"));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-70});kick();}}));
 
   const canvas=$("#gl"),S=initScene(canvas,{mobile});
   html.classList.add("gl");
@@ -45,7 +65,7 @@ function motion(initScene){
   const ring=$(".ring-fg"),L=2*Math.PI*26,lbl=$(".ring-label"),num=$(".ring-num");ring.style.strokeDasharray=L;
   const ch=[[0,"Intro"],[.16,"Beginner"],[.36,"Intermediate"],[.55,"Advanced"],[.68,"No jumps"],[.86,"The packs"]];
   let tlRef=null;const steps=$$(".levels-track li");
-  function progress(p){const u=p*(tlRef?tlRef.duration():11.5),ai=u<4.1?0:u<6.1?1:2;steps.forEach((li,i)=>li.classList.toggle("on",i===ai));ring.style.strokeDashoffset=L*(1-p);let k=0;ch.forEach((c,i)=>{if(p>=c[0])k=i;});
+  function progress(p){const u=p*(tlRef?tlRef.duration():7),ai=u<2?0:u<3.4?1:2;steps.forEach((li,i)=>li.classList.toggle("on",i===ai));ring.style.strokeDashoffset=L*(1-p);let k=0;ch.forEach((c,i)=>{if(p>=c[0])k=i;});
     if(lbl.textContent!==ch[k][1]){lbl.textContent=ch[k][1];num.textContent=String(k+1).padStart(2,"0");}}
   // layout helpers (functions so they re-evaluate on resize)
   const fan=mobile
@@ -59,35 +79,42 @@ function motion(initScene){
   const slot=j=>{const {hw,hh}=E();
     if(mobile){return {x:(j%2?1:-1)*hw*.47,y:j<2?.64:-.5,s:Math.min(.5,hw*.66)};}
     const sp=Math.min(hw*2/4.5,1.25);return {x:(j-1.5)*sp,y:-.02*hh,s:sp*.7/.85};};
-  const tl=gsap.timeline({defaults:{ease:"power2.inOut"},scrollTrigger:{trigger:"#story",start:"top top",end:()=>"+="+innerHeight*(mobile?5.4:7),scrub:mobile?.6:1,
+  const tl=gsap.timeline({defaults:{ease:"power2.inOut"},scrollTrigger:{trigger:"#story",start:"top top",end:()=>"+="+innerHeight*(mobile?3:5),scrub:mobile?.6:1,
     pin:".stage",invalidateOnRefresh:true,onUpdate:st=>progress(st.progress),onToggle:st=>document.body.classList.toggle("story-on",st.isActive)}});document.body.classList.add("story-on");tlRef=tl;
   const panel=(sel,at,out)=>{tl.fromTo(sel,{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:.5,ease:"power2.out"},at);if(out!=null)tl.to(sel,{autoAlpha:0,y:-30,duration:.4,ease:"power2.in"},out);};
   // 1 → 2 hero out, others fall, hero to focus
-  tl.to(".p-hero",{autoAlpha:0,y:-40,duration:.6},.9).to(".scroll-hint",{autoAlpha:0,duration:.3},.2);
-  sh.slice(1).forEach((o,i)=>tl.to(o,{y:()=>-E().hh*2.1,x:o.x+(i%2?.4:-.4),rx:-.9,rz:(i%2?.6:-.6),duration:1.1,ease:"power2.in"},1+i*.05));
-  tl.to(hero,{...focus,rx:0,ry:0,rz:0,duration:1.1},1).to(S,{float:.4,duration:1},1).to(S.cam,{z:4.6,duration:1.1},1);
-  tl.fromTo(".levels-track",{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:.5},1.5).to(".levels-track",{autoAlpha:0,duration:.4},7.1);
-  panel(".p-beginner",1.7,3.1);
-  tl.to(hero,{ry:Math.PI,duration:1.1,ease:"power3.inOut"},3.1);tl.to(hero,{z:focus.z+.25,duration:.55,yoyo:true,repeat:1,ease:"sine.inOut"},3.1);
-  panel(".p-intermediate",3.55,5.1);
-  tl.to(hero,{ry:Math.PI*2,duration:1.1,ease:"power3.inOut"},5.1);tl.to(hero,{z:focus.z+.25,duration:.55,yoyo:true,repeat:1,ease:"sine.inOut"},5.1);
-  panel(".p-advanced",5.55,7.1);
+  tl.to(".p-hero",{autoAlpha:0,y:-40,duration:.45},.35).to(".scroll-hint",{autoAlpha:0,duration:.25},.15);
+  sh.slice(1).forEach((o,i)=>tl.to(o,{y:()=>-E().hh*2.1,x:o.x+(i%2?.4:-.4),rx:-.9,rz:(i%2?.6:-.6),duration:.7,ease:"power2.in"},.4+i*.04));
+  tl.to(hero,{...focus,rx:0,ry:0,rz:0,duration:.7},.4).to(S,{float:.4,duration:.7},.4).to(S.cam,{z:4.6,duration:.7},.4);
+  tl.fromTo(".levels-track",{autoAlpha:0,y:16},{autoAlpha:1,y:0,duration:.35},.55).to(".levels-track",{autoAlpha:0,duration:.3},4.6);
+  panel(".p-beginner",.7,2.0);
+  tl.to(hero,{ry:Math.PI,duration:.7,ease:"power3.inOut"},1.85);tl.to(hero,{z:focus.z+.25,duration:.35,yoyo:true,repeat:1,ease:"sine.inOut"},1.85);
+  panel(".p-intermediate",2.05,3.35);
+  tl.to(hero,{ry:Math.PI*2,duration:.7,ease:"power3.inOut"},3.2);tl.to(hero,{z:focus.z+.25,duration:.35,yoyo:true,repeat:1,ease:"sine.inOut"},3.2);
+  panel(".p-advanced",3.4,4.7);
   // 3 big type
-  tl.to(hero,{...center,ry:Math.PI*2-.25,rx:.06,duration:1},7.1).to(S.cam,{z:5.2,duration:1},7.1);
-  tl.fromTo(".bigtype",{autoAlpha:0,scale:.55},{autoAlpha:1,scale:1,duration:1.4,ease:"power2.out"},7.2);
-  panel(".p-jump",8.0,9.3);
-  tl.to(".bigtype",{autoAlpha:0,scale:1.25,duration:.7,ease:"power2.in"},9.2);
+  tl.to(hero,{...center,ry:Math.PI*2-.25,rx:.06,duration:.7},4.55).to(S.cam,{z:5.2,duration:.7},4.55);
+  tl.fromTo(".bigtype",{autoAlpha:0,scale:.55},{autoAlpha:1,scale:1,duration:.8,ease:"power2.out"},4.6);
+  panel(".p-jump",4.7,5.7);
+  tl.to(".bigtype",{autoAlpha:0,scale:1.25,duration:.45,ease:"power2.in"},5.55);
   // 4 lineup
   order.forEach((si,j)=>{const o=sh[si];
-    tl.fromTo(o,{y:si?()=>-E().hh*2.1:o.y},{x:()=>slot(j).x,y:()=>slot(j).y,z:0,s:()=>slot(j).s,rx:0,rz:0,ry:si===0?Math.PI*2:0,duration:1.2,ease:"power3.out",immediateRender:false},9.3+j*.08);});
-  tl.to(S,{float:.25,duration:1},9.3);if(mobile)tl.to(".progress",{autoAlpha:0,duration:.3},9.3);
-  tl.fromTo(".lineup",{autoAlpha:0},{autoAlpha:1,duration:.5},10.2);
-  tl.to({},{duration:.8});
+    tl.fromTo(o,{y:si?()=>-E().hh*2.1:o.y},{x:()=>slot(j).x,y:()=>slot(j).y,z:0,s:()=>slot(j).s,rx:0,rz:0,ry:si===0?Math.PI*2:0,duration:.8,ease:"power3.out",immediateRender:false},5.6+j*.05);});
+  tl.to(S,{float:.25,duration:.6},5.6);if(mobile)tl.to(".progress",{autoAlpha:0,duration:.25},5.6);
+  tl.fromTo(".lineup",{autoAlpha:0},{autoAlpha:1,duration:.4},6.2);
+  tl.to({},{duration:.45});
   // keep cards pinned under their sheets
   const packs=$$(".lineup .pack"),hdr=$("header.site");
   S.onFrame=()=>{if(+getComputedStyle($(".lineup")).opacity<.01)return;packs.forEach((p,j)=>{const q=S.project(order[j],-.55);p.style.transform=`translate(${q.x}px,${q.y+12}px) translateX(-50%)`;});};
-  // hide canvas once story leaves view
-  ST.create({trigger:"#after",start:"top 60%",onEnter:()=>{canvas.classList.add("off");S.pause(true);hdr.classList.add("solid")},onLeaveBack:()=>{canvas.classList.remove("off");S.pause(false);hdr.classList.remove("solid")}});
-  requestAnimationFrame(()=>{canvas.classList.add("on");$(".poster").classList.add("gone");});
+  // Draw while the story is on screen and the page is scrolling. Rest between scrolls.
+  let inView=true,idle=0;
+  function rest(){if(inView)S.pause(true);}
+  function wake(){if(!inView)return;S.pause(false);clearTimeout(idle);idle=setTimeout(rest,220);}
+  lenis.on("scroll",wake);
+  ST.create({trigger:"#after",start:"top 60%",
+    onEnter:()=>{inView=false;clearTimeout(idle);canvas.classList.add("off");S.pause(true);hdr.classList.add("solid");},
+    onLeaveBack:()=>{inView=true;canvas.classList.remove("off");hdr.classList.remove("solid");wake();}});
+  requestAnimationFrame(()=>{canvas.classList.add("on");$(".poster").classList.add("gone");idle=setTimeout(rest,280);});
+  kick();
   progress(0);
 }

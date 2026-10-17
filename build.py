@@ -13,11 +13,6 @@ LINKS=dict(
  eric_scaffold="https://files.eric.ed.gov/fulltext/EJ1100363.pdf",
  ida="https://dyslexiaida.org/structured-literacy-effective-instruction-for-students-with-dyslexia-and-related-reading-difficulties/",
 )
-def sheet(kind="b",w=300,label="Sample layout illustration, not the final worksheet"):
-    k={"b":"beginner","i":"intermediate","a":"advanced","n":"bundle"}[kind]
-    src="sheet-%s%s.webp"%(k,"-sm" if w<=300 else "")
-    return f'''<div class="sheet" style="max-width:{w}px"><img src="{{R}}assets/img/{src}" width="1100" height="1423" loading="lazy" decoding="async" alt="{label}: {k} level kindergarten addition"><div class="label">{label}</div></div>'''
-
 def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
     depth=fn.count("/");R="../"*depth
     nav=[("Kindergarten Math","kindergarten-math.html"),("Free Sample","free-printables.html"),("Our Approach","our-educational-approach.html"),("Questions","faq.html")]
@@ -53,10 +48,9 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Help Your Child Feel Ready for What Comes Next","Know where to start, how to help, and what to practice next—with math and reading worksheets organized into manageable steps.",home,sticky=True,cls="home",
- sticky_href="#grades",sticky_label="Choose your child's grade",
- head='<link rel="stylesheet" href="assets/vendor/lenis.css"><link rel="stylesheet" href="css/home.css"><link rel="modulepreload" href="assets/js/home.js">',
- js='<script src="assets/vendor/gsap.min.js" defer></script><script src="assets/vendor/ScrollTrigger.min.js" defer></script><script src="assets/vendor/lenis.min.js" defer></script><script type="module" src="assets/js/home.js"></script>')
+page("index.html","Give Your Child a Strong Start","Small steps, with kindergarten addition pages in the right order. Print a free sample page. No email needed.",home,cls="home",
+ head='<link rel="stylesheet" href="assets/vendor/lenis.css"><link rel="stylesheet" href="css/home.css">',
+ js='<script type="module" src="assets/js/home.js"></script>')
 
 # ---------- PRODUCTS ----------
 prods=[
@@ -97,30 +91,29 @@ def qa(p):
 <h3>When should we repeat a skill, and when should we move on?</h3><p>{p["repeat"]}</p>
 <h3>What’s included?</h3>
 <ul class="ticks"><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDF for US Letter paper</li></ul>
-<p class="micro">The picture on this page is a sample layout. Page count will be listed with the final file.</p>
+<p class="micro">Page count will be listed with the final file.</p>
 <aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p></aside>'''
 
 for p in prods:
     others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{o["bc"]}">{o["lv"]}</span><h3>{o["nm"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
     page(f"products/k-addition-{p['slug']}.html",f"Kindergarten Addition: {p['lv']}",f"{p['summary']} Printable kindergarten addition worksheets with parent guidance.",f'''
 <div class="wrap crumbs"><a href="{{R}}index.html">Home</a> › <a href="{{R}}kindergarten-math.html">Kindergarten Math</a> › {p["lv"]}</div>
-<section class="tight"><div class="wrap prod-grid"><div>{sheet(p["k"],460)}<p class="notice" style="margin-top:16px">The image above is a sample layout. It is not the final worksheet. Real page previews will be added when the PDF is finished.</p></div>
-<div class="buybox"><span class="{p["bc"]}">Level · {p["lv"]}</span><h1 style="font-size:2rem;margin-top:10px">Kindergarten Addition: {p["lv"]}<br><small style="font-size:1.1rem;color:var(--muted)">{p["nm"]}</small></h1><p>{p["summary"]}</p>
+<section class="tight"><div class="wrap"><div class="buybox" style="max-width:640px"><span class="{p["bc"]}">Level · {p["lv"]}</span><h1 style="font-size:2rem;margin-top:10px">Kindergarten Addition: {p["lv"]}<br><small style="font-size:1.1rem;color:var(--muted)">{p["nm"]}</small></h1><p>{p["summary"]}</p>
 <p class="price">$3.99 <small style="font-size:.9rem;font-weight:600;color:var(--muted)">Instant PDF · Page count comes with the final file</small></p>
-<a class="btn" data-checkout="{p["checkout"]}" data-label="Buy now: $3.99" href="#">Buy now: $3.99</a><p class="checkout-note notice" hidden>Checkout isn't live yet. No payment has been taken. <a href="{{R}}free-printables.html">Get the free sample</a> in the meantime.</p>
-<ul class="ticks"><li>Print at home in black and white</li><li>Answer key included</li><li>Parent prompt and progress tracker</li></ul></div></div></section>
+<button type="button" class="btn buy" data-checkout="{p["checkout"]}" data-label="Buy now: $3.99">Buy now: $3.99</button>
+<ul class="ticks"><li>Print at home in black and white</li><li>Answer key included</li><li>Parent prompt and progress tracker</li></ul>
+<p><a href="{{R}}free-printables.html">See the free sample pages</a></p></div></div></section>
 <section class="tight white"><div class="wrap prose"><h2>Questions parents ask</h2>{qa(p)}</div></section>
 <section class="tight"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}<a class="card link" href="k-addition-bundle.html"><span class="badge">Bundle</span><h3>All three levels</h3><p>$9.99</p></a></div></div></section>''')
 
 page("products/k-addition-bundle.html","Kindergarten Addition Complete Bundle","Your child's next kindergarten addition steps, already organized. $9.99 for all three levels.",f'''
 <div class="wrap crumbs"><a href="{{R}}index.html">Home</a> › <a href="{{R}}kindergarten-math.html">Kindergarten Math</a> › Bundle</div>
-<section class="tight"><div class="wrap prod-grid"><div>{sheet("n",460)}<div class="grid g3" style="margin-top:16px">{sheet("b",200,"Sample layout")}{sheet("i",200,"Sample layout")}{sheet("a",200,"Sample layout")}</div></div>
-<div class="buybox"><span class="badge">Available now</span><h1 style="font-size:2rem;margin-top:10px">Your child’s next steps, already organized.</h1>
+<section class="tight"><div class="wrap"><div class="buybox" style="max-width:640px"><span class="badge">Available now</span><h1 style="font-size:2rem;margin-top:10px">Your child’s next steps, already organized.</h1>
 <p>The Kindergarten Addition Complete Bundle keeps the next level in the same download. When combining small groups feels comfortable, you already have adding within 10, then number relationships.</p>
 <ol class="bundle-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
-<p class="price">$9.99 <small style="font-size:.9rem;font-weight:600;color:var(--muted)">$1.98 less than $11.97 for the three packs separately.</small></p>
-<a class="btn" data-checkout="k-add-bundle" data-label="Buy the bundle: $9.99" href="#">Buy the bundle: $9.99</a><p class="checkout-note notice" hidden>Checkout isn't live yet. No payment has been taken.</p>
-<p class="notice" style="margin-top:16px">Pictures are sample layouts, not the final pages.</p></div></div></section>
+<p class="price">$9.99 <span class="save-pill">Save 17%</span> <small style="font-size:.9rem;font-weight:600;color:var(--muted)">$9.99 instead of $11.97 for the three packs.</small></p>
+<button type="button" class="btn buy" data-checkout="k-add-bundle" data-label="Get all 3 levels · $9.99">Get all 3 levels · $9.99</button>
+<p><a href="{{R}}free-printables.html">See the free sample pages</a></p></div></div></section>
 <section class="tight white"><div class="wrap prose"><h2>Questions parents ask</h2>
 <h3>What will my child practice?</h3><p>Combine small groups with totals up to 5, including a short addition story. Then add within 10 with pictures and number sentences. Then explore number relationships: parts of a number, making 10, and short stories you can read aloud.</p>
 <h3>Is this a suitable starting point?</h3><p>Choose the bundle when you want the next stage ready. A child who already adds up to 5 with ease can start in the middle. You can also begin with the free sample.</p>
@@ -135,7 +128,7 @@ page("products/k-addition-bundle.html","Kindergarten Addition Complete Bundle","
 <section class="tight"><div class="wrap"><h2>Inside the bundle</h2><div class="grid g3">{"".join(f'<a class="card link" href="k-addition-{p["slug"]}.html"><span class="{p["bc"]}">{p["lv"]}</span><h3>{p["nm"]}</h3><p>{p["summary"]}</p></a>' for p in prods)}</div></div></section>''')
 
 # ---------- CATEGORY ----------
-cards="".join(f'''<div class="card">{sheet(p["k"],240,"Sample layout illustration")}<p style="margin-top:14px"><span class="{p["bc"]}">{p["lv"]}</span></p><h3>{p["nm"]}</h3><p>{p["summary"]}</p><p><strong>A good time to start:</strong> {p["start"]}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{p["slug"]}.html">View {p["lv"]} pack</a></div>''' for p in prods)
+cards="".join(f'''<div class="card"><p><span class="{p["bc"]}">{p["lv"]}</span></p><h3>{p["nm"]}</h3><p>{p["summary"]}</p><p><strong>A good time to start:</strong> {p["start"]}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{p["slug"]}.html">View {p["lv"]} pack</a></div>''' for p in prods)
 page("kindergarten-math.html","Kindergarten Math Worksheets","Kindergarten addition is available now, in three levels. Other kindergarten skills are coming soon.",f'''
 <div class="wrap crumbs"><a href="index.html">Home</a> › Kindergarten Math</div>
 <section class="tight"><div class="wrap"><span class="eyebrow">Available now · Kindergarten · Math</span><h1>Kindergarten addition</h1>
@@ -157,15 +150,18 @@ page("free-printables.html","Free Kindergarten Addition Sample","A free printabl
 <p class="lead">Count the dots, add two small groups, and write the total. Every problem stays within 5. There is no surprise jump.</p>
 <ul class="ticks"><li>A real practice page, plus an answer key</li><li>Prints in black and white</li><li>Short enough for one sitting</li></ul>
 <div class="btn-row"><a class="btn" href="downloads/free-k-addition-within-5-sample.pdf" download>Download the free PDF</a></div>
-<p style="font-size:.9rem;color:var(--muted)">The file downloads now. No email required.</p></div>
-<div class="stack">{sheet("b",340,"Sample layout illustration (see the PDF for the real pages)")}</div></div></section>
-<section class="tight white"><div class="wrap grid g2"><div><h2>Is this a suitable starting point?</h2>
+<p style="font-size:.9rem;color:var(--muted)">The file downloads now. No email needed.</p></div>
+</div></section>
+<section class="tight"><div class="wrap"><div class="page-row">
+<figure><img src="assets/img/free-sample-1.png" width="857" height="1109" alt="Free sample page: add the dots, totals up to 5" loading="lazy" decoding="async"><figcaption>Add the dots</figcaption></figure>
+<figure><img src="assets/img/free-sample-2.png" width="857" height="1109" alt="Free sample page: more dot problems, totals up to 5" loading="lazy" decoding="async"><figcaption>More dot problems</figcaption></figure>
+<figure><img src="assets/img/free-sample-3.png" width="857" height="1109" alt="Free sample page: number sentences within 5" loading="lazy" decoding="async"><figcaption>Number sentences</figcaption></figure>
+<figure><img src="assets/img/free-sample-4.png" width="857" height="1109" alt="Free sample answer key for grown-ups" loading="lazy" decoding="async"><figcaption>Answer key</figcaption></figure>
+</div></div></section>
+<section class="tight white"><div class="wrap"><h2>Is this a suitable starting point?</h2>
 <p><strong>A good fit if your child can</strong> count to 10, recognize numbers 0–5, and count objects one by one.</p>
 <p><strong>If the page is too hard,</strong> use counters and count together. If it feels easy, look at the <a href="products/k-addition-intermediate.html">Intermediate pack (within 10)</a>.</p>
-<p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5.</p></div>
-<div class="card"><h3>Want a note when new pages are ready?</h3><p>The email list is for parents and teachers (18+). It is not connected yet.</p>
-<p class="micro">Coming later: a new worksheet every week for $3.99 a month. There is no signup for that yet.</p>
-<form data-placeholder><label for="em">Email</label><input id="em" type="email" required placeholder="you@example.com"><button class="btn" style="margin-top:10px;width:100%">Join the list</button><p class="form-msg notice" hidden>This list is not connected yet, so your email was not saved. The download above works now.</p></form></div></div></section>
+<p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5.</p></div></section>
 <section><div class="wrap"><div class="cta-band"><h2>Want the full starting level?</h2><p>The Beginner pack continues addition within 5, including a short story. Later levels add within 10, then explore number relationships.</p><a class="btn" href="kindergarten-math.html">See the three levels</a></div></div></section>''')
 
 # ---------- APPROACH ----------
@@ -223,7 +219,7 @@ prose("about.html","About Us","Created for families across the United States, ou
 <p>You want to help. A pack tells you where to start, how to help, and what to practice next.</p>
 <h2>What you can count on</h2><ul class="ticks"><li>Each pack says what your child will practice, and what they should already be able to do.</li><li>Packs that are ready are marked Available now. Others are marked Coming soon.</li><li>A parent prompt, an answer key, and a progress tracker come with each pack.</li></ul>
 <h2>Where we are now</h2><p>Kindergarten addition is available now. Other grades, subtraction, and reading are coming soon. <a href="contact.html">Tell us what you need.</a></p>
-<p class="micro">Coming later: a new worksheet every week for $3.99 a month. There is no signup for that yet.</p>''')
+''')
 faqs=[
 ("What if a page is too hard?","Stop that page and step back, or show the same idea with objects or pictures. That temporary help is called scaffolding. Take it away when the work feels easier."),
 ("How much help should I give?","Show one example, try the next one together, then let your child try. That is scaffolding: help first, then fade the help. You do not need to give every answer."),
@@ -231,7 +227,7 @@ faqs=[
 ("Why an organized pack instead of free worksheets?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker. You can still start with the free sample."),
 ("How do I choose a grade?","Use Choose a Grade on the homepage. Pick the grade, then Math or Reading, then a skill. Kindergarten Addition is available now. Every other path says Coming soon and links to the free sample."),
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
-("How do I get files after purchase?","Checkout is not open yet. When it opens, a download link will follow payment."),
+("How do I get files after purchase?","You get a PDF to print at home after you pay."),
 ("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
 ("Is there a subscription?","A new worksheet every week for $3.99 a month is coming later. There is no signup yet."),
 ("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
@@ -240,8 +236,7 @@ faqs=[
 ("Do you collect information from children?","No. This site is for adults. We do not knowingly collect personal information from children.")]
 prose("faq.html","Questions Parents Ask","Plain answers about difficulty, help at home, moving forward, downloads, and policies.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+'</div><p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a> · <a href="contact.html">Contact</a> · <a href="index.html#grades">Choose a grade</a></p>')
 prose("contact.html","Contact Us","Questions about a worksheet, a download, or a skill you want us to make.",f'''<p class="lead">Questions about a level, a download, or a skill you would like us to make? We would like to hear from you.</p><p>Email: <a class="site-email" href="mailto:{EMAIL}">{EMAIL}</a></p>
-<form data-placeholder class="card"><label for="n">Your name</label><input id="n" required><label for="e" style="margin-top:10px;display:block">Email</label><input id="e" type="email" required><label for="m" style="margin-top:10px;display:block">Message</label><textarea id="m" rows="5" required></textarea><button class="btn" style="margin-top:12px">Send message</button><p class="form-msg notice" hidden>This form is not connected yet, so your message was not sent and nothing was charged. Please email us directly.</p></form>
-<p><small>For parents, caregivers, and teachers only. Please don't have children submit this form.</small></p>''')
+<p><small>For parents, caregivers, and teachers only.</small></p>''')
 DRAFT='<p class="notice">Draft placeholder. Have this reviewed by a qualified professional before launch.</p>'
 prose("privacy.html","Privacy Policy","Privacy policy.",DRAFT+'''<p>Last updated: TBD</p><h2>What we collect</h2><p>If you join our email list or contact us, we collect your email address and anything you choose to send. When checkout launches, payments will be processed by a third-party provider. We won't store your card details.</p>
 <h2>Children</h2><p>Our site is meant for adults. We do not knowingly collect personal information from children under 13. If you think a child has given us information, contact us and we'll delete it.</p>
