@@ -67,6 +67,10 @@ footer.site h4{color:#fff;font-size:1rem}.fine{border-top:1px solid rgba(255,255
 .sticky-cta{display:none}@media(max-width:600px){.sticky-cta{display:block;position:fixed;left:0;right:0;bottom:0;padding:10px 14px;background:#fff;border-top:1px solid var(--line);z-index:40}.sticky-cta .btn{width:100%}body.has-sticky{padding-bottom:76px}.sticky-cta.is-hidden{visibility:hidden}}
 .prose{max-width:760px}.prose h2{margin-top:1.6em}.prose h3{font-size:1.2rem;margin:1.25em 0 .35em}
 .micro{font-size:.85rem;color:var(--muted);margin-top:10px}
+.standards-note{margin-top:18px;padding:14px 16px;background:#f7f4ed;border-radius:14px;font-size:.92rem;color:var(--muted)}
+.standards-note h3{font-size:1rem;color:var(--navy);margin:0 0 .3em}
+.standards-note p{margin:.35em 0 0}
+.prose .ticks{margin:8px 0 4px}
 .bundle-path{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:8px 0 12px}
 .bundle-path li{background:#f7f4ed;border-radius:999px;padding:6px 12px;font-weight:600;font-size:.92rem}
 .bundle-path li+li:before{content:"→ ";color:var(--teal)}
