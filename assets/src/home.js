@@ -59,7 +59,7 @@ function motion(initScene){
   const slot=j=>{const {hw,hh}=E();
     if(mobile){return {x:(j%2?1:-1)*hw*.47,y:j<2?.64:-.5,s:Math.min(.5,hw*.66)};}
     const sp=Math.min(hw*2/4.5,1.25);return {x:(j-1.5)*sp,y:-.02*hh,s:sp*.7/.85};};
-  const tl=gsap.timeline({defaults:{ease:"power2.inOut"},scrollTrigger:{trigger:"#story",start:"top top",end:()=>"+="+innerHeight*(mobile?9:10.5),scrub:mobile?.6:1,
+  const tl=gsap.timeline({defaults:{ease:"power2.inOut"},scrollTrigger:{trigger:"#story",start:"top top",end:()=>"+="+innerHeight*(mobile?5.4:7),scrub:mobile?.6:1,
     pin:".stage",invalidateOnRefresh:true,onUpdate:st=>progress(st.progress),onToggle:st=>document.body.classList.toggle("story-on",st.isActive)}});document.body.classList.add("story-on");tlRef=tl;
   const panel=(sel,at,out)=>{tl.fromTo(sel,{autoAlpha:0,y:30},{autoAlpha:1,y:0,duration:.5,ease:"power2.out"},at);if(out!=null)tl.to(sel,{autoAlpha:0,y:-30,duration:.4,ease:"power2.in"},out);};
   // 1 → 2 hero out, others fall, hero to focus
