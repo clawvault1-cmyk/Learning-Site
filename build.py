@@ -9,6 +9,8 @@ LINKS=dict(
  dap="https://www.naeyc.org/resources/position-statements/dap/definition",
  wwc_math="https://ies.ed.gov/ncee/WWC/PracticeGuide/18",
  wwc_read="https://ies.ed.gov/ncee/wwc/PracticeGuide/21",
+ eric_zpd="https://files.eric.ed.gov/fulltext/ED446740.pdf",
+ eric_scaffold="https://files.eric.ed.gov/fulltext/EJ1100363.pdf",
  ida="https://dyslexiaida.org/structured-literacy-effective-instruction-for-students-with-dyslexia-and-related-reading-difficulties/",
 )
 def sheet(kind="b",w=300,label="Sample layout illustration, not the final worksheet"):
@@ -96,7 +98,7 @@ def qa(p):
 <h3>What’s included?</h3>
 <ul class="ticks"><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDF for US Letter paper</li></ul>
 <p class="micro">The picture on this page is a sample layout. Page count will be listed with the final file.</p>
-<aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>'''
+<aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p></aside>'''
 
 for p in prods:
     others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{o["bc"]}">{o["lv"]}</span><h3>{o["nm"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
@@ -128,7 +130,7 @@ page("products/k-addition-bundle.html","Kindergarten Addition Complete Bundle","
 <h3>What’s included?</h3>
 <ul class="ticks"><li>All three levels in one download</li><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDFs for US Letter paper</li></ul>
 <p class="micro">Page counts will be listed with the final files.</p>
-<aside class="standards-note"><h3>Learning goals</h3><p>The collection practices selected Common Core kindergarten math goals, including representing addition, breaking numbers into parts, and finding combinations that make 10. <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p><p class="micro">These sources have not endorsed these products.</p></aside>
+<aside class="standards-note"><h3>Learning goals</h3><p>The collection practices selected Common Core kindergarten math goals, including representing addition, breaking numbers into parts, and finding combinations that make 10. <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p></aside>
 </div></section>
 <section class="tight"><div class="wrap"><h2>Inside the bundle</h2><div class="grid g3">{"".join(f'<a class="card link" href="k-addition-{p["slug"]}.html"><span class="{p["bc"]}">{p["lv"]}</span><h3>{p["nm"]}</h3><p>{p["summary"]}</p></a>' for p in prods)}</div></div></section>''')
 
@@ -160,7 +162,7 @@ page("free-printables.html","Free Kindergarten Addition Sample","A free printabl
 <section class="tight white"><div class="wrap grid g2"><div><h2>Is this a suitable starting point?</h2>
 <p><strong>A good fit if your child can</strong> count to 10, recognize numbers 0–5, and count objects one by one.</p>
 <p><strong>If the page is too hard,</strong> use counters and count together. If it feels easy, look at the <a href="products/k-addition-intermediate.html">Intermediate pack (within 10)</a>.</p>
-<p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5. These sources have not endorsed these products.</p></div>
+<p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5.</p></div>
 <div class="card"><h3>Want a note when new pages are ready?</h3><p>The email list is for parents and teachers (18+). It is not connected yet.</p>
 <p class="micro">Coming later: a new worksheet every week for $3.99 a month. There is no signup for that yet.</p>
 <form data-placeholder><label for="em">Email</label><input id="em" type="email" required placeholder="you@example.com"><button class="btn" style="margin-top:10px;width:100%">Join the list</button><p class="form-msg notice" hidden>This list is not connected yet, so your email was not saved. The download above works now.</p></form></div></div></section>
@@ -174,6 +176,17 @@ page("our-educational-approach.html","Our Educational Approach","How learning st
 <h1>Designed around established learning standards and research-informed teaching practices.</h1>
 <p class="lead">You can help your child. We use established learning standards to choose the skills, and research-informed teaching practices to organize the practice.</p>
 <ul class="ticks"><li><strong>Common Core learning standards.</strong> The learning goals practiced.</li><li><strong>IES guidance.</strong> Building skills progressively, and connecting objects, pictures, and equations.</li><li><strong>Structured literacy.</strong> Explicitly connecting sounds, letters, reading, and spelling.</li><li><strong>NAEYC.</strong> Adapting practice to the child, and hands-on learning.</li></ul>
+</div></section>
+<section class="tight" id="ideas"><div class="wrap prose">
+<h2>Learning ideas behind the design</h2>
+<p>These research-informed ideas shape how the pages are organized.</p>
+<ul class="ideas">
+<li><b>Zone of proximal development</b><span>New work should sit just past what a child can do alone, where a little help makes it possible.</span> <a href="{LINKS["eric_zpd"]}" target="_blank" rel="noopener">Scaffolding and the zone of proximal development (ERIC)</a></li>
+<li><b>Scaffolding</b><span>An adult helps with the hard part, then takes that help away as the child can do more. Wood, Bruner, and Ross described this in 1976.</span> <a href="{LINKS["eric_scaffold"]}" target="_blank" rel="noopener">Scaffolding and the zone of proximal development, revisited (ERIC)</a></li>
+<li><b>A progression from objects to symbols</b><span>Teach number ideas in order. Begin with objects and informal marks, then connect them to number symbols.</span> <a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">IES practice guide: Teaching Math to Young Children</a></li>
+<li><b>Progress monitoring</b><span>Watch what a child can do, then choose a next step that is not too easy and not too hard.</span> <a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">IES practice guide: Teaching Math to Young Children</a></li>
+<li><b>Developmentally appropriate practice</b><span>Build on what this child can already do, in a way that fits that child.</span> <a href="{LINKS["dap"]}" target="_blank" rel="noopener">NAEYC: defining developmentally appropriate practice</a></li>
+</ul>
 </div></section>
 <section class="tight white"><div class="wrap prose">
 <h2>Where each idea shows up</h2>
@@ -189,7 +202,6 @@ f'<a href="{LINKS["ida"]}" target="_blank" rel="noopener">Structured Literacy ov
 {row("Head Start Early Learning Outcomes Framework","This framework describes learning from birth to age 5, including early counting and language. It is a guide for what young children are ready to explore, not a test. Pre-K pages, when they are ready, will stay in that range.",
 f'<a href="{LINKS["elof"]}" target="_blank" rel="noopener">Interactive Head Start Early Learning Outcomes Framework</a>')}
 </tbody></table>
-<p class="micro">These sources have not endorsed these products.</p>
 </div></section>
 <section class="tight" id="reading"><div class="wrap prose">
 <h2>How reading practice will work</h2>
@@ -213,10 +225,10 @@ prose("about.html","About Us","Created for families across the United States, ou
 <h2>Where we are now</h2><p>Kindergarten addition is available now. Other grades, subtraction, and reading are coming soon. <a href="contact.html">Tell us what you need.</a></p>
 <p class="micro">Coming later: a new worksheet every week for $3.99 a month. There is no signup for that yet.</p>''')
 faqs=[
-("What if a page is too hard?","Stop that page. Go back to an easier one, or show the same idea with counters. A hard page means the earlier step still needs practice."),
-("How much help should I give?","Stay nearby. Let your child try. If they are stuck, show one example with objects, then hand the pencil back. You do not need to give every answer."),
-("When should we move forward?","Move forward when the current pages feel comfortable and your child can tell you what they did. If you are helping with almost every problem, stay a little longer."),
-("Why an organized pack instead of free worksheets?","A free page can be a useful try. A pack is a plan: where to start, pages in order, a parent prompt, an answer key, and a progress tracker. You can still start with the free addition sample."),
+("What if a page is too hard?","Stop that page and step back, or show the same idea with objects or pictures. That temporary help is called scaffolding. Take it away when the work feels easier."),
+("How much help should I give?","Show one example, try the next one together, then let your child try. That is scaffolding: help first, then fade the help. You do not need to give every answer."),
+("When should we move forward?","Move on when this step feels comfortable with little help, not after one easy page. The IES early-math guide says a child should be comfortable with an earlier step before a harder one."),
+("Why an organized pack instead of free worksheets?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker. You can still start with the free sample."),
 ("How do I choose a grade?","Use Choose a Grade on the homepage. Pick the grade, then Math or Reading, then a skill. Kindergarten Addition is available now. Every other path says Coming soon and links to the free sample."),
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
 ("How do I get files after purchase?","Checkout is not open yet. When it opens, a download link will follow payment."),
