@@ -153,7 +153,7 @@ def product_page(p):
 <section class="tight"><div class="wrap prod-top">
 <div class="gallery">{gallery}</div>
 <div class="buybox" data-pixel-view data-content-name="{d["name"]}" data-checkout="{d["checkout"]}"><span class="{p["bc"]}">{p["lv"]}</span><h1>{d["name"]}</h1><p>{p["summary"]}</p>
-<p class="price">${d["price"]} <small class="tax">(+ tax where applicable)</small></p>
+<p class="price">${d["price"]}</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 <a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{d["name"]}" data-value="{d["price"]}" data-label="Buy now: ${d["price"]}">Checkout opens soon</a>
 </div></div></section>
@@ -165,20 +165,20 @@ for p in prods:
     product_page(p)
 
 WEEK_LIST="".join(f'<li>Week {w["week"]}: {w["name"]}</li>' for w in FILE["weekly"])
-DISCLOSURE='''<p class="renew-note"><strong>$3.99/month (+ tax where applicable). Renews automatically every month until you cancel.</strong> You get this month's kindergarten math packets right away, then a new packet every Monday. Cancel anytime online in a few clicks, or by email. Cancelling stops billing and ends access right away, so download packets you want to keep first. <a href="{R}cancel.html">How to cancel</a>.</p>'''
+DISCLOSURE='''<p class="renew-note"><strong>$3.99/month. Renews automatically every month until you cancel.</strong> You get this month's kindergarten math packets right away, then a new packet every Monday. Cancel anytime online in a few clicks, or by email. Cancelling stops billing and ends access right away, so download packets you want to keep first. <a href="{R}cancel.html">How to cancel</a>.</p>'''
 
-page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets right away, then a new packet every Monday. $3.99 a month, plus tax where applicable. Cancel anytime online. Access ends when you cancel.",f'''
+page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets right away, then a new packet every Monday. $3.99/month. Cancel anytime online. Access ends when you cancel.",f'''
 <section class="tight"><div class="wrap" style="max-width:720px" data-pixel-view data-content-name="Weekly Packet Plan: Kindergarten Math" data-subscribe="weekly"><span class="badge">Weekly</span>
 <h1>Weekly Packet Plan: Kindergarten Math</h1>
 <p class="lead">Get this month's packets right away, then a new printable packet every Monday. Renews monthly until you cancel. Cancel anytime online in a few clicks, or by email. Access ends when you cancel.</p>
-<p class="which"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p>
-<p class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></p>
+<p class="which"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month. Cancel anytime online. Access ends when you cancel.</p>
+<p class="price">$3.99<span class="per">/month</span></p>
 <p>Eight kindergarten packets are written. Each one has 7 or 8 practice pages, a matching answer key, a short parent note, and a tracker.</p>
 <ul class="ticks">{WEEK_LIST}</ul>
 <p>Reading and other grades are coming next. <a href="index.html#packs">See the three kindergarten packs</a>.</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 {DISCLOSURE}
-<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Packet Plan: Kindergarten Math" data-value="3.99" data-label="Start weekly · $3.99/mo">Checkout opens soon</a>
+<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Packet Plan: Kindergarten Math" data-value="3.99" data-label="Start weekly · $3.99/month">Checkout opens soon</a>
 <p><a href="terms.html#6-the-weekly-packet-plan-subscription">Terms</a> · <a href="refund-policy.html">Refunds</a> · <a href="cancel.html">Cancel</a></p>
 </div></section>''')
 
@@ -198,7 +198,7 @@ page("kindergarten-math.html","Kindergarten Addition Packs","Three kindergarten 
 <section class="tight white"><div class="wrap"><h2>Your child’s next steps, already organized.</h2>
 <ol class="step-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
 <div class="grid g3" style="margin-top:28px">{cards}</div>
-<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>Weekly Packet Plan: Kindergarten Math</h3><p>This month's packets right away, then a new packet every Monday. $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p></div><div><span class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></span> <a class="btn" href="weekly.html">See the weekly plan</a></div></div></div></section>
+<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>Weekly Packet Plan: Kindergarten Math</h3><p>This month's packets right away, then a new packet every Monday. $3.99/month. Cancel anytime online. Access ends when you cancel.</p></div><div><span class="price">$3.99<span class="per">/month</span></span> <a class="btn" href="weekly.html">See the weekly plan</a></div></div></div></section>
 <section class="tight"><div class="wrap"><h2>Coming soon</h2>
 <div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
 <div class="card"><span class="badge soon">Coming soon</span><h3>Counting and numbers</h3><p>Counting objects and reading numbers.</p></div>
@@ -278,7 +278,7 @@ faqs=[
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
 ("How do I get files after purchase?","Payhip shows a download page and emails a receipt from contact@payhip.com. Check spam if you do not see it. The weekly plan lives in your Payhip members area. If a link stops working, email us and we reply within 1 business day."),
 ("How many pages are in each pack?","Each kindergarten pack is 41 pages: 18 practice pages, 18 answer-key pages, a 2-page parent guide, a cover, a tracker, and a certificate."),
-("Is there a weekly plan?","Yes. Weekly Packet Plan: Kindergarten Math, $3.99/month (+ tax where applicable). You get this month's packets right away, then a new packet every Monday. It renews monthly until you cancel. Cancel anytime online. Access ends when you cancel, so download packets first. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
+("Is there a weekly plan?","Yes. Weekly Packet Plan: Kindergarten Math, $3.99/month. You get this month's packets right away, then a new packet every Monday. It renews monthly until you cancel. Cancel anytime online. Access ends when you cancel, so download packets first. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
 ("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
 ("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),
 ("Do you offer refunds?","Yes, in certain situations. See our Refund Policy."),
