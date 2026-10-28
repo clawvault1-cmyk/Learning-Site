@@ -1,9 +1,11 @@
 (function(){
  const S=window.SITE||{},C=window.CATALOG||[],R=document.body.dataset.root||"";
  document.querySelectorAll('.brand-name').forEach(e=>e.textContent=S.brand);
+ document.querySelectorAll('.status-line').forEach(e=>{if(S.availability)e.textContent=S.availability;});
  document.querySelectorAll('.site-email').forEach(e=>{e.textContent=S.email;e.href='mailto:'+S.email});
  const t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav-links');
- if(t)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o)});
+ if(t&&n)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);t.textContent=o?'Close':'Menu';document.body.classList.toggle('menu-open',o)});
+ if(n)n.addEventListener('click',e=>{if(e.target.closest('a')){n.classList.remove('open');document.body.classList.remove('menu-open');if(t){t.setAttribute('aria-expanded','false');t.textContent='Menu';}}});
  // checkout buttons: never fake a purchase
  document.querySelectorAll('[data-checkout]').forEach(b=>{
   const href=b.getAttribute('href');
@@ -14,7 +16,7 @@
    b.textContent=b.dataset.label||'Buy now';
   }else if(!real){
    if(b.tagName==='A')b.removeAttribute('href');
-   b.classList.add('disabled');b.setAttribute('aria-disabled','true');b.textContent='Checkout coming soon';
+   b.classList.add('disabled');b.setAttribute('aria-disabled','true');b.textContent='Checkout opens soon';
    b.addEventListener('click',e=>e.preventDefault());
   }
  });
@@ -28,7 +30,7 @@
   }else{
    b.classList.add('disabled');
    b.setAttribute('aria-disabled','true');
-   b.textContent='Checkout coming soon';
+   b.textContent='Checkout opens soon';
    b.addEventListener('click',e=>e.preventDefault());
   }
  });
@@ -112,23 +114,21 @@
   if(window.__lenis)window.__lenis.scrollTo(el,{offset:-104,immediate:!!immediate});
   else el.scrollIntoView({behavior:immediate?'auto':'smooth',block:'start'});
  }
- document.querySelectorAll('a[href="#grades"],a[href="#price"],a[href="#pages"],a[href="#benefits"],a[href="#familiar"],a[href="#works"],a[href="#questions"],a[href$="index.html#grades"]').forEach(a=>{
+ document.querySelectorAll('a[href*="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
    const href=a.getAttribute('href');
-   const id=href.includes('#')?href.slice(href.indexOf('#')):'';
-   const same=href.startsWith('#')||(onHome&&href.endsWith('#grades'));
+   if(!href||href.indexOf('#')<0)return;
+   const id=href.slice(href.indexOf('#'));
+   const same=href.startsWith('#')||(onHome&&/index\.html#/.test(href));
    if(!same||!document.querySelector(id))return;
    e.preventDefault();e.stopImmediatePropagation();
    jumpTo(id,true);
   },true);
  });
  if(onHome&&/^#(grades|price|pages|benefits|familiar|works|questions)$/.test(location.hash)){
-  let tries=0;const timer=setInterval(()=>{
-   tries++;
-   if(window.__lenis||document.documentElement.classList.contains('rm')||tries>25){
-    jumpTo(location.hash,true);clearInterval(timer);
-   }
-  },200);
+  const ready=()=>window.__lenis||document.documentElement.classList.contains('rm')||document.documentElement.classList.contains('phone');
+  if(ready())jumpTo(location.hash,true);
+  else {let tries=0;const timer=setInterval(()=>{tries++;if(ready()||tries>25){jumpTo(location.hash,true);clearInterval(timer);}},200);}
  }
  document.querySelectorAll('form[data-placeholder]').forEach(fm=>fm.addEventListener('submit',e=>{e.preventDefault();
   const m=fm.querySelector('.form-msg');m.hidden=false;}));
@@ -136,5 +136,9 @@
  const sticky=document.querySelector('.sticky-cta'),grades=document.getElementById('grades');
  if(sticky&&grades&&'IntersectionObserver' in window){
   new IntersectionObserver(([e])=>{sticky.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.2}).observe(grades);
+ }
+ const buybar=document.getElementById('buybar'),packs=document.getElementById('packs');
+ if(buybar&&packs&&'IntersectionObserver' in window){
+  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.15}).observe(packs);
  }
 })();

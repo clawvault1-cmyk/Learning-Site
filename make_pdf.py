@@ -1,11 +1,10 @@
-# The public site does not offer a downloadable page. This script is not published as a worksheet.
-raise SystemExit("No public worksheet file is generated.")
+# Draws preview pages for the site images. It does not publish a downloadable file.
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import random
 random.seed(5)
 W,H=letter;c=canvas.Canvas("/tmp/packet-preview.pdf",pagesize=letter)
-c.setTitle("Free Kindergarten Addition Within 5 Sample - Proud Little Learners")
+c.setTitle("Packet preview - Proud Little Learners - Addition within 5")
 def hdr(t,sub):
     c.setFont("Helvetica",12);c.drawString(54,H-50,"Name: ______________________   Date: ____________")
     c.setFont("Helvetica-Bold",22);c.drawString(54,H-90,t);c.setFont("Helvetica",12);c.drawString(54,H-110,sub)

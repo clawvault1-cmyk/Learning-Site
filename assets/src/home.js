@@ -1,7 +1,8 @@
 import {drawSheet} from "./textures.js";
 const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
 const html=document.documentElement;
-const mobile=matchMedia("(max-width: 760px)").matches||matchMedia("(pointer: coarse)").matches&&innerWidth<900;
+const mobile=matchMedia("(max-width: 767px)").matches;
+if(mobile) html.classList.add("phone");
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const glOK=(()=>{try{const c=document.createElement("canvas");return !!(c.getContext("webgl2")||c.getContext("webgl"));}catch(e){return false}})();
 const thumb=(k,w=520)=>{const c=drawSheet(k,w);c.className="thumb";c.setAttribute("aria-hidden","true");return c;};
@@ -21,7 +22,8 @@ Promise.all([document.fonts.load("600 40px Fraunces"),document.fonts.load("500 2
 let booted=false;
 function start(){
   // poster fan (shown instantly, replaced by WebGL once someone scrolls)
-  const poster=$(".poster");["intermediate","beginner","advanced"].forEach(k=>poster.appendChild(thumb(k,mobile?280:560)));
+  const poster=$(".poster");if(poster)["intermediate","beginner","advanced"].forEach(k=>poster.appendChild(thumb(k,mobile?240:560)));
+  if(mobile)return;
   if(reduce||!glOK){staticMode();return;}
   const arm=()=>{if(booted)return;booted=true;boot();};
   ["wheel","touchstart","pointerdown","keydown"].forEach(ev=>addEventListener(ev,arm,{passive:true}));

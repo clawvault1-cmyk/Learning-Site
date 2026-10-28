@@ -218,6 +218,20 @@ body.story-on.has-sticky{padding-bottom:0}
  .page-row{grid-template-columns:1fr 1fr}
  .p-hero .micro{margin-top:8px}
 }
+.which{font-size:1.05rem;line-height:1.5;margin:var(--space-4) 0}
+.owner-note{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
+@media (max-width:767px){
+ .home .stage{height:auto;min-height:0;overflow:visible;display:flex;flex-direction:column;padding:84px 20px 12px}
+ .home .p-hero{order:1}
+ .home .poster{order:2;width:min(200px,58%)}
+ .home .p-level,.home .p-jump,.home .lineup,.home .levels-track,.home .progress,.home .scroll-hint,.home .bigtype,.home #gl{display:none!important}
+ .home .p-hero{position:relative;top:auto!important;left:auto;right:auto;width:auto;transform:none}
+ .home .p-hero .display{font-size:clamp(1.7rem,7vw,2.1rem)}
+ .home .p-hero .lead{font-size:1.05rem;max-width:none}
+ .home .p-hero .btn{width:100%;min-height:52px}
+ .home .poster{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:min(220px,64%);margin:20px auto 0;transform:none}
+ .home #after{display:flex;flex-direction:column}
+}
 @media (max-width:760px){
  .levels-track{left:16px;right:16px;bottom:auto;top:96px}.lt-title{display:none}
  .levels-track ol{gap:6px}.levels-track li{font-size:.72rem;padding:6px 10px 6px 8px}.levels-track li small{display:none}

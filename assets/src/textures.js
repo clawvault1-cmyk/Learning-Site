@@ -15,8 +15,7 @@ function base(c,w,h,title,sub,level){
   // footer
   c.strokeStyle="#bbb";c.lineWidth=u*0.15;c.beginPath();c.moveTo(u*7,h-u*9);c.lineTo(w-u*7,h-u*9);c.stroke();
   c.fillStyle="#777";c.font=`500 ${u*2}px Inter, Arial`;
-  c.fillText("Proud Little Learners",u*7,h-u*5);
-  c.textAlign="right";c.fillText("SAMPLE LAYOUT · NOT THE FINAL WORKSHEET",w-u*7,h-u*5);c.textAlign="left";
+  c.fillText("Proud Little Learners · "+level,u*7,h-u*5);
   c.strokeStyle=INK;c.fillStyle=INK;c.lineWidth=u*0.35;
   return u;
 }

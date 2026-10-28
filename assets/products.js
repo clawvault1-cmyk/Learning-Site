@@ -1,10 +1,10 @@
 // Data-driven catalog. Add a product: append an object. status: "available" | "coming-soon".
 window.CATALOG = [
- {id:"k-add-beginner",title:"Kindergarten Addition: Beginner (Within 5)",short:"Beginner · within 5",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Beginner",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-beginner.html",
+ {id:"k-add-beginner",title:"Beginner: Adding within 5",short:"Beginner: Adding within 5",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Beginner",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-beginner.html",
   summary:"Count and combine groups up to 5, write the number sentence, and try a short addition story."},
- {id:"k-add-intermediate",title:"Kindergarten Addition: Intermediate (Within 10)",short:"Intermediate · within 10",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Intermediate",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-intermediate.html",
+ {id:"k-add-intermediate",title:"Intermediate: Adding within 10",short:"Intermediate: Adding within 10",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Intermediate",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-intermediate.html",
   summary:"Pictures turn into number sentences. Totals stay at 10 or below."},
- {id:"k-add-advanced",title:"Kindergarten Addition: Advanced (Reasoning Within 10)",short:"Advanced · reasoning within 10",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Advanced",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-advanced.html",
+ {id:"k-add-advanced",title:"Advanced: Story problems within 10",short:"Advanced: Story problems within 10",grade:"Kindergarten",subject:"Math",skill:"Addition",level:"Advanced",status:"available",price:3.99,pages:"TBD",url:"products/k-addition-advanced.html",
   summary:"Break numbers into parts, make 10, and solve short stories you can read aloud."},
  {grade:"Kindergarten",subject:"Math",skill:"Subtraction",status:"coming-soon"},
  {grade:"Kindergarten",subject:"Math",skill:"Counting & Number Recognition",status:"coming-soon"},
