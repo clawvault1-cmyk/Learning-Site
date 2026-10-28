@@ -153,6 +153,7 @@ def product_page(p):
 <section class="tight"><div class="wrap prod-top">
 <div class="gallery">{gallery}</div>
 <div class="buybox" data-pixel-view data-content-name="{d["name"]}" data-checkout="{d["checkout"]}"><span class="{p["bc"]}">{p["lv"]}</span><h1>{d["name"]}</h1><p>{p["summary"]}</p>
+<p class="weekly-line"><a href="{{R}}index.html#pack-picker">Not sure this is the level? Answer three short questions.</a></p>
 <p class="price">${d["price"]} <small class="tax">(+ tax where applicable)</small></p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 <a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{d["name"]}" data-value="{d["price"]}" data-label="Buy now: ${d["price"]}">Checkout opens soon</a>
@@ -198,6 +199,7 @@ page("kindergarten-math.html","Kindergarten Addition Packs","Three kindergarten 
 <section class="tight white"><div class="wrap"><h2>Your child’s next steps, already organized.</h2>
 <ol class="step-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
 <div class="grid g3" style="margin-top:28px">{cards}</div>
+<p class="weekly-line">Not sure? <a href="weekly.html">$3.99 a month gets a new packet every Monday; cancel anytime.</a></p>
 <div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>Weekly Packet Plan: Kindergarten Math</h3><p>This month's packets right away, then a new packet every Monday. $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p></div><div><span class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></span> <a class="btn" href="weekly.html">See the weekly plan</a></div></div></div></section>
 <section class="tight"><div class="wrap"><h2>Coming soon</h2>
 <div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
