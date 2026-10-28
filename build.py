@@ -54,7 +54,7 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Kindergarten Math Printables for Parents | Proud Little Learners","Help your kindergartner with math at home. Printable pages in small steps, with a parent guide that tells you what to say. $3.99 a pack.",home,cls="home")
+page("index.html","Kindergarten Math Help for Parents | Proud Little Learners","Not sure how to help with kindergarten math? Printable pages in the right order, with a guide that tells you what to say. $3.99.",home,cls="home")
 
 # ---------- PRODUCTS ----------
 prods=[
@@ -150,28 +150,25 @@ def support_sentence(src):
 COPY={
  "beginner":dict(name="Beginner: Adding within 5",badge="Level 1",bc="badge",
   title="Beginner: Adding within 5 | Proud Little Learners",
-  desc="Kindergarten math printables. Your child counts two small groups and puts them together, with totals up to 5. Parent guide and answer keys included. $3.99.",
-  sub="Your child counts two small groups and puts them together.",
+  desc="Kindergarten math printables: count two small groups and add them, up to 5. Parent guide and answer keys. $3.99.",
+  sub="Count two small groups. Put them together.",
   fit="Start here if your child can count to 10.",
-  practice="A page shows 2 dots and 1 more dot. Your child counts them all and writes 2 + 1 = 3. Totals stay at 5 or less. The last pages have a short math story you read aloud.",
-  help="Sit next to your child. Ask, \"Point to the two groups. How many in all?\" If they get stuck, count the first group together, then let them count the rest.",
-  move="Move to Intermediate: Adding within 10 when these pages feel easy. If you're still helping on most problems, do a few pages again."),
+  practice="Count 2 dots and 1 more dot. Write 2 + 1 = 3. Totals stay at 5 or less.",
+  help="\"Point to the two groups. How many in all?\" Stuck? Count the first group together."),
  "intermediate":dict(name="Intermediate: Adding within 10",badge="Level 2",bc="badge peach",
   title="Intermediate: Adding within 10 | Proud Little Learners",
-  desc="Kindergarten math printables. Your child goes from pictures to adding, like 4 + 3 = 7, with totals up to 10. Parent guide and answer keys included. $3.99.",
-  sub="Your child goes from pictures to adding, like 4 + 3 = 7.",
+  desc="Kindergarten math printables: go from pictures to adding, like 4 + 3 = 7, up to 10. Parent guide and answer keys. $3.99.",
+  sub="Go from pictures to adding, like 4 + 3 = 7.",
   fit="Start here if adding up to 5 is easy.",
-  practice="Your child counts pictures, then writes the math, like 4 + 3 = 7. Some pages use a box with 10 spaces so numbers up to 10 are easy to see. Totals stay at 10 or less.",
-  help="Point to the bigger number and say it. Then count on together: \"4… 5, 6, 7.\" Let your child do the next one. If the 10-space box is new, fill it with cereal first.",
-  move="Move to Advanced: Story problems within 10 when adding up to 10 feels easy. If your child is still guessing, do a few pages again."),
+  practice="Count the pictures, then write the math. Totals stay at 10 or less.",
+  help="\"Start at 4. Now count on: 5, 6, 7.\" Then let your child try the next one."),
  "advanced":dict(name="Advanced: Story problems within 10",badge="Level 3",bc="badge teal",
   title="Advanced: Story problems within 10 | Proud Little Learners",
-  desc="Kindergarten math printables. Short story problems you read aloud, plus making 10 and finding missing numbers. Parent guide and answer keys included. $3.99.",
-  sub="Your child makes 10, finds missing numbers, and solves short math stories you read aloud.",
+  desc="Kindergarten math printables: making 10, missing numbers, and short math stories you read aloud. Parent guide and answer keys. $3.99.",
+  sub="Make 10, find missing numbers, and solve short math stories.",
   fit="Start here if adding up to 10 is easy.",
-  practice="Your child splits a number into two parts, like 7 is 4 and 3. They find a missing number, like 4 + ? = 7, and what makes 10. Then they solve short stories, like \"3 ducks swim. 2 more come. How many now?\" You read the stories, and your child doesn't need to read.",
-  help="Act out the story with cereal or toys. Ask \"What's happening?\" before \"How many?\" If a missing number is hard, go back to two groups your child can see.",
-  move="When these pages feel easy, your child has finished all three levels. If missing numbers are still hard, do a few pages again."),
+  practice="\"3 ducks swim. 2 more come. How many now?\" You read the story. Your child solves it.",
+  help="\"What's happening?\" Then act it out with cereal before you ask \"How many?\""),
 }
 def product_page(p):
     c=COPY[p["slug"]]
@@ -190,41 +187,39 @@ def product_page(p):
 <div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
-<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A progress tracker and a certificate</li><li>Color cover. Pages print in black and white to save ink.</li><li>You'll need a pencil and small things to count, like cereal or buttons</li></ul>
-<p class="micro">Download right after you pay. Print for your family or one classroom.</p></div></section>
-<section class="sec alt"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
-<h2>How you help</h2><p>{c["help"]}</p>
-<h2>When to move on</h2><p>{c["move"]}</p>
+<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</li><li>Color cover. Black-and-white pages save ink.</li><li>You'll need a pencil and some cereal or buttons.</li></ul>
+<p class="micro">Instant download. Print for your family or one classroom.</p></div></section>
+<section class="sec alt"><div class="wrap prose"><h2>What your child does</h2><p>{c["practice"]}</p>
+<h2>What you say</h2><p>{c["help"]}</p>
 </div></section>
 <section class="sec"><div class="wrap"><h2>Other levels</h2><div class="level-grid">{others}</div>
-<p>These are kindergarten skills from the Common Core math standards.</p></div></section>
+</div></section>
 <script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h))
 for p in prods:
     product_page(p)
 
 WEEKS=[
-"Week 1: Counting to 5","Week 2: Counting to 10","Week 3: More and fewer","Week 4: Adding within 5",
-"Week 5: Story problems within 5","Week 6: Adding within 10","Week 7: Taking away within 5","Week 8: Shapes and patterns"]
+"Counting to 5","Counting to 10","More and fewer","Adding within 5",
+"Story problems within 5","Adding within 10","Taking away within 5","Shapes and patterns"]
 wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False)
 wog_url,wog_w,wog_h,_=og_for("weekly")
 weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
-page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday, plus this month's packets right away. $3.99/month. Cancel anytime.",f'''
+page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday. $3.99/month.",f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="product-top"><div class="wrap prod-top">
 {wgallery}
 <div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
-<p>Join anytime. You get this month's packets today, then a new one every Monday.</p>
+<p>A new math packet every Monday. Get this month's packets today.</p>
 <p class="price price-lg">$3.99/month</p>
-<p class="bestif">Best if you want new pages every week, starting with counting.</p>
 <a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
 <p class="cancel-line">Renews monthly until you cancel. Cancel online anytime.</p>
-<p class="cancel-line">Access ends when you cancel. New members can get a full refund within 7 days.</p>
+<p class="cancel-line">Access ends when you cancel. New members: full refund within 7 days.</p>
 </div></div></section>
-<section class="sec"><div class="wrap"><h2>What's in each packet</h2>
-<p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
+<section class="sec"><div class="wrap"><h2>In each packet</h2>
+<p>7 or 8 practice pages, answer keys, a parent guide, and a tracker.</p>
 <h2>The first 8 weeks</h2>
-<ul class="week-grid">{weeklist}</ul>
-<p>Want to go deeper on adding? <a href="{{R}}index.html#packs">See the packs.</a></p>
+<ol class="week-grid">{weeklist}</ol>
+<p>Want to focus on adding? <a href="{{R}}index.html#packs">See the packs.</a></p>
 </div></section>''', og=(wog_url, wog_w, wog_h))
 
 moved='''
@@ -237,48 +232,44 @@ page("free-printables.html","Page moved | Proud Little Learners","This page has 
 head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
 
 home_cards=[
- ("beginner","badge","Count two small groups and put them together.","Start here if your child can count to 10."),
- ("intermediate","badge peach","Go from pictures to adding, like 4 + 3 = 7.","Start here if adding up to 5 is easy."),
- ("advanced","badge teal","Make 10, find missing numbers, and solve short math stories you read aloud.","Start here if adding up to 10 is easy."),
+ ("beginner","badge","For kids who can count to 10."),
+ ("intermediate","badge peach","For kids who can add up to 5."),
+ ("advanced","badge teal","For kids who can add up to 10."),
 ]
 cards=""
-for slug,bc,what,fit in home_cards:
+for slug,bc,what in home_cards:
     c=COPY[slug]
     cover=art_img(slug, "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES)
-    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
+    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
 <p class="lead">Start with the level that fits your child. $3.99 each.</p>
 <div class="pack-grid">{cards}</div>
-<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>Start with this month's packets today. Then get a new one every Monday.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
+<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets today.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
 </div></section>''')
 
 def prose(fn,title,desc,inner,h1=None):
     page(fn,title,desc,f'<section class="tight"><div class="wrap prose"><h1>{h1 or title}</h1>{inner}</div></section>')
 
-prose("about.html","About Us | Proud Little Learners","We make printable kindergarten math packs that help parents practice at home, one small step at a time.",'''
-<p class="lead">We make printable kindergarten math for parents who want to help at home but don't know where to start.</p>
-<h2>What you get</h2>
-<ul class="ticks"><li>Pages in the right order, so each one is a small step.</li><li>A guide that tells you what to say.</li><li>An answer key and a tracker, so you know when to move on.</li></ul>
-<p>Questions or ideas? Email <a href="mailto:hello@proudlittlelearners.com">hello@proudlittlelearners.com</a>.</p>''',"About us")
+prose("about.html","About Us | Proud Little Learners","Printable kindergarten math for parents who want to help at home.",'''
+<p class="lead">We make kindergarten math pages for parents who want to help but don't know where to start.</p>
+<p>Questions? Email <a href="mailto:hello@proudlittlelearners.com">hello@proudlittlelearners.com</a>.</p>''',"About us")
 
 faqs=[
-("Which pack should we start with?","Beginner: Adding within 5, if your child can count to 10. Move up when the pages feel easy."),
-("I'm not a teacher. Can I do this?","Yes. The 2-page guide tells you what to say. Every page has an answer key."),
-("How much should I help?","Show one problem, do the next one together, then let your child try. Help less as it gets easier."),
-("What if a page is too hard?","Stop and count real things, like cereal, instead. Or go back a few pages. Try again tomorrow."),
-("When should we move on?","When your child does most of a pack with little help. One easy page isn't enough to tell."),
-("My child doesn't like worksheets. Will this help?","The pages are short, and you start with real things before the paper. Do one page and stop while it's going well."),
-("Is any of this on a screen?","No. You print the pages, and your child uses a pencil."),
-("What's in a pack?","18 practice pages, 18 answer keys, a 2-page parent guide, a cover, a progress tracker, and a certificate."),
-("How do I get my files?","Right after you pay, you see a download page. You also get an email with the link. Check spam if you don't see it."),
-("How does the weekly plan work?","It's $3.99/month. You get this month's packets right away, then a new one every Monday. Cancel anytime. When you cancel, access ends, so download the packets you want to keep."),
-("Are the weekly packets the same as the packs?","No. Weekly packets are shorter and cover more topics, like counting, shapes, and taking away. Each pack goes deeper on adding, with 18 pages."),
-("How do I cancel?",'Sign in to your account and cancel, or email us. <a href="cancel.html">See how to cancel.</a>'),
-("Can I share the files?","You can print them for your family or one classroom. Please don't share or sell the files."),
-("Can I get a refund?",'If a file doesn\'t work or isn\'t what we described, we\'ll fix it. If we can\'t, we\'ll refund you. If you\'re new to the weekly plan and cancel within 7 days of your first charge, we\'ll refund that charge. <a href="refund-policy.html">See our refund policy.</a>'),
+("Which pack should we start with?","Beginner: Adding within 5, if your child can count to 10."),
+("I'm not a teacher. Can I do this?","Yes. The guide tells you what to say. Every page has an answer key."),
+("What if a page is too hard?","Go back a page, or count real things like cereal. Try again tomorrow."),
+("When do we move up?","When your child does most pages with little help."),
+("My child doesn't like worksheets. Will this help?","The pages are short, and you start with real things. Stop while it's still fun."),
+("Is it on a screen?","No. You print it, and your child uses a pencil."),
+("How do I get my files?","You get a download link right after you pay, and by email."),
+("How does the weekly plan work?","$3.99/month. This month's packets today, then a new one every Monday. Cancel anytime. Access ends when you cancel."),
+("Are weekly packets the same as the packs?","No. They're shorter and cover more, like counting and shapes. Packs go deeper on adding."),
+("How do I cancel?",'Sign in and <a href="cancel.html">cancel</a>, or email us.'),
+("Can I get a refund?",'If a file has a problem, we\'ll fix it or refund you. New weekly members can get <a href="refund-policy.html">a full refund within 7 days</a>.'),
+("Can I share the files?","Print them for your family or one classroom. Please don't share the files."),
 ]
-prose("faq.html","Questions | Proud Little Learners","Answers about which pack to pick, how to help, downloads, the weekly plan, and refunds.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+"</div>","Questions")
+prose("faq.html","Questions | Proud Little Learners","Answers about packs, the weekly plan, downloads, and refunds.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+"</div>","Questions")
 
 prose("contact.html","Contact | Proud Little Learners","Email us with a question about a pack, a download, or the weekly plan.",'''
 <p class="lead">Questions about a pack, a download, or the weekly plan? Email us.</p>

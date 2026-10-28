@@ -151,7 +151,8 @@ a[href^="mailto"]{white-space:nowrap}
 .level-card .badge{margin:20px 20px 0}
 .level-card h3{margin:12px 20px}
 .level-card .price{margin:8px 20px 20px}
-.week-grid{list-style:none;padding:0;margin:24px 0 32px;display:grid;gap:0}
+.week-grid{list-style:decimal;padding:0 0 0 1.4em;margin:24px 0 32px;display:grid;gap:0}
+.week-grid li{padding-left:8px}
 .week-grid li{padding:12px 0;border-bottom:1px solid var(--line)}
 
 .prose{max-width:640px}
