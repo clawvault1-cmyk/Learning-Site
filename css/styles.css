@@ -139,7 +139,9 @@ a[href^="mailto"]{white-space:nowrap}
 .faq p{margin:0 0 16px}
 .more{margin-top:24px}
 #kids{background:transparent;padding:8px 0 0}
-.kids-line{margin:0;max-width:40em;font-weight:700;background:var(--teal-50);border-radius:16px;padding:14px 16px}
+.kids-line{display:flex;align-items:center;gap:12px;margin:0;background:var(--teal-50);border-radius:16px;padding:10px 14px}
+.kids-line img{width:104px;height:auto;flex:none}
+.kids-line p{margin:0;min-width:0;font-weight:700}
 #problem{padding-bottom:8px}
 #say{padding-top:8px}
 @media(min-width:1024px){
