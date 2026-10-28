@@ -87,7 +87,7 @@
     stage.innerHTML='<p class="chooser-lead"><strong>'+esc(state.grade)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</strong> is ready to view.</p><ul class="f-list">'+av.map(p=>'<li><a href="'+R+p.url+'"><span><strong>'+esc(p.short||p.title)+'</strong><small>'+esc(p.summary)+'</small></span><span>$'+p.price.toFixed(2)+'</span></a></li>').join('')+'</ul>';
    }else{
     const shown=state.grade==="Pre-K"?"Preschool":state.grade;
-    stage.innerHTML='<div class="soon-card"><span class="badge soon">Coming soon</span><h3>'+esc(shown)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</h3><p>Coming soon. A free kindergarten addition page is ready to print.</p><a class="btn" href="'+R+'free-printables.html">Print the free page</a></div>';
+    stage.innerHTML='<div class="soon-card"><span class="badge soon">Coming soon</span><h3>'+esc(shown)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</h3><p>Coming soon. The weekly plan is where new packets will show up.</p><a class="btn" href="'+R+'weekly.html">See the weekly plan</a></div>';
    }
   }
   stage.addEventListener('click',e=>{

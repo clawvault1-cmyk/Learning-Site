@@ -15,13 +15,13 @@ LINKS=dict(
 )
 def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
     depth=fn.count("/");R="../"*depth
-    nav=[("Kindergarten Math","kindergarten-math.html"),("Free Sample","free-printables.html"),("Our Approach","our-educational-approach.html"),("Questions","faq.html")]
+    nav=[("Kindergarten Math","kindergarten-math.html"),("Weekly plan","weekly.html"),("Our Approach","our-educational-approach.html"),("Questions","faq.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
     body=body.replace("{R}",R).replace("{BRAND}",BRAND)
     head=head.replace("{R}",R).replace("{BRAND}",BRAND)
     if sticky:
-        href=sticky_href or f"{R}free-printables.html"
-        label=sticky_label or "Get the free sample"
+        href=sticky_href or f"{R}weekly.html"
+        label=sticky_label or "See the weekly plan"
         st=f'<div class="sticky-cta"><a class="btn" href="{href}">{label}</a></div>'
     else:
         st=""
@@ -38,7 +38,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <main id="main">{body}</main>
 <footer class="site"><div class="wrap"><div class="grid g4">
 <div><h4 class="brand-name">{BRAND}</h4><p>Printable worksheets for Pre-K to 2nd grade, with a next step you can see.</p></div>
-<div><h4>Shop</h4><ul><li><a href="{R}index.html#grades">Choose a Grade</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}weekly.html">Weekly plan</a></li><li><a href="{R}free-printables.html">Free Sample</a></li></ul></div>
+<div><h4>Shop</h4><ul><li><a href="{R}index.html#grades">Choose a Grade</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}weekly.html">Weekly plan</a></li><li><a href="{R}index.html#price">Pricing</a></li></ul></div>
 <div><h4>Learn</h4><ul><li><a href="{R}our-educational-approach.html">Our Educational Approach</a></li><li><a href="{R}resources/index.html">Parent Resources</a></li><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}about.html">About</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}privacy.html">Privacy Policy</a></li><li><a href="{R}terms.html">Terms of Use</a></li><li><a href="{R}refund-policy.html">Refund Policy</a></li></ul></div></div>
 <p class="fine">© 2026 <span class="brand-name">{BRAND}</span>. For parents, caregivers, and teachers. We do not knowingly collect information from children.</p></div></footer>
@@ -51,7 +51,7 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Give Your Child a Strong Start","Small steps, with kindergarten addition pages in the right order. Print a free sample page. No email needed.",home,cls="home",
+page("index.html","Give Your Child a Strong Start","Small steps, with kindergarten addition pages in the right order. A new packet every week.",home,cls="home",
  head='<link rel="stylesheet" href="assets/vendor/lenis.css"><link rel="stylesheet" href="css/home.css">',
  js='<script type="module" src="assets/js/home.js"></script>')
 
@@ -105,7 +105,7 @@ for p in prods:
 <p class="price">$3.99 <small style="font-size:.9rem;font-weight:600;color:var(--muted)">Instant PDF · Page count comes with the final file</small></p>
 <button type="button" class="btn buy" data-checkout="{p["checkout"]}" data-label="Buy now: $3.99">Buy now: $3.99</button>
 <ul class="ticks"><li>Print at home in black and white</li><li>Answer key included</li><li>Parent prompt and progress tracker</li></ul>
-<p><a href="{{R}}free-printables.html">See the free sample pages</a></p></div></div></section>
+<p><a href="{{R}}index.html#pages">A look inside</a></p></div></div></section>
 <section class="tight white"><div class="wrap prose"><h2>Questions parents ask</h2>{qa(p)}</div></section>
 <section class="tight"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}<a class="card link" href="{{R}}weekly.html"><span class="badge">Weekly</span><h3>A fresh packet every week</h3><p>$3.99/mo</p></a></div></div></section>''')
 
@@ -122,7 +122,7 @@ page("weekly.html",f"{BRAND} Weekly","A new math or reading packet every week fo
 {SUB_BTN}
 <ul class="ticks"><li>One new printable packet each week</li><li>Math or reading, for the grade you pick</li><li>Print at home in black and white</li><li>Answer key, a short tip, and a progress tracker</li></ul>
 <p>Kindergarten addition is ready to buy one level at a time. Other grades are on the way, and the weekly plan is where new packets will show up. <a href="index.html#grades">Pick your child's grade</a>.</p>
-<p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a> · <a href="free-printables.html">Print a free page first</a></p>
+<p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a> · <a href="index.html#grades">Pick your child's grade</a></p>
 </div></section>''')
 
 page("products/k-addition-bundle.html","Weekly plan","The old three-level page now points to the weekly plan.",'''
@@ -146,27 +146,14 @@ page("kindergarten-math.html","Kindergarten Math Worksheets","Kindergarten addit
 <div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
 <div class="card"><span class="badge soon">Coming soon</span><h3>Counting and numbers</h3><p>Counting objects and reading numbers.</p></div>
 <div class="card"><span class="badge soon">Coming soon</span><h3>Reading</h3><p>Sounds and letters, simple words like cat, map, and sit, plus high-frequency words and words a child learns to recognize right away. <a href="our-educational-approach.html#reading">See how reading practice will work</a>.</p></div></div>
-<p style="margin-top:20px"><a href="free-printables.html">Get the free addition sample</a></p></div></section>''')
+<p style="margin-top:20px"><a href="weekly.html">See the weekly plan</a></p></div></section>''')
 
-# ---------- FREE ----------
-page("free-printables.html","Free Kindergarten Addition Sample","A free printable kindergarten addition page for totals within 5. Instant PDF. No account needed.",f'''
-<section class="hero"><div class="wrap hero-grid"><div><span class="eyebrow">Free download · Kindergarten addition</span><h1>Try one page before you choose a pack</h1>
-<p class="lead">Count the dots, add two small groups, and write the total. Every problem stays within 5. There is no surprise jump.</p>
-<ul class="ticks"><li>A real practice page, plus an answer key</li><li>Prints in black and white</li><li>Short enough for one sitting</li></ul>
-<div class="btn-row"><a class="btn" href="downloads/free-k-addition-within-5-sample.pdf" download>Download the free PDF</a></div>
-<p style="font-size:.9rem;color:var(--muted)">The file downloads now. No email needed.</p></div>
-</div></section>
-<section class="tight"><div class="wrap"><div class="page-row">
-<figure><img src="assets/img/free-sample-1.png" width="857" height="1109" alt="Free sample page: add the dots, totals up to 5" loading="lazy" decoding="async"><figcaption>Add the dots</figcaption></figure>
-<figure><img src="assets/img/free-sample-2.png" width="857" height="1109" alt="Free sample page: more dot problems, totals up to 5" loading="lazy" decoding="async"><figcaption>More dot problems</figcaption></figure>
-<figure><img src="assets/img/free-sample-3.png" width="857" height="1109" alt="Free sample page: number sentences within 5" loading="lazy" decoding="async"><figcaption>Number sentences</figcaption></figure>
-<figure><img src="assets/img/free-sample-4.png" width="857" height="1109" alt="Free sample answer key for grown-ups" loading="lazy" decoding="async"><figcaption>Answer key</figcaption></figure>
-</div></div></section>
-<section class="tight white"><div class="wrap"><h2>Is this a suitable starting point?</h2>
-<p><strong>A good fit if your child can</strong> count to 10, recognize numbers 0–5, and count objects one by one.</p>
-<p><strong>If the page is too hard,</strong> use counters and count together. If it feels easy, look at the <a href="products/k-addition-intermediate.html">Intermediate pack (within 10)</a>.</p>
-<p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5.</p></div></section>
-<section><div class="wrap"><div class="cta-band"><h2>Want a new packet every week?</h2><p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. A new math or reading packet every week, for the grade you pick. Or start with one kindergarten level.</p><a class="btn" href="weekly.html">See the weekly plan</a></div></div></section>''')
+# Old address. Sends visitors to the weekly plan.
+page("free-printables.html","Weekly plan","The weekly plan is a new packet every week.",'''
+<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
+<p><a href="{R}weekly.html">See the weekly plan</a>.</p></div></section>
+<script>location.replace("{R}weekly.html");</script>''',
+head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="https://proudlittlelearners.com/weekly.html"><meta property="og:url" content="https://proudlittlelearners.com/weekly.html">')
 
 # ---------- APPROACH ----------
 def row(name,how,links):
@@ -228,8 +215,8 @@ faqs=[
 ("What if a page is too hard?","Stop that page and step back, or show the same idea with objects or pictures. That temporary help is called scaffolding. Take it away when the work feels easier."),
 ("How much help should I give?","Show one example, try the next one together, then let your child try. That is scaffolding: help first, then fade the help. You do not need to give every answer."),
 ("When should we move forward?","Move on when this step feels comfortable with little help, not after one easy page. The IES early-math guide says a child should be comfortable with an earlier step before a harder one."),
-("Why an organized pack instead of free worksheets?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker. You can still start with the free sample."),
-("How do I choose a grade?","Use Choose a Grade on the homepage. Pick the grade, then Math or Reading, then a skill. Kindergarten Addition is available now. Every other path says Coming soon and links to the free sample."),
+("Why an organized pack instead of a loose page?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker."),
+("How do I choose a grade?","Use Choose a Grade on the homepage. Pick the grade, then Math or Reading, then a skill. Kindergarten addition is available now. Every other path says Coming soon and points to the weekly plan."),
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
 ("How do I get files after purchase?","You get a PDF to print at home after you pay."),
 ("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
