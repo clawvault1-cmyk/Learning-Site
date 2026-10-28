@@ -18,6 +18,20 @@
    b.addEventListener('click',e=>e.preventDefault());
   }
  });
+ // Weekly plan: subscriptionUrl is the switch. Empty never starts a charge.
+ document.querySelectorAll('[data-subscribe]').forEach(b=>{
+  if(S.subscriptionUrl){
+   b.textContent=b.dataset.label||'Subscribe';
+   b.classList.remove('disabled');
+   b.removeAttribute('aria-disabled');
+   b.addEventListener('click',()=>{location.href=S.subscriptionUrl;});
+  }else{
+   b.classList.add('disabled');
+   b.setAttribute('aria-disabled','true');
+   b.textContent='Checkout coming soon';
+   b.addEventListener('click',e=>e.preventDefault());
+  }
+ });
  // grade → subject → skill → pack. Nothing is preselected.
  const chooser=document.getElementById('chooser');
  if(chooser){
@@ -125,6 +139,6 @@
  }
  const buybar=document.getElementById('buybar'),price=document.getElementById('price');
  if(buybar&&price&&'IntersectionObserver' in window){
-  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.35}).observe(price);
+  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.15}).observe(price);
  }
 })();

@@ -17,7 +17,8 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
     depth=fn.count("/");R="../"*depth
     nav=[("Kindergarten Math","kindergarten-math.html"),("Free Sample","free-printables.html"),("Our Approach","our-educational-approach.html"),("Questions","faq.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
-    body=body.replace("{R}",R)
+    body=body.replace("{R}",R).replace("{BRAND}",BRAND)
+    head=head.replace("{R}",R).replace("{BRAND}",BRAND)
     if sticky:
         href=sticky_href or f"{R}free-printables.html"
         label=sticky_label or "Get the free sample"
@@ -35,7 +36,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <main id="main">{body}</main>
 <footer class="site"><div class="wrap"><div class="grid g4">
 <div><h4 class="brand-name">{BRAND}</h4><p>Printable worksheets for Pre-K to 2nd grade, with a next step you can see.</p></div>
-<div><h4>Shop</h4><ul><li><a href="{R}index.html#grades">Choose a Grade</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}products/k-addition-bundle.html">Addition Bundle</a></li><li><a href="{R}free-printables.html">Free Sample</a></li></ul></div>
+<div><h4>Shop</h4><ul><li><a href="{R}index.html#grades">Choose a Grade</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}weekly.html">Weekly plan</a></li><li><a href="{R}free-printables.html">Free Sample</a></li></ul></div>
 <div><h4>Learn</h4><ul><li><a href="{R}our-educational-approach.html">Our Educational Approach</a></li><li><a href="{R}resources/index.html">Parent Resources</a></li><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}about.html">About</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}privacy.html">Privacy Policy</a></li><li><a href="{R}terms.html">Terms of Use</a></li><li><a href="{R}refund-policy.html">Refund Policy</a></li></ul></div></div>
 <p class="fine">© 2026 <span class="brand-name">{BRAND}</span>. For parents, caregivers, and teachers. We do not knowingly collect information from children.</p></div></footer>
@@ -104,28 +105,29 @@ for p in prods:
 <ul class="ticks"><li>Print at home in black and white</li><li>Answer key included</li><li>Parent prompt and progress tracker</li></ul>
 <p><a href="{{R}}free-printables.html">See the free sample pages</a></p></div></div></section>
 <section class="tight white"><div class="wrap prose"><h2>Questions parents ask</h2>{qa(p)}</div></section>
-<section class="tight"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}<a class="card link" href="k-addition-bundle.html"><span class="badge">Bundle</span><h3>All three levels</h3><p>$9.99</p></a></div></div></section>''')
+<section class="tight"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}<a class="card link" href="{{R}}weekly.html"><span class="badge">Weekly</span><h3>A fresh packet every week</h3><p>$3.99/mo</p></a></div></div></section>''')
 
-page("products/k-addition-bundle.html","Kindergarten Addition Complete Bundle","Your child's next kindergarten addition steps, already organized. $9.99 for all three levels.",f'''
-<div class="wrap crumbs"><a href="{{R}}index.html">Home</a> › <a href="{{R}}kindergarten-math.html">Kindergarten Math</a> › Bundle</div>
-<section class="tight"><div class="wrap"><div class="buybox" style="max-width:640px"><span class="badge">Available now</span><h1 style="font-size:2rem;margin-top:10px">Your child’s next steps, already organized.</h1>
-<p>The Kindergarten Addition Complete Bundle keeps the next level in the same download. When combining small groups feels comfortable, you already have adding within 10, then number relationships.</p>
-<ol class="bundle-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
-<p class="price">$9.99 <span class="save-pill">Save 17%</span> <small style="font-size:.9rem;font-weight:600;color:var(--muted)">$9.99 instead of $11.97 for the three packs.</small></p>
-<button type="button" class="btn buy" data-checkout="k-add-bundle" data-label="Get all 3 levels · $9.99">Get all 3 levels · $9.99</button>
-<p><a href="{{R}}free-printables.html">See the free sample pages</a></p></div></div></section>
-<section class="tight white"><div class="wrap prose"><h2>Questions parents ask</h2>
-<h3>What will my child practice?</h3><p>Combine small groups with totals up to 5, including a short addition story. Then add within 10 with pictures and number sentences. Then explore number relationships: parts of a number, making 10, and short stories you can read aloud.</p>
-<h3>Is this a suitable starting point?</h3><p>Choose the bundle when you want the next stage ready. A child who already adds up to 5 with ease can start in the middle. You can also begin with the free sample.</p>
-<h3>How does practice progress?</h3><p>The levels stay in this order.</p>{steps("on","on","on","on")}
-<h3>What parent guidance is included?</h3><p>Each level includes a short prompt. You do not need to finish a level in one sitting. Use the prompt for the level you are on today.</p>
-<h3>When should we repeat a skill, and when should we move on?</h3><p>Stay with a level while you are still helping with most problems. Move to the next level in the bundle when the current one feels comfortable and your child can tell you what they did. The progress tracker is there for that choice.</p>
-<h3>What’s included?</h3>
-<ul class="ticks"><li>All three levels in one download</li><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDFs for US Letter paper</li></ul>
-<p class="micro">Page counts will be listed with the final files.</p>
-<aside class="standards-note"><h3>Learning goals</h3><p>The collection practices selected Common Core kindergarten math goals, including representing addition, breaking numbers into parts, and finding combinations that make 10. <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p></aside>
-</div></section>
-<section class="tight"><div class="wrap"><h2>Inside the bundle</h2><div class="grid g3">{"".join(f'<a class="card link" href="k-addition-{p["slug"]}.html"><span class="{p["bc"]}">{p["lv"]}</span><h3>{p["nm"]}</h3><p>{p["summary"]}</p></a>' for p in prods)}</div></div></section>''')
+RENEW="$3.99 a month, renews automatically each month until you cancel. Cancel anytime online in a couple of clicks."
+SUB_BTN=f'''<button type="button" class="btn buy" data-subscribe="weekly" data-label="Start weekly · $3.99/mo">Start weekly · $3.99/mo</button>
+<p class="renew-note">{RENEW}</p>
+<p class="pay-note">Checkout isn’t open yet. No payment is taken.</p>'''
+
+page("weekly.html",f"{BRAND} Weekly","A new math or reading packet every week for $3.99 a month. Preschool through 2nd grade. Cancel anytime.",f'''
+<section class="tight"><div class="wrap" style="max-width:720px"><span class="eyebrow">Weekly plan</span>
+<h1>A fresh packet every week, so you always know what to do next.</h1>
+<p class="lead"><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. A new math or reading packet every week. Preschool through 2nd grade. Pick your child's grade. Cancel anytime.</p>
+<p class="price">$3.99<span class="per">/mo</span></p>
+{SUB_BTN}
+<ul class="ticks"><li>One new printable packet each week</li><li>Math or reading, for the grade you pick</li><li>Print at home in black and white</li><li>Answer key, a short tip, and a progress tracker</li></ul>
+<p>Kindergarten addition is ready to buy one level at a time. Other grades are on the way, and the weekly plan is where new packets will show up. <a href="index.html#grades">Pick your child's grade</a>.</p>
+<p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a> · <a href="free-printables.html">Print a free page first</a></p>
+</div></section>''')
+
+page("products/k-addition-bundle.html","Weekly plan","The old three-level page now points to the weekly plan.",'''
+<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
+<p>A new packet every week is $3.99 a month. <a href="{R}weekly.html">See the weekly plan</a>.</p></div></section>
+<script>location.replace("{R}weekly.html");</script>''',
+head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="{R}weekly.html">')
 
 # ---------- CATEGORY ----------
 cards="".join(f'''<div class="card"><p><span class="{p["bc"]}">{p["lv"]}</span></p><h3>{p["nm"]}</h3><p>{p["summary"]}</p><p><strong>A good time to start:</strong> {p["start"]}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{p["slug"]}.html">View {p["lv"]} pack</a></div>''' for p in prods)
@@ -135,9 +137,9 @@ page("kindergarten-math.html","Kindergarten Math Worksheets","Kindergarten addit
 <p class="lead">Start with the level that matches what your child can already do. You will know how to help, and what to practice next.</p>
 <p><a href="index.html#grades">Choose a different grade</a></p></div></section>
 <section class="tight white"><div class="wrap"><h2>Your child’s next steps, already organized.</h2>
-<ol class="bundle-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
+<ol class="step-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
 <div class="grid g3" style="margin-top:28px">{cards}</div>
-<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Bundle · Available now</span><h3>Your child’s next steps, already organized.</h3><p>The next level is in the same download. $9.99, which is $1.98 less than $11.97 for the three packs.</p></div><div><span class="price">$9.99</span> <a class="btn" href="products/k-addition-bundle.html">View bundle</a></div></div></div></section>
+<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly plan</span><h3>A fresh packet every week</h3><p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. A new math or reading packet every week, for the grade you pick.</p></div><div><span class="price">$3.99<span class="per">/mo</span></span> <a class="btn buy" href="weekly.html">See the weekly plan</a></div></div></div></section>
 <section class="tight"><div class="wrap"><h2>Coming soon</h2>
 <div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
 <div class="card"><span class="badge soon">Coming soon</span><h3>Counting and numbers</h3><p>Counting objects and reading numbers.</p></div>
@@ -162,7 +164,7 @@ page("free-printables.html","Free Kindergarten Addition Sample","A free printabl
 <p><strong>A good fit if your child can</strong> count to 10, recognize numbers 0–5, and count objects one by one.</p>
 <p><strong>If the page is too hard,</strong> use counters and count together. If it feels easy, look at the <a href="products/k-addition-intermediate.html">Intermediate pack (within 10)</a>.</p>
 <p class="micro">These pages practice goals from Common Core K.OA.A.1 and K.OA.A.5.</p></div></section>
-<section><div class="wrap"><div class="cta-band"><h2>Want the full starting level?</h2><p>The Beginner pack continues addition within 5, including a short story. Later levels add within 10, then explore number relationships.</p><a class="btn" href="kindergarten-math.html">See the three levels</a></div></div></section>''')
+<section><div class="wrap"><div class="cta-band"><h2>Want a new packet every week?</h2><p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. A new math or reading packet every week, for the grade you pick. Or start with one kindergarten level.</p><a class="btn" href="weekly.html">See the weekly plan</a></div></div></section>''')
 
 # ---------- APPROACH ----------
 def row(name,how,links):
@@ -218,7 +220,7 @@ prose("about.html","About Us","Created for families across the United States, ou
 <p>Created for families across the United States, our printable learning packs make it easier to support early math and reading at home—with manageable steps and clear parent guidance.</p>
 <p>You want to help. A pack tells you where to start, how to help, and what to practice next.</p>
 <h2>What you can count on</h2><ul class="ticks"><li>Each pack says what your child will practice, and what they should already be able to do.</li><li>Packs that are ready are marked Available now. Others are marked Coming soon.</li><li>A parent prompt, an answer key, and a progress tracker come with each pack.</li></ul>
-<h2>Where we are now</h2><p>Kindergarten addition is available now. Other grades, subtraction, and reading are coming soon. <a href="contact.html">Tell us what you need.</a></p>
+<h2>Where we are now</h2><p>Kindergarten addition levels are ready to buy one at a time. <span class="brand-name">{BRAND}</span> Weekly is $3.99 a month for a new packet every week. Other grades, subtraction, and reading are on the way. <a href="contact.html">Tell us what you need.</a></p>
 ''')
 faqs=[
 ("What if a page is too hard?","Stop that page and step back, or show the same idea with objects or pictures. That temporary help is called scaffolding. Take it away when the work feels easier."),
@@ -229,7 +231,7 @@ faqs=[
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
 ("How do I get files after purchase?","You get a PDF to print at home after you pay."),
 ("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
-("Is there a subscription?","A new worksheet every week for $3.99 a month is coming later. There is no signup yet."),
+("Is there a weekly plan?","Yes. The weekly plan is $3.99 a month. You get a new math or reading packet every week for the grade you pick, from Preschool through 2nd grade. $3.99 a month, renews automatically each month until you cancel. Cancel anytime online in a couple of clicks. Checkout is not open yet, so no payment is taken. The Terms explain billing and what happens after you cancel."),
 ("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
 ("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),
 ("Do you offer refunds?","Yes, in certain situations. See our Refund Policy."),
@@ -242,6 +244,15 @@ prose("privacy.html","Privacy Policy","Privacy policy.",DRAFT+'''<p>Last updated
 <h2>Children</h2><p>Our site is meant for adults. We do not knowingly collect personal information from children under 13. If you think a child has given us information, contact us and we'll delete it.</p>
 <h2>Analytics</h2><p>We may use basic analytics and advertising pixels to understand site traffic. Details will be listed here before they're enabled.</p><h2>Your choices</h2><p>You can unsubscribe from emails at any time and ask us to delete your data.</p>''')
 prose("terms.html","Terms of Use","Terms of use and license.",DRAFT+'''<p>Last updated: TBD</p><h2>License</h2><p>When you buy or download a worksheet, you get a personal license to print it for your own children, homeschool, or single classroom.</p><h2>Not permitted</h2><p>Reselling, redistributing, uploading to shared sites, or claiming the content as your own.</p>
-<h2>Educational information</h2><p>These are practice materials. We make no guarantee of specific academic results. These sources have not endorsed these products.</p>''')
-prose("refund-policy.html","Refund Policy","Refund policy for digital downloads.",DRAFT+'''<p>Last updated: TBD</p><p>Because our products are digital downloads, sales are generally final. If a file is broken, won't download, or doesn't match its description, contact us within 14 days and we'll fix it or refund you.</p>''')
+<h2>Educational information</h2><p>These are practice materials. We make no guarantee of specific academic results. These sources have not endorsed these products.</p>
+<h2>Weekly plan</h2>
+<p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. The plan is a new printable math or reading packet each week, for a grade you pick, from Preschool through 2nd grade.</p>
+<p><strong>Billing.</strong> $3.99 is charged once each month. Billing starts only when checkout is open. Until then, no payment is taken.</p>
+<p><strong>Auto-renew.</strong> The plan renews automatically each month until you cancel. We will not start a new charge after you cancel.</p>
+<p><strong>How to cancel.</strong> You can cancel anytime online in a couple of clicks. When billing is open, the email that comes with each charge will include a cancel link. There is no app, and there is no separate account page.</p>
+<p><strong>After you cancel.</strong> The next month is not charged. Packets you already downloaded stay yours to print for your own children, homeschool, or single classroom, under the license above. New packets stop. Canceling does not by itself refund a month you already paid. See the Refund Policy.</p>''')
+prose("refund-policy.html","Refund Policy","Refund policy for digital downloads and the weekly plan.",DRAFT+'''<p>Last updated: TBD</p><p>Because our products are digital downloads, sales are generally final. If a file is broken, won't download, or doesn't match its description, contact us within 14 days and we'll fix it or refund you.</p>
+<h2>Weekly plan</h2>
+<p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month and renews automatically until you cancel. You can cancel anytime online in a couple of clicks. Canceling stops the next monthly charge. It does not refund a month that was already paid, unless a packet from that month is broken, will not download, or does not match its description. Contact us within 14 days of that packet and we will fix it or refund that charge.</p>
+<p>Packets you already downloaded stay yours to print under the license in the Terms. New packets stop after you cancel. There is no app.</p>''')
 print("built")

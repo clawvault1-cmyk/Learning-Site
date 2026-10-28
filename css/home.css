@@ -55,7 +55,7 @@ html:has(body.home){scroll-behavior:auto}
  background:rgba(255,255,255,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(36,55,70,.1);border-radius:16px;padding:10px 18px;white-space:nowrap;transition:background .3s,box-shadow .3s}
 .pack:hover{background:#fff;box-shadow:0 14px 30px -16px rgba(36,55,70,.5)}
 .pk-l{font-size:.86rem;font-weight:600}.pk-p{font-family:var(--serif);font-size:1.25rem}
-.pk-bundle{background:var(--navy);color:#fff}.pk-bundle:hover{background:#2c4557}
+.pk-weekly{background:var(--navy);color:#fff}.pk-weekly:hover{background:#2c4557}
 .poster{position:absolute;z-index:1;right:max(5vw,calc((100vw - 1240px)/2));top:50%;width:min(36vw,470px);aspect-ratio:1/1.1;transform:translateY(-48%);transition:opacity .8s}
 .poster.gone{opacity:0}
 .poster .thumb{position:absolute;width:62%;left:19%;top:4%;border-radius:4px;box-shadow:0 30px 60px -30px rgba(36,55,70,.55)}
@@ -132,9 +132,9 @@ html:has(body.home){scroll-behavior:auto}
 .prompt{background:#f7f4ed;border-radius:10px;padding:8px 10px}
 .tracker{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .tracker span{font-size:.78rem;font-weight:600;border:1px solid rgba(36,55,70,.14);border-radius:999px;padding:3px 8px;background:#fff}
-.bundle-path{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:8px 0 10px}
-.bundle-path li{background:#f7f4ed;border-radius:999px;padding:6px 12px;font-weight:600;font-size:.92rem}
-.bundle-path li+li:before{content:"→ ";color:var(--teal)}
+.step-path{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:8px 0 10px}
+.step-path li{background:#f7f4ed;border-radius:999px;padding:6px 12px;font-weight:600;font-size:.92rem}
+.step-path li+li:before{content:"→ ";color:var(--teal)}
 .save{color:var(--muted)}
 .links-4{list-style:none;margin:0;padding:0;display:grid;gap:14px}
 .links-4 b{display:block;font-family:var(--serif);font-weight:500;font-size:1.15rem}
@@ -209,6 +209,7 @@ body.story-on.has-sticky{padding-bottom:0}
 .buybar{display:none}
 @media(max-width:800px){.page-row,.price-layout{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){
+ .price-layout{grid-template-columns:1fr}
  .buybar{display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;bottom:0;z-index:45;min-height:56px;padding:12px 16px;background:var(--marigold);color:var(--navy);font-weight:700;text-decoration:none;box-shadow:0 -10px 24px -18px rgba(36,55,70,.8)}
  .buybar.is-hidden{transform:translateY(110%);pointer-events:none}
  body.home{padding-bottom:64px}
