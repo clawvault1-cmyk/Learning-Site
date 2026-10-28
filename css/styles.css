@@ -41,7 +41,7 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .btn:hover{background:var(--teal-dark);color:#fff}
 .btn.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
 .btn.alt:hover{background:var(--white);color:var(--navy)}
-.btn[aria-disabled="true"]{background:#E6E9EC;color:#5B6B78;border:1px dashed #B8C2CA;cursor:not-allowed;box-shadow:none}
+.btn[aria-disabled="true"]{background:var(--teal);color:#fff;border:0;cursor:default;box-shadow:none}
 .btn.alt[aria-disabled="true"]{background:transparent;color:var(--navy)}
 .hero-copy .btn,.buybox .btn,.card-actions .btn,.band .btn,.cancel-actions .btn{width:100%}
 
@@ -120,7 +120,6 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .steps li::before{content:counter(s);position:absolute;left:12px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--marigold);color:var(--navy);font-weight:800;display:grid;place-items:center}
 .steps.tonight li.card{padding:16px 20px 16px 52px}
 a[href^="mailto"]{white-space:nowrap}
-.band .cancel-line a{color:#fff;text-decoration:underline}
 #start p{margin-top:12px}
 #start .btn{margin-top:24px}
 .faq details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 20px;margin:16px 0}
