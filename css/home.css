@@ -221,7 +221,8 @@ body.story-on.has-sticky{padding-bottom:0}
 .which{font-size:1.05rem;line-height:1.5;margin:var(--space-4) 0}
 .owner-note{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
 @media (max-width:767px){
- .home .stage{height:auto;min-height:0;overflow:visible;display:flex;flex-direction:column;padding:84px 20px 12px}
+ .home header.site{background:var(--cream);border-bottom:1px solid rgba(36,55,70,.08)}
+ .home .stage{height:auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:84px 20px 12px}
  .home .p-hero{order:1}
  .home .poster{order:2;width:min(200px,58%)}
  .home .p-level,.home .p-jump,.home .lineup,.home .levels-track,.home .progress,.home .scroll-hint,.home .bigtype,.home #gl{display:none!important}

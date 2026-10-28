@@ -15,7 +15,7 @@ LINKS=dict(
 )
 def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
     depth=fn.count("/");R="../"*depth
-    nav=[("Home","index.html"),("How it works","index.html#works"),("Kindergarten packs","index.html#packs"),("FAQ","faq.html"),("Contact","contact.html")]
+    nav=[("Home","index.html"),("How it works","index.html#works"),("Kindergarten packs","index.html#packs"),("Plans and prices","index.html#packs"),("FAQ","faq.html"),("Contact","contact.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
     body=body.replace("{R}",R).replace("{BRAND}",BRAND)
     head=head.replace("{R}",R).replace("{BRAND}",BRAND)
