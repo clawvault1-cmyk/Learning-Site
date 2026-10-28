@@ -100,6 +100,9 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .ticks{list-style:none;padding:0;margin:0}
 .ticks li{position:relative;padding:8px 0 8px 40px}
 .ticks li:before{content:"✓";position:absolute;left:0;top:8px;width:28px;height:28px;border-radius:50%;background:var(--teal-50);color:var(--teal);display:grid;place-items:center;font-weight:700}
+.ticks li.has-shot{display:flex;align-items:center;gap:12px;min-height:64px}
+.ticks li.has-shot:before{top:18px}
+.shot{width:44px;height:56px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--line);flex:none;background:#fff}
 
 .band{background:var(--navy);color:#fff;padding:48px 0}
 .band h2,.band p,.band .price,.band .micro,.band .cancel-line,.band .status-line{color:#fff}

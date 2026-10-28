@@ -123,8 +123,10 @@ def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False):
 def slide_gallery(slug, name, attrs, interiors=True):
     items=[("cover-4x3", name, 1600, 1200, COVER_WIDTHS, f"assets/img/packs/{slug}/cover-1x1-600.webp")]
     if interiors:
+        items.append(("guide", "Parent guide", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/guide-480.webp"))
         for n in range(1,6):
             items.append((f"interior-{n:02d}", "Practice page", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp"))
+        items.append(("tracker", "Progress tracker", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/tracker-480.webp"))
     slides=[]; thumbs=[]
     for i,(stem,alt,w,h,widths,thumb) in enumerate(items):
         slides.append(art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0))
@@ -188,7 +190,7 @@ def product_page(p):
 <div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
-<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li>A 2-page parent guide</li><li>A progress tracker and a certificate</li><li>Color cover. Pages print in black and white to save ink.</li><li>You'll need a pencil and small things to count, like cereal or buttons</li></ul>
+<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A progress tracker and a certificate</li><li>Color cover. Pages print in black and white to save ink.</li><li>You'll need a pencil and small things to count, like cereal or buttons</li></ul>
 <p class="micro">Download right after you pay. Print for your family or one classroom.</p></div></section>
 <section class="sec alt"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
 <h2>How you help</h2><p>{c["help"]}</p>
