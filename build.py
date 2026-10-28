@@ -54,7 +54,7 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Kindergarten Math Help for Parents | Proud Little Learners","Not sure how to help with kindergarten math? Printable pages in the right order, with a guide that tells you what to say. $3.99.",home,cls="home")
+page("index.html","Kindergarten Math Help for Parents | Proud Little Learners","Kindergarten math help without random worksheets. Short printable pages, easy to harder, with a guide for you. $3.99.",home,cls="home")
 
 # ---------- PRODUCTS ----------
 prods=[
@@ -148,51 +148,59 @@ def support_sentence(src):
     if s.get("certificate"): bits.append("a certificate")
     return ", ".join(bits)
 COPY={
- "beginner":dict(name="Beginner: Adding within 5",badge="Level 1",bc="badge",
+ "beginner":dict(name="Beginner: Adding within 5",
   title="Beginner: Adding within 5 | Proud Little Learners",
-  desc="Kindergarten math printables: count two small groups and add them, up to 5. Parent guide and answer keys. $3.99.",
-  sub="Count two small groups. Put them together.",
-  fit="Start here if your child can count to 10.",
-  practice="Count 2 dots and 1 more dot. Write 2 + 1 = 3. Totals stay at 5 or less.",
-  help="\"Point to the two groups. How many in all?\" Stuck? Count the first group together."),
- "intermediate":dict(name="Intermediate: Adding within 10",badge="Level 2",bc="badge peach",
+  desc="Kindergarten math printables: count two groups, then put them together. Totals up to 5. Guide and answer keys. $3.99.",
+  ask="Can your child count 5 toys?",
+  test="Start here if your child can count 5 toys.",
+  sub="Count two groups, then put them together, like 2 + 1 = 3.",
+  facts="$3.99 · 18 pages · adding up to 5",
+  quote='"Count this group. Count the other group. Now count every object."',
+  says='When the plus sign shows up: "Plus means we put the groups together."',
+  move="When pages 16, 17, and 18 are right with only a little help."),
+ "intermediate":dict(name="Intermediate: Adding within 10",
   title="Intermediate: Adding within 10 | Proud Little Learners",
-  desc="Kindergarten math printables: go from pictures to adding, like 4 + 3 = 7, up to 10. Parent guide and answer keys. $3.99.",
+  desc="Kindergarten math printables: go from pictures to adding, like 4 + 3 = 7. Totals up to 10. Guide and answer keys. $3.99.",
+  ask="Can your child add 2 toys and 3 toys?",
+  test="Start here if your child can add 2 toys and 3 toys.",
   sub="Go from pictures to adding, like 4 + 3 = 7.",
-  fit="Start here if adding up to 5 is easy.",
-  practice="Count the pictures, then write the math. Totals stay at 10 or less.",
-  help="\"Start at 4. Now count on: 5, 6, 7.\" Then let your child try the next one."),
- "advanced":dict(name="Advanced: Story problems within 10",badge="Level 3",bc="badge teal",
+  facts="$3.99 · 18 pages · adding up to 10",
+  quote='"Fill the top row first. A full top row is 5. Now count the rest."',
+  says="The guide shows this on a box with 10 spaces. Fill it with cereal first.",
+  move="When your child can add up to 10 with only a little help, including page 18."),
+ "advanced":dict(name="Advanced: Story problems within 10",
   title="Advanced: Story problems within 10 | Proud Little Learners",
-  desc="Kindergarten math printables: making 10, missing numbers, and short math stories you read aloud. Parent guide and answer keys. $3.99.",
-  sub="Make 10, find missing numbers, and solve short math stories.",
-  fit="Start here if adding up to 10 is easy.",
-  practice="\"3 ducks swim. 2 more come. How many now?\" You read the story. Your child solves it.",
-  help="\"What's happening?\" Then act it out with cereal before you ask \"How many?\""),
+  desc="Kindergarten math printables: making 10, missing numbers, and short stories you read aloud. Guide and answer keys. $3.99.",
+  ask="Can your child add 4 toys and 5 toys?",
+  test="Start here if your child can add 4 toys and 5 toys.",
+  sub='Make 10, find missing numbers, and solve short stories you read aloud, like "3 ducks swim. 2 more come. How many now?"',
+  facts="$3.99 · 18 pages · making 10 and math stories",
+  quote='"What happened?" Then ask, "How many?"',
+  says="Act the story out with cereal or coins. Your child doesn't need to read.",
+  move="When these pages feel easy, your child has finished all three packs."),
 }
 def product_page(p):
     c=COPY[p["slug"]]
     d=PACKS[p["slug"]]
     gallery=slide_gallery(p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"')
     og_url,og_w,og_h,og_path=og_for(p["slug"])
-    others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES, lazy=True)}</span><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
+    others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES, lazy=True)}</span><p class="test">{COPY[o["slug"]]["ask"]}</p><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
     ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":og_url,"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
     page(f"products/k-addition-{p['slug']}.html", c["title"], c["desc"], f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="product-top"><div class="wrap prod-top">
 {gallery}
-<div class="buybox"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
+<div class="buybox"><h1>{c["name"]}</h1><p class="test">{c["test"]}</p><p>{c["sub"]}</p>
 <p class="price price-lg">$3.99</p>
 <a class="btn buy" aria-disabled="true" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
-<div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
-<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</li><li>Color cover. Black-and-white pages save ink.</li><li>You'll need a pencil and some cereal or buttons.</li></ul>
+<ul class="ticks"><li>18 practice pages, easy to harder</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</li><li>Color cover. Black-and-white pages save ink.</li><li>You'll need a pencil and some cereal or toys.</li></ul>
 <p class="micro">Instant download. Print for your family or one classroom.</p></div></section>
-<section class="sec alt"><div class="wrap prose"><h2>What your child does</h2><p>{c["practice"]}</p>
-<h2>What you say</h2><p>{c["help"]}</p>
+<section class="sec alt"><div class="wrap prose"><h2>What you say</h2><blockquote>{c["quote"]}</blockquote><p>{c["says"]}</p>
+<h2>When to move up</h2><p>{c["move"]}</p>
 </div></section>
-<section class="sec"><div class="wrap"><h2>Other levels</h2><div class="level-grid">{others}</div>
+<section class="sec"><div class="wrap"><h2>Other packs</h2><div class="level-grid">{others}</div>
 </div></section>
 <script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h))
 for p in prods:
@@ -209,14 +217,14 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <section class="product-top"><div class="wrap prod-top">
 {wgallery}
 <div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
-<p>A new math packet every Monday. Get this month's packets today.</p>
+<p>A new packet every Monday: counting, shapes, adding, and more. Get this month's packets today.</p>
 <p class="price price-lg">$3.99/month</p>
 <a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
 <p class="cancel-line">Renews monthly until you cancel. Cancel online anytime.</p>
 <p class="cancel-line">Access ends when you cancel. New members: full refund within 7 days.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>In each packet</h2>
-<p>7 or 8 practice pages, answer keys, a parent guide, and a tracker.</p>
+<p>7 or 8 practice pages, answer keys, a 1-page parent note, and a tracker.</p>
 <h2>The first 8 weeks</h2>
 <ol class="week-grid">{weeklist}</ol>
 <p>Want to focus on adding? <a href="{{R}}index.html#packs">See the packs.</a></p>
@@ -231,21 +239,16 @@ head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="
 page("free-printables.html","Page moved | Proud Little Learners","This page has moved.",moved,
 head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
 
-home_cards=[
- ("beginner","badge","For kids who can count to 10."),
- ("intermediate","badge peach","For kids who can add up to 5."),
- ("advanced","badge teal","For kids who can add up to 10."),
-]
 cards=""
-for slug,bc,what in home_cards:
+for slug in ("beginner","intermediate","advanced"):
     c=COPY[slug]
     cover=art_img(slug, "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES)
-    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
+    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><p class="test">{c["ask"]}</p><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p class="facts">{c["facts"]}</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
-<section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
-<p class="lead">Start with the level that fits your child. $3.99 each.</p>
+<section class="tight"><div class="wrap"><h1>Which one fits?</h1>
+<p class="lead">Try these with real toys. Pick the last one your child gets right.</p>
 <div class="pack-grid">{cards}</div>
-<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets today.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
+<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday: counting, shapes, adding, and more.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
 </div></section>''')
 
 def prose(fn,title,desc,inner,h1=None):
@@ -256,10 +259,10 @@ prose("about.html","About Us | Proud Little Learners","Printable kindergarten ma
 <p>Questions? Email <a href="mailto:hello@proudlittlelearners.com">hello@proudlittlelearners.com</a>.</p>''',"About us")
 
 faqs=[
-("Which pack should we start with?","Beginner: Adding within 5, if your child can count to 10."),
-("I'm not a teacher. Can I do this?","Yes. The guide tells you what to say. Every page has an answer key."),
+("Which pack should we start with?","Beginner: Adding within 5, if your child can count 5 toys. Not sure? Try the three toy tests on the home page."),
+("I'm not a teacher. Can I do this?","Yes. Every page has an answer key, and the guide is 2 short pages in plain words."),
 ("What if a page is too hard?","Go back a page, or count real things like cereal. Try again tomorrow."),
-("When do we move up?","When your child does most pages with little help."),
+("When do we move up?","When the last 3 pages are right with only a little help. The guide says which pages."),
 ("My child doesn't like worksheets. Will this help?","The pages are short, and you start with real things. Stop while it's still fun."),
 ("Is it on a screen?","No. You print it, and your child uses a pencil."),
 ("How do I get my files?","You get a download link right after you pay, and by email."),
