@@ -211,6 +211,27 @@ html:has(body.home){scroll-behavior:auto}
  .page-row{grid-template-columns:1fr 1fr}
  .p-hero .micro{margin-top:8px}
 }
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);align-items:stretch}
+.compare-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:var(--space-3);min-width:0}
+.compare-card h3{margin:var(--space-2) 0 var(--space-1)}
+.compare-card p{margin:0;color:var(--muted)}
+.compare-clear{background:#fffdf8;border-color:rgba(30,111,105,.28)}
+.pile{position:relative;height:168px;margin:4px auto var(--space-2);max-width:240px}
+.pile-page{position:absolute;width:118px;height:142px;background:#fff;border:1px solid #d9d4c8;border-radius:6px;box-shadow:0 14px 28px -18px rgba(36,55,70,.7);padding:10px 12px}
+.pile-page span{display:block;font-size:.72rem;font-weight:700;letter-spacing:.02em;color:var(--muted)}
+.pile-page i{display:block;height:7px;margin-top:10px;border-radius:4px;background:#efeae0}
+.pile-page.p1{left:0;top:6px;transform:rotate(-8deg)}
+.pile-page.p2{right:0;top:0;transform:rotate(7deg);background:#fff6ea}
+.pile-page.p3{left:54px;top:40px;transform:rotate(1deg)}
+.clear-path{list-style:none;margin:8px 0 var(--space-3);padding:0;display:flex;flex-direction:column;gap:10px}
+.clear-path li{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;min-height:52px}
+.clear-path li:before{content:none}
+.clear-path b{width:32px;height:32px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-family:var(--serif);font-weight:700;flex:none}
+.clear-path span{font-weight:650}
+.tonight{counter-reset:ton;list-style:none;margin:0;padding:0}
+.tonight .card{position:relative;padding-top:58px}
+.tonight .card:before{counter-increment:ton;content:counter(ton);position:absolute;top:18px;left:22px;width:32px;height:32px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-family:var(--serif);font-weight:700}
+@media(max-width:700px){.compare{grid-template-columns:1fr}.pile{height:156px}}
 .which{font-size:1.05rem;line-height:1.5;margin:var(--space-4) 0}
 .owner-note{background:#fff;border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:8px 0}
 @media (max-width:767px){
