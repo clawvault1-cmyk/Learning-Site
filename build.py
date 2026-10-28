@@ -15,7 +15,7 @@ LINKS=dict(
 )
 def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
     depth=fn.count("/");R="../"*depth
-    nav=[("Packs","index.html#packs"),("Weekly plan","weekly.html"),("Questions","faq.html"),("Contact","contact.html")]
+    nav=[("Packs","index.html#packs"),("Weekly plan","weekly.html"),("Questions","faq.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
     body=body.replace("{R}",R).replace("{BRAND}",BRAND)
     head=head.replace("{R}",R).replace("{BRAND}",BRAND)
@@ -25,20 +25,21 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
     shown=title if " | " in title else f"{title} | {BRAND}"
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{shown}</title><meta name="description" content="{desc}"><meta property="og:title" content="{shown}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="https://proudlittlelearners.com/assets/img/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://proudlittlelearners.com/assets/img/og-share.png">{canon_tags}
-<link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preload" href="{R}assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}assets/fonts/inter-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{R}css/styles.css">
 {head}<!-- Meta Pixel loads from app.js only when SITE.metaPixelId is set. -->
 </head><body data-root="{R}" class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">P</i><span class="brand-name">{BRAND}</span></a>
-<button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}</ul></nav></header>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nl" aria-label="Menu"><span></span><span></span><span></span></button><ul class="nav-links" id="nl">{navh}</ul></nav></header>
 <main id="main">{body}</main>
 <footer class="site"><div class="wrap">
 <p class="brand-name">{BRAND}</p><p>Printable kindergarten math for parents.</p>
-<div class="grid g4">
+<div class="grid g4 foot">
 <div><h4>Shop</h4><ul><li><a href="{R}index.html#packs">Packs</a></li><li><a href="{R}weekly.html">Weekly plan</a></li></ul></div>
 <div><h4>Help</h4><ul><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}cancel.html">Cancel weekly plan</a></li></ul></div>
 <div><h4>About</h4><ul><li><a href="{R}about.html">About us</a></li><li><a href="{R}our-educational-approach.html">How we teach</a></li><li><a href="{R}resources/index.html">Parent tips</a></li></ul></div>
-<div><h4>Policies</h4><ul><li><a href="{R}privacy.html">Privacy</a></li><li><a href="{R}terms.html">Terms</a></li><li><a href="{R}refund-policy.html">Refunds</a></li></ul></div></div>
+<div><h4>Policies</h4><ul><li><a href="{R}privacy.html">Privacy</a></li><li><a href="{R}terms.html">Terms</a></li><li><a href="{R}refund-policy.html">Refunds</a></li></ul></div>
+</div>
 <p class="fine">© 2026 {BRAND}</p></div></footer>
 {st}<script src="{R}assets/config.js"></script><script src="{R}assets/products.js"></script><script src="{R}assets/app.js"></script>{js}</body></html>'''
     os.makedirs(os.path.dirname(fn) or ".",exist_ok=True);open(fn,"w").write(html)
@@ -49,9 +50,7 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Kindergarten Math Printables for Parents | Proud Little Learners","Help your kindergartner with math at home. Printable pages in small steps, with a parent guide that tells you what to say. $3.99 a pack.",home,cls="home",
- head='<link rel="stylesheet" href="assets/vendor/lenis.css"><link rel="stylesheet" href="css/home.css">',
- js='<script type="module" src="assets/js/home.js"></script>')
+page("index.html","Kindergarten Math Printables for Parents | Proud Little Learners","Help your kindergartner with math at home. Printable pages in small steps, with a parent guide that tells you what to say. $3.99 a pack.",home,cls="home")
 
 # ---------- PRODUCTS ----------
 prods=[
@@ -104,11 +103,13 @@ def preview_kind(path):
     return "Page"
 def pick_previews(paths):
     pngs=[p for p in paths if p.endswith(".png")]
-    chosen=[]
-    for key in ("cover","practice","guide","tracker"):
-        hits=[p for p in pngs if key in p]
-        if hits: chosen.append(hits[0])
-    return chosen
+    def hits(key): return [p for p in pngs if key in p]
+    chosen=hits("cover")[:1]+hits("practice")[:3]+hits("guide")[:1]+hits("tracker")[:1]
+    return chosen or pngs[:1]
+def slide_gallery(previews, tint, name, attrs):
+    slides="".join(f'<img src="{{R}}{path}" alt="{name if i==0 else preview_kind(path)}" width="800" height="1000"{" loading=\"lazy\"" if i else ""}>' for i,path in enumerate(previews))
+    thumbs="".join(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{path}" alt=""></button>' for i,path in enumerate(previews))
+    return f'<div class="gallery" {attrs}><div class="gallery-main tint-{tint}"><div class="slides">{slides}</div></div><div class="thumbs">{thumbs}</div></div>'
 def support_sentence(src):
     s=src["supportingPages"]
     bits=[f'{src["answerPages"]} answer-key pages']
@@ -150,54 +151,63 @@ def product_page(p):
     c=COPY[p["slug"]]
     d=PACKS[p["slug"]]
     previews=pick_previews(BY[d["checkout"]]["previewImages"])
-    gallery="".join(f'<img src="{{R}}{path}" alt="{c["name"]}" width="800" height="1000" loading="lazy" decoding="async">' for path in previews)
-    others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
+    gallery=slide_gallery(previews, p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"')
+    others="".join(f'<a class="level-card tint-{o["slug"]}" href="k-addition-{o["slug"]}.html"><span class="mock"><img src="{{R}}{pick_previews(BY[PACKS[o["slug"]]["checkout"]]["previewImages"])[0]}" alt=""></span><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
     ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":"https://proudlittlelearners.com/"+previews[0],"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
     page(f"products/k-addition-{p['slug']}.html", c["title"], c["desc"], f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
-<section class="tight"><div class="wrap prod-top">
-<div class="gallery">{gallery}</div>
-<div class="buybox" data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
-<p class="price">$3.99</p>
-<p class="fit">{c["fit"]}</p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+<section class="product-top"><div class="wrap prod-top">
+{gallery}
+<div class="buybox"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
+<p class="price price-lg">$3.99</p>
 <a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
+<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+<div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
-<section class="tight white"><div class="wrap"><h2>What's inside</h2>
+<section class="sec"><div class="wrap"><h2>What's inside</h2>
 <ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li>A 2-page parent guide</li><li>A progress tracker and a certificate</li><li>Black-and-white PDF for regular paper</li><li>You'll need a pencil and small things to count, like cereal or buttons</li></ul>
 <p class="micro">Download right after you pay. Print for your family or one classroom.</p></div></section>
-<section class="tight"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
+<section class="sec alt"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
 <h2>How you help</h2><p>{c["help"]}</p>
-<h2>When to move on</h2><p>{c["move"]}</p></div></section>
-<section class="tight white"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}</div>
+<h2>When to move on</h2><p>{c["move"]}</p>
+<details class="details"><summary>Details</summary>
+<p>Black-and-white PDF for regular paper.</p>
+<p>Download right after you pay. Print for your family or one classroom.</p>
+<p>You'll need a pencil and small things to count, like cereal or buttons.</p>
+</details></div></section>
+<section class="sec"><div class="wrap"><h2>Other levels</h2><div class="level-grid">{others}</div>
 <p>These are kindergarten skills from the Common Core math standards.</p></div></section>
 <script type="application/ld+json">{ld}</script>''')
 for p in prods:
     product_page(p)
 
-page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday, plus this month's packets right away. $3.99/month. Cancel anytime.",'''
-<section class="tight"><div class="wrap" style="max-width:720px" data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"><span class="badge">Weekly plan</span>
-<h1>Weekly Kindergarten Math Plan</h1>
-<p class="lead">A new printable math packet every Monday. Get this month's packets right away.</p>
-<p class="price">$3.99/month</p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+WEEKS=[
+"Week 1: Counting to 5","Week 2: Counting to 10","Week 3: More and fewer","Week 4: Adding within 5",
+"Week 5: Story problems within 5","Week 6: Adding within 10","Week 7: Taking away within 5","Week 8: Shapes and patterns"]
+wimgs=[]
+for w in FILE["weekly"]:
+    cover=next((p for p in w["previewImages"] if p.endswith("preview-cover.png")), None)
+    if cover: wimgs.append(cover)
+wgallery=slide_gallery(wimgs, "weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"')
+weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
+page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday, plus this month's packets right away. $3.99/month. Cancel anytime.",f'''
+<div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
+<section class="product-top"><div class="wrap prod-top">
+{wgallery}
+<div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
+<p>A new printable math packet every Monday. Get this month's packets right away.</p>
+<p class="price price-lg">$3.99/month</p>
 <a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
-<p class="renew-note">Renews monthly. Cancel anytime.</p>
-<h2>What's in each packet</h2>
+<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+</div></div></section>
+<section class="sec"><div class="wrap"><h2>What's in each packet</h2>
 <p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
 <h2>The first 8 weeks</h2>
-<ul class="ticks">
-<li>Week 1: Counting to 5</li>
-<li>Week 2: Counting to 10</li>
-<li>Week 3: More and fewer</li>
-<li>Week 4: Adding within 5</li>
-<li>Week 5: Story problems within 5</li>
-<li>Week 6: Adding within 10</li>
-<li>Week 7: Taking away within 5</li>
-<li>Week 8: Shapes and patterns</li>
-</ul>
-<p><a href="index.html#packs">Want just one level? See the packs.</a></p>
-</div></section>''')
+<ul class="week-grid">{weeklist}</ul>
+<p><a href="{{R}}index.html#packs">Want just one level? See the packs.</a></p>
+<details class="details"><summary>Details</summary>
+<p>Renews monthly. Cancel anytime.</p>
+</details></div></section>''')
 
 moved='''
 <section class="tight"><div class="wrap prose"><h1>This page moved</h1>
@@ -216,13 +226,14 @@ home_cards=[
 cards=""
 for slug,bc,what,fit in home_cards:
     c=COPY[slug]
-    cards+=f'<div class="card"><p><span class="{bc}">{c["badge"]}</span></p><h3>{c["name"]}</h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div>'
+    cover=pick_previews(BY[PACKS[slug]["checkout"]]["previewImages"])[0]
+    cards+=f'<article class="pack-card"><a class="mock tint-{slug}" href="products/k-addition-{slug}.html"><img src="{cover}" alt=""></a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
 <p class="lead">Start with the level that fits your child. $3.99 each.</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
-<div class="grid g3" style="margin-top:28px">{cards}</div>
-<div class="card" style="margin-top:28px"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets right away.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
+<div class="pack-grid">{cards}</div>
+<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets right away.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
 </div></section>''')
 
 def prose(fn,title,desc,inner,h1=None):
@@ -297,4 +308,33 @@ page("resources/index.html","Parent Tips | Proud Little Learners","Short, plain 
 <p>Get a new kindergarten math packet every Monday.</p>
 <p><a class="btn" href="{R}weekly.html">See the weekly plan</a> <a class="btn alt" href="{R}index.html#packs">See the packs</a></p>
 </div></section>''')
+
+import re
+def check_built():
+    your=re.compile(r"\[(?:Your\b|A few\b)")
+    general=re.compile(r"\[[A-Z][A-Za-z'’][^\]]{0,80}\]")
+    legal={"privacy.html","terms.html","refund-policy.html"}
+    bad=[]
+    for dirpath, dirnames, filenames in os.walk("."):
+        dirnames[:] = [d for d in dirnames if d not in (".git","node_modules")]
+        if "/assets/" in dirpath.replace("\\","/") or dirpath.endswith("assets"): continue
+        for fn in filenames:
+            if not fn.endswith(".html"): continue
+            path=os.path.join(dirpath, fn)
+            text=open(path, encoding="utf-8").read()
+            for m in your.finditer(text):
+                bad.append(f"{path}: {m.group(0)}")
+            if fn not in legal:
+                for m in general.finditer(text):
+                    bad.append(f"{path}: {m.group(0)}")
+    home=open("index.html", encoding="utf-8").read()
+    if re.search(r"gsap|lenis|ScrollTrigger|assets/js/home|id=\"story\"|id=\"gl\"", home):
+        bad.append("index.html still includes the scroll animation")
+    if "Fraunces" in home or "three" in home and "three.min" in home:
+        bad.append("index.html still loads a removed library")
+    if bad:
+        print("BUILD CHECK FAILED")
+        print("\n".join(bad[:40]))
+        raise SystemExit(1)
+check_built()
 print("built")

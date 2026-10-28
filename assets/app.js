@@ -5,8 +5,19 @@
  document.querySelectorAll('.site-email').forEach(e=>{e.textContent=S.email;e.href='mailto:'+S.email});
  document.querySelectorAll('.reply-time').forEach(e=>{if(S.replyTime)e.textContent=S.replyTime;});
  const t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav-links');
- if(t&&n)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);t.textContent=o?'Close':'Menu';document.body.classList.toggle('menu-open',o)});
- if(n)n.addEventListener('click',e=>{if(e.target.closest('a')){n.classList.remove('open');document.body.classList.remove('menu-open');if(t){t.setAttribute('aria-expanded','false');t.textContent='Menu';}}});
+ if(t&&n)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);document.body.classList.toggle('menu-open',o)});
+ if(n)n.addEventListener('click',e=>{if(e.target.closest('a')){n.classList.remove('open');document.body.classList.remove('menu-open');if(t)t.setAttribute('aria-expanded','false');}});
+ document.querySelectorAll(".gallery").forEach(g=>{
+  const track=g.querySelector(".slides");
+  const thumbs=[...g.querySelectorAll(".thumb")];
+  if(!track)return;
+  function go(i){track.scrollTo({left:i*track.clientWidth,behavior:"smooth"});}
+  thumbs.forEach((b,i)=>b.addEventListener("click",()=>go(i)));
+  track.addEventListener("scroll",()=>{
+   const i=Math.round(track.scrollLeft/Math.max(track.clientWidth,1));
+   thumbs.forEach((b,n)=>b.classList.toggle("on",n===i));
+  },{passive:true});
+ });
  function payhipKey(raw){
   const v=String(raw||"").trim();
   if(!v)return "";
@@ -40,7 +51,7 @@
    el.addEventListener("click",()=>trackBuy(el,key));
   }else{
    el.removeAttribute("href");
-   el.classList.add("disabled");
+   el.classList.remove("disabled");
    el.setAttribute("aria-disabled","true");
    el.textContent="Checkout opens soon";
    el.addEventListener("click",e=>e.preventDefault());
@@ -122,29 +133,6 @@
    step+=1;show();
   });
   show();
- }
- // Jump in-page goals without scrubbing the whole story. Manual scrolling still plays it.
- const onHome=/\/(?:index\.html)?$/.test(location.pathname);
- function jumpTo(id,immediate){
-  const el=document.querySelector(id);if(!el)return;
-  if(window.__lenis)window.__lenis.scrollTo(el,{offset:-104,immediate:!!immediate});
-  else el.scrollIntoView({behavior:immediate?'auto':'smooth',block:'start'});
- }
- document.querySelectorAll('a[href*="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-   const href=a.getAttribute('href');
-   if(!href||href.indexOf('#')<0)return;
-   const id=href.slice(href.indexOf('#'));
-   const same=href.startsWith('#')||(onHome&&/index\.html#/.test(href));
-   if(!same||!document.querySelector(id))return;
-   e.preventDefault();e.stopImmediatePropagation();
-   jumpTo(id,true);
-  },true);
- });
- if(onHome&&/^#(grades|price|pages|benefits|familiar|works|questions)$/.test(location.hash)){
-  const ready=()=>window.__lenis||document.documentElement.classList.contains('rm')||document.documentElement.classList.contains('phone');
-  if(ready())jumpTo(location.hash,true);
-  else {let tries=0;const timer=setInterval(()=>{tries++;if(ready()||tries>25){jumpTo(location.hash,true);clearInterval(timer);}},200);}
  }
  document.querySelectorAll('form[data-placeholder]').forEach(fm=>fm.addEventListener('submit',e=>{e.preventDefault();
   const m=fm.querySelector('.form-msg');m.hidden=false;}));
