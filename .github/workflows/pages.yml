@@ -28,7 +28,7 @@ jobs:
         with:
           enablement: true
       - name: Keep full packet files off the public site
-        run: find packs \( -name '*.pdf' -o -name 'contact-sheet.png' \) -delete
+        run: find packs -type f \( -name '*.pdf' -o -name 'contact-sheet.png' \) -print -delete
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
