@@ -180,46 +180,4 @@
  }
  document.querySelectorAll('form[data-placeholder]').forEach(fm=>fm.addEventListener('submit',e=>{e.preventDefault();
   const m=fm.querySelector('.form-msg');m.hidden=false;}));
- const picker=document.getElementById('pack-picker');
- if(picker){
-  const qEl=document.getElementById('picker-q');
-  const actions=document.getElementById('picker-actions');
-  const result=document.getElementById('picker-result');
-  const root=document.body.dataset.root||"";
-  const steps=[
-   {q:"Can your child count 5 objects?", no:"beginner"},
-   {q:"Can they add numbers up to 5 without using fingers the whole time?", no:"beginner"},
-   {q:"Does adding within 10 already feel easy?", no:"intermediate", yes:"advanced"}
-  ];
-  const rec={
-   beginner:{name:"Beginner: Adding within 5", why:"Start here. The first pages count groups, then put them together."},
-   intermediate:{name:"Intermediate: Adding within 10", why:"A good next step. Pictures turn into number sentences, and totals stay at 10 or below."},
-   advanced:{name:"Advanced: Story problems within 10", why:"A fit when adding within 10 feels easy. You can read the short stories out loud."}
-  };
-  let step=0;
-  function show(){
-   result.hidden=true;
-   actions.hidden=false;
-   qEl.textContent=steps[step].q;
-   document.querySelectorAll('[data-pack]').forEach(el=>el.classList.remove('is-pick'));
-  }
-  function finish(key){
-   const item=rec[key];
-   actions.hidden=true;
-   qEl.textContent="A good place to start:";
-   result.hidden=false;
-   result.innerHTML='<strong>'+item.name+'</strong>. '+item.why+' <a href="'+root+'products/k-addition-'+key+'.html">Open this pack</a>. <button type="button" class="tlink" id="picker-reset">Start over</button>';
-   document.querySelectorAll('[data-pack]').forEach(el=>el.classList.toggle('is-pick',el.dataset.pack===key));
-   const again=document.getElementById('picker-reset');
-   again.addEventListener('click',()=>{step=0;show();});
-  }
-  actions.addEventListener('click',e=>{
-   const b=e.target.closest('[data-answer]');if(!b)return;
-   const cur=steps[step];
-   if(b.dataset.answer==="no"){finish(cur.no);return;}
-   if(cur.yes){finish(cur.yes);return;}
-   step+=1;show();
-  });
-  show();
- }
 })();
