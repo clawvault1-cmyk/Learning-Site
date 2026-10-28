@@ -13,7 +13,7 @@ LINKS=dict(
  eric_scaffold="https://files.eric.ed.gov/fulltext/EJ1100363.pdf",
  ida="https://dyslexiaida.org/structured-literacy-effective-instruction-for-students-with-dyslexia-and-related-reading-difficulties/",
 )
-def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
+def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None,og=None):
     depth=fn.count("/");R="../"*depth
     nav=[("Packs","index.html#packs"),("Weekly plan","weekly.html"),("Questions","faq.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
@@ -23,8 +23,12 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
     canon="https://proudlittlelearners.com/"+("" if fn=="index.html" else fn)
     canon_tags="" if 'rel="canonical"' in head else f'<link rel="canonical" href="{canon}"><meta property="og:url" content="{canon}">'
     shown=title if " | " in title else f"{title} | {BRAND}"
+    if og:
+        og_url,og_w,og_h=og
+    else:
+        og_url,og_w,og_h="https://proudlittlelearners.com/assets/img/og-share.png",1200,630
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{shown}</title><meta name="description" content="{desc}"><meta property="og:title" content="{shown}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="https://proudlittlelearners.com/assets/img/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://proudlittlelearners.com/assets/img/og-share.png">{canon_tags}
+<title>{shown}</title><meta name="description" content="{desc}"><meta property="og:title" content="{shown}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="{og_url}"><meta property="og:image:width" content="{og_w}"><meta property="og:image:height" content="{og_h}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{og_url}">{canon_tags}
 <link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{R}css/styles.css">
 {head}<!-- Meta Pixel loads from app.js only when SITE.metaPixelId is set. -->
@@ -106,10 +110,29 @@ def pick_previews(paths):
     def hits(key): return [p for p in pngs if key in p]
     chosen=hits("cover")[:1]+hits("practice")[:3]+hits("guide")[:1]+hits("tracker")[:1]
     return chosen or pngs[:1]
-def slide_gallery(previews, tint, name, attrs):
-    slides="".join(f'<img src="{{R}}{path}" alt="{name if i==0 else preview_kind(path)}" width="800" height="1000"{" loading=\"lazy\"" if i else ""}>' for i,path in enumerate(previews))
-    thumbs="".join(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{path}" alt=""></button>' for i,path in enumerate(previews))
-    return f'<div class="gallery" {attrs}><div class="gallery-main tint-{tint}"><div class="slides">{slides}</div></div><div class="thumbs">{thumbs}</div></div>'
+COVER_WIDTHS=(640,960,1600)
+PAGE_WIDTHS=(480,800,1200)
+CARD_SIZES="(min-width:1024px) 360px, 92vw"
+GALLERY_SIZES="(min-width:1024px) 640px, 92vw"
+def art_srcset(slug, stem, widths):
+    return ", ".join(f"{{R}}assets/img/packs/{slug}/{stem}-{w}.webp {w}w" for w in widths)
+def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False):
+    default=widths[1] if len(widths)>2 else widths[-1]
+    lazy_attr=' loading="lazy" decoding="async"' if lazy else ""
+    return (f'<img src="{{R}}assets/img/packs/{slug}/{stem}-{default}.webp" srcset="{art_srcset(slug, stem, widths)}" sizes="{sizes}" alt="{alt}" width="{w}" height="{h}"{lazy_attr}>')
+def slide_gallery(slug, name, attrs, interiors=True):
+    items=[("cover-4x3", name, 1600, 1200, COVER_WIDTHS, f"assets/img/packs/{slug}/cover-1x1-600.webp")]
+    if interiors:
+        for n in range(1,6):
+            items.append((f"interior-{n:02d}", "Practice page", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp"))
+    slides=[]; thumbs=[]
+    for i,(stem,alt,w,h,widths,thumb) in enumerate(items):
+        slides.append(art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0))
+        thumbs.append(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{thumb}" alt=""></button>')
+    return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div><div class="thumbs">{"".join(thumbs)}</div></div>'
+def og_for(slug):
+    path=f"assets/img/packs/{slug}/cover-4x3-1600.webp"
+    return (f"https://proudlittlelearners.com/{path}", 1600, 1200, path)
 def support_sentence(src):
     s=src["supportingPages"]
     bits=[f'{src["answerPages"]} answer-key pages']
@@ -150,10 +173,10 @@ COPY={
 def product_page(p):
     c=COPY[p["slug"]]
     d=PACKS[p["slug"]]
-    previews=pick_previews(BY[d["checkout"]]["previewImages"])
-    gallery=slide_gallery(previews, p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"')
-    others="".join(f'<a class="level-card tint-{o["slug"]}" href="k-addition-{o["slug"]}.html"><span class="mock"><img src="{{R}}{pick_previews(BY[PACKS[o["slug"]]["checkout"]]["previewImages"])[0]}" alt=""></span><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
-    ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":"https://proudlittlelearners.com/"+previews[0],"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
+    gallery=slide_gallery(p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"')
+    og_url,og_w,og_h,og_path=og_for(p["slug"])
+    others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES, lazy=True)}</span><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
+    ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":og_url,"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
     page(f"products/k-addition-{p['slug']}.html", c["title"], c["desc"], f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="product-top"><div class="wrap prod-top">
@@ -177,18 +200,15 @@ def product_page(p):
 </details></div></section>
 <section class="sec"><div class="wrap"><h2>Other levels</h2><div class="level-grid">{others}</div>
 <p>These are kindergarten skills from the Common Core math standards.</p></div></section>
-<script type="application/ld+json">{ld}</script>''')
+<script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h))
 for p in prods:
     product_page(p)
 
 WEEKS=[
 "Week 1: Counting to 5","Week 2: Counting to 10","Week 3: More and fewer","Week 4: Adding within 5",
 "Week 5: Story problems within 5","Week 6: Adding within 10","Week 7: Taking away within 5","Week 8: Shapes and patterns"]
-wimgs=[]
-for w in FILE["weekly"]:
-    cover=next((p for p in w["previewImages"] if p.endswith("preview-cover.png")), None)
-    if cover: wimgs.append(cover)
-wgallery=slide_gallery(wimgs, "weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"')
+wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False)
+wog_url,wog_w,wog_h,_=og_for("weekly")
 weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
 page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday, plus this month's packets right away. $3.99/month. Cancel anytime.",f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
@@ -207,7 +227,7 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <p><a href="{{R}}index.html#packs">Want just one level? See the packs.</a></p>
 <details class="details"><summary>Details</summary>
 <p>Renews monthly. Cancel anytime.</p>
-</details></div></section>''')
+</details></div></section>''', og=(wog_url, wog_w, wog_h))
 
 moved='''
 <section class="tight"><div class="wrap prose"><h1>This page moved</h1>
@@ -226,8 +246,8 @@ home_cards=[
 cards=""
 for slug,bc,what,fit in home_cards:
     c=COPY[slug]
-    cover=pick_previews(BY[PACKS[slug]["checkout"]]["previewImages"])[0]
-    cards+=f'<article class="pack-card"><a class="mock tint-{slug}" href="products/k-addition-{slug}.html"><img src="{cover}" alt=""></a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
+    cover=art_img(slug, "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES)
+    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><span class="{bc}">{c["badge"]}</span><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div></article>'
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
 <p class="lead">Start with the level that fits your child. $3.99 each.</p>
