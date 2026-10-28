@@ -186,7 +186,7 @@ def product_page(p):
 {gallery}
 <div class="buybox"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
 <p class="price price-lg">$3.99</p>
-<a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
+<a class="btn buy" aria-disabled="true" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
 <div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
@@ -215,11 +215,11 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
 <p>Join anytime. You get this month's packets today, then a new one every Monday.</p>
 <p>Start with this month's packets today. Then get a new printable packet every Monday.</p>
-<p>Best if you want new pages every week, starting with counting.</p>
 <p class="price price-lg">$3.99/month</p>
-<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
-<p class="cancel-line">Renews monthly until you cancel. Cancel online anytime.</p>
-<p class="cancel-line">Access ends when you cancel. New members can get a full refund within 7 days.</p>
+<p class="bestif">Best if you want new pages every week, starting with counting.</p>
+<a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
+<p class="cancel-line">Renews monthly until you cancel. <a href="cancel.html">Cancel online</a> anytime.</p>
+<p class="cancel-line">Access ends when you cancel. New members can get <a href="refund-policy.html">a full refund within 7 days</a>.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's in each packet</h2>
 <p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
