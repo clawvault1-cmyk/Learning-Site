@@ -74,7 +74,6 @@ html:has(body.home){scroll-behavior:auto}
 .facts{list-style:none;margin:0;padding:0;border-top:1px solid rgba(36,55,70,.14)}
 .facts li{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid rgba(36,55,70,.14)}
 .facts b{font-family:var(--serif);font-weight:500;font-size:1.15rem}.facts span{color:var(--muted)}
-.home .sticky-cta{z-index:20}
 /* ---- mobile ---- */
 @media (max-width:760px){
 
@@ -184,9 +183,6 @@ html:has(body.home){scroll-behavior:auto}
 .levels-track li i{width:8px;height:8px;border-radius:50%;background:currentColor}
 .levels-track li.on{color:var(--navy);background:#fff;border-color:rgba(36,55,70,.18);box-shadow:0 10px 24px -14px rgba(36,55,70,.5)}
 .levels-track li.on:nth-child(1) i{background:#e9bf3c}.levels-track li.on:nth-child(2) i{background:#e9906d}.levels-track li.on:nth-child(3) i{background:var(--teal)}
-.sticky-cta{transition:transform .45s var(--ease)}
-body.story-on .sticky-cta{transform:translateY(110%)}
-body.story-on.has-sticky{padding-bottom:0}
 .rm .levels-track{display:none}
 .k-path{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;text-decoration:none;color:var(--navy);background:#fff;border:2px solid var(--navy);border-radius:18px;padding:16px 18px;margin:0 0 16px}
 .k-path strong{font-family:var(--serif);font-weight:500;font-size:1.45rem}
@@ -209,12 +205,9 @@ body.story-on.has-sticky{padding-bottom:0}
 .one-list a{font-weight:650}
 .pay-note{margin-top:14px;font-size:.9rem;color:var(--muted)}
 .cta-band .cite{font-size:.85rem;opacity:.9;margin:.6em 0 0}
-.buybar{display:none}
 @media(max-width:800px){.page-row,.price-layout{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){
  .price-layout{grid-template-columns:1fr}
- .buybar{display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;bottom:0;z-index:60;min-height:var(--bar);padding:12px 20px;background:var(--marigold);color:var(--navy);font-weight:700;text-decoration:none;box-shadow:0 -10px 24px -18px rgba(36,55,70,.8)}
- body.home{padding-bottom:calc(var(--bar) + var(--space-4))}
  .page-row{grid-template-columns:1fr 1fr}
  .p-hero .micro{margin-top:8px}
 }

@@ -180,13 +180,4 @@
  }
  document.querySelectorAll('form[data-placeholder]').forEach(fm=>fm.addEventListener('submit',e=>{e.preventDefault();
   const m=fm.querySelector('.form-msg');m.hidden=false;}));
- // The grade chooser is the action. Don't cover its cards with the same button.
- const sticky=document.querySelector('.sticky-cta'),grades=document.getElementById('grades');
- if(sticky&&grades&&'IntersectionObserver' in window){
-  new IntersectionObserver(([e])=>{sticky.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.2}).observe(grades);
- }
- const buybar=document.getElementById('buybar'),packs=document.getElementById('packs');
- if(buybar&&packs&&'IntersectionObserver' in window){
-  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.15}).observe(packs);
- }
 })();

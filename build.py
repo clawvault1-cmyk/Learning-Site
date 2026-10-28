@@ -19,12 +19,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
     body=body.replace("{R}",R).replace("{BRAND}",BRAND)
     head=head.replace("{R}",R).replace("{BRAND}",BRAND)
-    if sticky:
-        href=sticky_href or f"{R}weekly.html"
-        label=sticky_label or "See the weekly plan"
-        st=f'<div class="sticky-cta"><a class="btn" href="{href}">{label}</a></div>'
-    else:
-        st=""
+    st=""
     canon="https://proudlittlelearners.com/"+("" if fn=="index.html" else fn)
     canon_tags="" if 'rel="canonical"' in head else f'<link rel="canonical" href="{canon}"><meta property="og:url" content="{canon}">'
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -32,7 +27,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preload" href="{R}assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}assets/fonts/inter-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}css/styles.css">
 {head}<!-- Meta Pixel loads from app.js only when SITE.metaPixelId is set. -->
-</head><body data-root="{R}" class="{cls}{' has-sticky' if sticky else ''}"><a class="skip" href="#main">Skip to content</a>
+</head><body data-root="{R}" class="{cls}"><a class="skip" href="#main">Skip to content</a>
 <header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">P</i><span class="brand-name">{BRAND}</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}</ul></nav></header>
 <main id="main">{body}</main>
