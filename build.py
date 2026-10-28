@@ -214,15 +214,14 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <p>A new printable math packet every Monday. Get this month's packets right away.</p>
 <p class="price price-lg">$3.99/month</p>
 <a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
+<p class="cancel-line">Renews monthly. Cancel anytime.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's in each packet</h2>
 <p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
 <h2>The first 8 weeks</h2>
 <ul class="week-grid">{weeklist}</ul>
 <p><a href="{{R}}index.html#packs">Want just one level? See the packs.</a></p>
-<details class="details"><summary>Details</summary>
-<p>Renews monthly. Cancel anytime.</p>
-</details></div></section>''', og=(wog_url, wog_w, wog_h))
+</div></section>''', og=(wog_url, wog_w, wog_h))
 
 moved='''
 <section class="tight"><div class="wrap prose"><h1>This page moved</h1>
