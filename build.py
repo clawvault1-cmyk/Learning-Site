@@ -239,7 +239,7 @@ def product_page(p):
 <p>Two dice make page {c["dice"]} more fun.</p>
 <p>Instant download. Print for your family, homeschool, or one classroom.</p>
 </div>
-<details class="details"><summary>{c["say_h"]}</summary>{said}<p>Say the line, then wait.</p></details>
+<details class="details" open><summary>{c["say_h"]}</summary>{said}<p>Say the line, then wait.</p></details>
 <details class="details"><summary>{c["move_h"]}</summary><p>{c["move"]}</p></details>
 </div></section>
 <section class="sec"><div class="wrap"><h2>Other packs</h2><div class="level-grid">{others}</div>
