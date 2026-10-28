@@ -66,11 +66,21 @@
 
 <section id="packs" class="sec"><div class="wrap">
  <div class="sec-head reveal"><h2 class="display">Three levels. Start where your child is comfortable.</h2>
- <p class="lead">Each pack is $3.99, once. Pick the starting point that matches what your child can already do.</p></div>
+ <p class="lead">Each pack is $3.99, once. Answer three short questions, or read the starting line on each card.</p></div>
+ <div class="picker reveal" id="pack-picker">
+  <h3>Which pack is right for my child?</h3>
+  <p class="picker-q" id="picker-q"></p>
+  <div class="picker-actions" id="picker-actions">
+   <button type="button" class="btn" data-answer="yes">Yes</button>
+   <button type="button" class="btn alt" data-answer="no">Not yet</button>
+  </div>
+  <p class="picker-result" id="picker-result" hidden></p>
+ </div>
+ <p class="weekly-line reveal"><a href="{R}weekly.html">Not sure? $3.99 a month gets a new packet every Monday; cancel anytime.</a></p>
  <div class="grid g3 reveal">
-  <a class="card link" href="{R}products/k-addition-beginner.html"><span class="badge">Beginner</span><h3>Beginner: Adding within 5</h3><p>Count groups, combine them, and write small totals. A short story is included.</p><p><strong>Start here if</strong> your child can count to 10 and read numbers 0–5.</p><p class="price">$3.99</p></a>
-  <a class="card link" href="{R}products/k-addition-intermediate.html"><span class="badge peach">Intermediate</span><h3>Intermediate: Adding within 10</h3><p>Pictures turn into number sentences. Totals stay at 10 or below.</p><p><strong>Move here when</strong> adding within 5 with pictures feels easy.</p><p class="price">$3.99</p></a>
-  <a class="card link" href="{R}products/k-addition-advanced.html"><span class="badge teal">Advanced</span><h3>Advanced: Story problems within 10</h3><p>Parts of numbers, making 10, and short stories you can read aloud.</p><p><strong>A fit when</strong> your child adds within 10 with confidence.</p><p class="price">$3.99</p></a>
+  <a class="card link" data-pack="beginner" href="{R}products/k-addition-beginner.html"><span class="badge">Beginner</span><h3>Beginner: Adding within 5</h3><p>Count groups, combine them, and write small totals. A short story is included.</p><p><strong>Start here if</strong> your child can count to 10 and read numbers 0–5.</p><p class="price">$3.99</p></a>
+  <a class="card link" data-pack="intermediate" href="{R}products/k-addition-intermediate.html"><span class="badge peach">Intermediate</span><h3>Intermediate: Adding within 10</h3><p>Pictures turn into number sentences. Totals stay at 10 or below.</p><p><strong>Move here when</strong> adding within 5 with pictures feels easy.</p><p class="price">$3.99</p></a>
+  <a class="card link" data-pack="advanced" href="{R}products/k-addition-advanced.html"><span class="badge teal">Advanced</span><h3>Advanced: Story problems within 10</h3><p>Parts of numbers, making 10, and short stories you can read aloud.</p><p><strong>A fit when</strong> your child adds within 10 with confidence.</p><p class="price">$3.99</p></a>
  </div>
  <p class="which reveal"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p>
  <div class="price-layout reveal">

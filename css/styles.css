@@ -92,6 +92,8 @@ footer.site h4{color:#fff;font-size:1rem}.fine{border-top:1px solid rgba(255,255
 .cancel-actions .btn{width:100%}
 .signin-note{color:var(--muted);font-size:.95rem}
 .price .per{font-size:.7em}
+.weekly-line{margin:20px 0 0;font-size:1.05rem;line-height:1.45}
+.weekly-line a{font-weight:650}
 table.sources{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden}
 table.sources th,table.sources td{padding:14px 16px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 table.sources thead th{background:#f7f4ed;font-family:var(--serif);font-weight:500;font-size:1.05rem}
