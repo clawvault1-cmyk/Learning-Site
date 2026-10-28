@@ -129,7 +129,8 @@ def slide_gallery(slug, name, attrs, interiors=True):
     for i,(stem,alt,w,h,widths,thumb) in enumerate(items):
         slides.append(art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0))
         thumbs.append(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{thumb}" alt=""></button>')
-    return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div><div class="thumbs">{"".join(thumbs)}</div></div>'
+    thumb_row=f'<div class="thumbs">{"".join(thumbs)}</div>' if len(items)>1 else ""
+    return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div>{thumb_row}</div>'
 def og_for(slug):
     path=f"assets/img/packs/{slug}/cover-4x3-1600.webp"
     return (f"https://proudlittlelearners.com/{path}", 1600, 1200, path)
@@ -184,7 +185,6 @@ def product_page(p):
 <div class="buybox"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
 <p class="price price-lg">$3.99</p>
 <a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 <div class="fitbox"><p>{c["fit"]}</p></div>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
@@ -193,11 +193,7 @@ def product_page(p):
 <section class="sec alt"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
 <h2>How you help</h2><p>{c["help"]}</p>
 <h2>When to move on</h2><p>{c["move"]}</p>
-<details class="details"><summary>Details</summary>
-<p>Black-and-white PDF for regular paper.</p>
-<p>Download right after you pay. Print for your family or one classroom.</p>
-<p>You'll need a pencil and small things to count, like cereal or buttons.</p>
-</details></div></section>
+</div></section>
 <section class="sec"><div class="wrap"><h2>Other levels</h2><div class="level-grid">{others}</div>
 <p>These are kindergarten skills from the Common Core math standards.</p></div></section>
 <script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h))
@@ -218,7 +214,6 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <p>A new printable math packet every Monday. Get this month's packets right away.</p>
 <p class="price price-lg">$3.99/month</p>
 <a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's in each packet</h2>
 <p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
@@ -251,7 +246,6 @@ for slug,bc,what,fit in home_cards:
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
 <p class="lead">Start with the level that fits your child. $3.99 each.</p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 <div class="pack-grid">{cards}</div>
 <div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets right away.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
 </div></section>''')
