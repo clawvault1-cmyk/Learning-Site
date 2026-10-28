@@ -1,7 +1,7 @@
 # Generates all HTML pages. Change BRAND here (and in assets/config.js), then: python3 build.py
 import os, json
 BRAND="Proud Little Learners"
-EMAIL="hello@example.com"
+EMAIL="hello@proudlittlelearners.com"
 LINKS=dict(
  cc_math="https://www.thecorestandards.org/Math/Content/K/OA/",
  cc_ela="https://www.thecorestandards.org/ELA-Literacy/RF/K/",
@@ -31,7 +31,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <title>{title} | {BRAND}</title><meta name="description" content="{desc}"><meta property="og:title" content="{title} | {BRAND}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="https://proudlittlelearners.com/assets/img/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://proudlittlelearners.com/assets/img/og-share.png">{canon_tags}
 <link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preload" href="{R}assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}assets/fonts/inter-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}css/styles.css">
-{head}<!-- Analytics placeholder: add GA4 / Meta Pixel snippet here once IDs exist -->
+{head}<!-- Meta Pixel loads from app.js only when SITE.metaPixelId is set. -->
 </head><body data-root="{R}" class="{cls}{' has-sticky' if sticky else ''}"><a class="skip" href="#main">Skip to content</a>
 <header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">P</i><span class="brand-name">{BRAND}</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}</ul></nav></header>
@@ -40,7 +40,7 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <div><h4 class="brand-name">{BRAND}</h4><p>Kindergarten addition packets, with more on the way.</p></div>
 <div><h4>Shop</h4><ul><li><a href="{R}index.html#packs">Kindergarten packs</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}weekly.html">Weekly plan</a></li><li><a href="{R}index.html#packs">Plans and prices</a></li></ul></div>
 <div><h4>Learn</h4><ul><li><a href="{R}our-educational-approach.html">Our Educational Approach</a></li><li><a href="{R}resources/index.html">Parent Resources</a></li><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}about.html">About</a></li></ul></div>
-<div><h4>Help</h4><ul><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}privacy.html">Privacy Policy</a></li><li><a href="{R}terms.html">Terms of Use</a></li><li><a href="{R}refund-policy.html">Refund Policy</a></li></ul></div></div>
+<div><h4>Help</h4><ul><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}privacy.html">Privacy</a></li><li><a href="{R}terms.html">Terms</a></li><li><a href="{R}refund-policy.html">Refunds</a></li><li><a href="{R}cancel.html">Cancel</a></li></ul></div></div>
 <p class="fine">© 2026 <span class="brand-name">{BRAND}</span>. For parents, caregivers, and teachers. We do not knowingly collect information from children.</p></div></footer>
 {st}<script src="{R}assets/config.js"></script><script src="{R}assets/products.js"></script><script src="{R}assets/app.js"></script>{js}</body></html>'''
     os.makedirs(os.path.dirname(fn) or ".",exist_ok=True);open(fn,"w").write(html)
@@ -129,10 +129,10 @@ def product_page(p):
 <div class="wrap crumbs"><a href="{{R}}index.html">Home</a> › <a href="{{R}}kindergarten-math.html">Kindergarten Math</a> › {d["name"]}</div>
 <section class="tight"><div class="wrap prod-top">
 <div class="gallery">{gallery}</div>
-<div class="buybox"><span class="{p["bc"]}">{p["lv"]}</span><h1>{d["name"]}</h1><p>{p["summary"]}</p>
-<p class="price">${d["price"]} <small>One-time price</small></p>
+<div class="buybox" data-pixel-view data-content-name="{d["name"]}" data-checkout="{d["checkout"]}"><span class="{p["bc"]}">{p["lv"]}</span><h1>{d["name"]}</h1><p>{p["summary"]}</p>
+<p class="price">${d["price"]} <small class="tax">(+ tax where applicable)</small></p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
-<button type="button" class="btn buy" data-checkout="{d["checkout"]}" data-label="Buy now: ${d["price"]}">Checkout opens soon</button>
+<a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{d["name"]}" data-value="{d["price"]}" data-label="Buy now: ${d["price"]}">Checkout opens soon</a>
 </div></div></section>
 <section class="tight white"><div class="wrap"><h2>About this pack</h2><div class="facts">{facts}</div></div></section>
 <section class="tight"><div class="wrap prose"><h2>Questions parents ask</h2>{qa(p)}</div></section>
@@ -141,22 +141,20 @@ def product_page(p):
 for p in prods:
     product_page(p)
 
-RENEW="$3.99 a month, renews automatically each month until you cancel. Cancel anytime online in a couple of clicks."
-SUB_BTN=f'''<button type="button" class="btn buy" data-subscribe="weekly" data-label="Start weekly · $3.99/mo">Checkout opens soon</button>
-<p class="renew-note">{RENEW}</p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>'''
+DISCLOSURE='''<p class="renew-note"><strong>$3.99/month (+ tax where applicable). Renews automatically every month until you cancel.</strong> You get this month's kindergarten math packets right away, then a new packet every Monday. Cancel anytime online in a few clicks, or by email. Cancelling stops billing and ends access right away, so download packets you want to keep first. <a href="{R}cancel.html">How to cancel</a>.</p>'''
 
-page("weekly.html",f"{BRAND} Weekly","A new kindergarten math packet every week for $3.99 a month, plus this month's packets right away. Cancel anytime. Checkout opens soon.",f'''
-<section class="tight"><div class="wrap" style="max-width:720px"><span class="badge">Weekly</span>
-<h1>A new kindergarten math packet every week</h1>
-<p class="lead">Single pack: one level, $3.99 once, yours to keep. Weekly: a new kindergarten packet every week for $3.99/mo, plus this month's packets right away, cancel anytime.</p>
-<p class="which"><strong>Which is right for me?</strong> Pick Weekly if you want the next packet waiting. Pick one pack if you want a single level today.</p>
-<p class="price">$3.99<span class="per">/mo</span></p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
-<button type="button" class="btn buy" data-subscribe="weekly" data-label="Start weekly · $3.99/mo">Checkout opens soon</button>
-<p class="renew-note">{RENEW}</p>
+page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets right away, then a new packet every Monday. $3.99 a month, plus tax where applicable. Cancel anytime online. Access ends when you cancel.",f'''
+<section class="tight"><div class="wrap" style="max-width:720px" data-pixel-view data-content-name="Weekly Packet Plan: Kindergarten Math" data-subscribe="weekly"><span class="badge">Weekly</span>
+<h1>Weekly Packet Plan: Kindergarten Math</h1>
+<p class="lead">Get this month's packets right away, then a new printable packet every Monday. Renews monthly until you cancel. Cancel anytime online in a few clicks, or by email. Access ends when you cancel.</p>
+<p class="which"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p>
+<p class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></p>
+<p class="owner-ph">[OWNER: each weekly packet, for example 5 practice pages + 1 answer key + a short parent note. Put the exact count here.]</p>
 <p>Reading and other grades are coming next. <a href="index.html#packs">See the three kindergarten packs</a>.</p>
-<p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a></p>
+<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+{DISCLOSURE}
+<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Packet Plan: Kindergarten Math" data-value="3.99" data-label="Start weekly · $3.99/mo">Checkout opens soon</a>
+<p><a href="terms.html#6-the-weekly-packet-plan-subscription">Terms</a> · <a href="refund-policy.html">Refunds</a> · <a href="cancel.html">Cancel</a></p>
 </div></section>''')
 
 page("products/k-addition-bundle.html","Weekly plan","The old three-level page now points to the weekly plan.",'''
@@ -175,7 +173,7 @@ page("kindergarten-math.html","Kindergarten Addition Packs","Three kindergarten 
 <section class="tight white"><div class="wrap"><h2>Your child’s next steps, already organized.</h2>
 <ol class="step-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
 <div class="grid g3" style="margin-top:28px">{cards}</div>
-<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>A new kindergarten math packet every week</h3><p>Single pack: one level, $3.99 once, yours to keep. Weekly: a new kindergarten packet every week for $3.99/mo, plus this month's packets right away, cancel anytime.</p></div><div><span class="price">$3.99<span class="per">/mo</span></span> <a class="btn buy" href="weekly.html">See the weekly plan</a></div></div></div></section>
+<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>Weekly Packet Plan: Kindergarten Math</h3><p>This month's packets right away, then a new packet every Monday. $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p></div><div><span class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></span> <a class="btn" href="weekly.html">See the weekly plan</a></div></div></div></section>
 <section class="tight"><div class="wrap"><h2>Coming soon</h2>
 <div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
 <div class="card"><span class="badge soon">Coming soon</span><h3>Counting and numbers</h3><p>Counting objects and reading numbers.</p></div>
@@ -251,32 +249,30 @@ faqs=[
 ("How much help should I give?","Show one example, try the next one together, then let your child try. That is scaffolding: help first, then fade the help. You do not need to give every answer."),
 ("When should we move forward?","Move on when this step feels comfortable with little help, not after one easy page. The IES early-math guide says a child should be comfortable with an earlier step before a harder one."),
 ("Why an organized pack instead of a loose page?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker."),
-("How do I choose a grade?","Use Choose a Grade on the homepage. Pick the grade, then Math or Reading, then a skill. Kindergarten addition is available now. Every other path says Coming soon and points to the weekly plan."),
+("How do I choose a grade?","Start with the three kindergarten addition packs. Each one says what your child should already be able to do. Other grades are coming next."),
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
-("How do I get files after purchase?","You get a PDF to print at home after you pay."),
+("How do I get files after purchase?","Payhip shows a download page and emails a receipt from contact@payhip.com. Check spam if you do not see it. The weekly plan lives in your Payhip members area. If a link stops working, email us and we reply within 1 business day."),
 ("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
-("Is there a weekly plan?","Yes. Single pack: one level, $3.99 once, yours to keep. Weekly: a new kindergarten math packet every week for $3.99/mo, plus this month's packets right away, cancel anytime. It renews each month until you cancel. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
+("Is there a weekly plan?","Yes. Weekly Packet Plan: Kindergarten Math, $3.99/month (+ tax where applicable). You get this month's packets right away, then a new packet every Monday. It renews monthly until you cancel. Cancel anytime online. Access ends when you cancel, so download packets first. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
 ("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
 ("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),
 ("Do you offer refunds?","Yes, in certain situations. See our Refund Policy."),
 ("Do you collect information from children?","No. This site is for adults. We do not knowingly collect personal information from children.")]
-prose("faq.html","Questions Parents Ask","Plain answers about difficulty, help at home, moving forward, downloads, and policies.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+'</div><p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refund Policy</a> · <a href="contact.html">Contact</a> · <a href="index.html#grades">Choose a grade</a></p>')
-prose("contact.html","Contact Us","Questions about a worksheet, a download, or a skill you want us to make.",f'''<p class="lead">Questions about a level, a download, or a skill you would like us to make? We would like to hear from you.</p><p>Email: <a class="site-email" href="mailto:{EMAIL}">{EMAIL}</a></p>
+prose("faq.html","Questions Parents Ask","Plain answers about difficulty, help at home, moving forward, downloads, and policies.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+'</div><p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refunds</a> · <a href="cancel.html">Cancel</a> · <a href="contact.html">Contact</a></p>')
+prose("contact.html","Contact Us","Questions about a worksheet, a download, or a skill you want us to make. We reply within 1 business day.",f'''<p class="lead">Questions about a level, a download, or a skill you would like us to make? We would like to hear from you.</p><p>Email: <a class="site-email" href="mailto:{EMAIL}">{EMAIL}</a></p>
+<p>We reply <span class="reply-time">within 1 business day</span>.</p>
 <p><small>For parents, caregivers, and teachers only.</small></p>''')
-DRAFT='<p class="notice">Draft placeholder. Have this reviewed by a qualified professional before launch.</p>'
-prose("privacy.html","Privacy Policy","Privacy policy.",DRAFT+'''<p>Last updated: TBD</p><h2>What we collect</h2><p>If you join our email list or contact us, we collect your email address and anything you choose to send. When checkout launches, payments will be processed by a third-party provider. We won't store your card details.</p>
-<h2>Children</h2><p>Our site is meant for adults. We do not knowingly collect personal information from children under 13. If you think a child has given us information, contact us and we'll delete it.</p>
-<h2>Analytics</h2><p>We may use basic analytics and advertising pixels to understand site traffic. Details will be listed here before they're enabled.</p><h2>Your choices</h2><p>You can unsubscribe from emails at any time and ask us to delete your data.</p>''')
-prose("terms.html","Terms of Use","Terms of use and license.",DRAFT+'''<p>Last updated: TBD</p><h2>License</h2><p>When you buy or download a worksheet, you get a personal license to print it for your own children, homeschool, or single classroom.</p><h2>Not permitted</h2><p>Reselling, redistributing, uploading to shared sites, or claiming the content as your own.</p>
-<h2>Educational information</h2><p>These are practice materials. We make no guarantee of specific academic results. These sources have not endorsed these products.</p>
-<h2>Weekly plan</h2>
-<p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month. The plan is a new printable math or reading packet each week, for a grade you pick, from Preschool through 2nd grade.</p>
-<p><strong>Billing.</strong> $3.99 is charged once each month. Billing starts only when checkout is open. Until then, no payment is taken.</p>
-<p><strong>Auto-renew.</strong> The plan renews automatically each month until you cancel. We will not start a new charge after you cancel.</p>
-<p><strong>How to cancel.</strong> You can cancel anytime online in a couple of clicks. When billing is open, the email that comes with each charge will include a cancel link. There is no app, and there is no separate account page.</p>
-<p><strong>After you cancel.</strong> The next month is not charged. Packets you already downloaded stay yours to print for your own children, homeschool, or single classroom, under the license above. New packets stop. Canceling does not by itself refund a month you already paid. See the Refund Policy.</p>''')
-prose("refund-policy.html","Refund Policy","Refund policy for digital downloads and the weekly plan.",DRAFT+'''<p>Last updated: TBD</p><p>Because our products are digital downloads, sales are generally final. If a file is broken, won't download, or doesn't match its description, contact us within 14 days and we'll fix it or refund you.</p>
-<h2>Weekly plan</h2>
-<p><span class="brand-name">{BRAND}</span> Weekly is $3.99 a month and renews automatically until you cancel. You can cancel anytime online in a couple of clicks. Canceling stops the next monthly charge. It does not refund a month that was already paid, unless a packet from that month is broken, will not download, or does not match its description. Contact us within 14 days of that packet and we will fix it or refund that charge.</p>
-<p>Packets you already downloaded stay yours to print under the license in the Terms. New packets stop after you cancel. There is no app.</p>''')
+def legal(fn,title,desc):
+    prose(fn,title,desc,open("assets/legal/"+fn.replace(".html",".body.html")).read())
+legal("privacy.html","Privacy Policy","What Proud Little Learners collects, why, and who we share it with. We do not sell personal information.")
+legal("terms.html","Terms of Sale and Use","Terms for printable kindergarten packs and the weekly plan, including renewal, cancellation, and the license.")
+legal("refund-policy.html","Refund Policy","Refunds when a file is broken or not as described, and how weekly-plan charges are handled.")
+prose("cancel.html","Cancel the weekly plan","Cancel the kindergarten weekly plan online, or email us. Access ends when you cancel, so download packets first.",'''
+<p class="lead">Cancelling stops access right away. Download any packets you want to keep first. Packets you already saved stay yours.</p>
+<ol class="plain-steps" aria-label="How to cancel"><li>Sign in</li><li>Settings</li><li>Subscriptions</li><li>Cancel</li></ol>
+<div class="cancel-actions"><a class="btn buy" data-signin>Sign in to cancel</a>
+<a class="btn alt" data-email-cancel href="mailto:hello@proudlittlelearners.com?subject=Cancel%20my%20Weekly%20Packet%20Plan">Email us to cancel</a></div>
+<p class="signin-note" hidden></p>
+<p>Email us with the word “Cancel” and the email address you used. We cancel within 1 business day and confirm by email. You do not need to give a reason.</p>
+<p><a href="terms.html#6-the-weekly-packet-plan-subscription">Weekly plan terms</a> · <a href="refund-policy.html">Refunds</a></p>''')
 print("built")

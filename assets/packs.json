@@ -14,8 +14,8 @@
     "shipping": "Digital download. No physical item will be shipped.",
     "materials": "A printer, paper, a pencil, and small counters such as buttons or cereal.",
     "license": "Print for your own children, your homeschool, or a single classroom.",
-    "delivery": "When checkout is open, you get a download link after payment.",
-    "help": "Questions go to the contact page."
+    "delivery": "After you pay, Payhip shows a download page and emails a receipt from contact@payhip.com. Each link allows 10 downloads.",
+    "help": "Email hello@proudlittlelearners.com. We reply within 1 business day."
   },
   "intermediate": {
     "name": "Intermediate: Adding within 10",
@@ -32,8 +32,8 @@
     "shipping": "Digital download. No physical item will be shipped.",
     "materials": "A printer, paper, a pencil, and small counters such as buttons or cereal.",
     "license": "Print for your own children, your homeschool, or a single classroom.",
-    "delivery": "When checkout is open, you get a download link after payment.",
-    "help": "Questions go to the contact page."
+    "delivery": "After you pay, Payhip shows a download page and emails a receipt from contact@payhip.com. Each link allows 10 downloads.",
+    "help": "Email hello@proudlittlelearners.com. We reply within 1 business day."
   },
   "advanced": {
     "name": "Advanced: Story problems within 10",
@@ -50,7 +50,7 @@
     "shipping": "Digital download. No physical item will be shipped.",
     "materials": "A printer, paper, a pencil, and small counters such as buttons or cereal.",
     "license": "Print for your own children, your homeschool, or a single classroom.",
-    "delivery": "When checkout is open, you get a download link after payment.",
-    "help": "Questions go to the contact page."
+    "delivery": "After you pay, Payhip shows a download page and emails a receipt from contact@payhip.com. Each link allows 10 downloads.",
+    "help": "Email hello@proudlittlelearners.com. We reply within 1 business day."
   }
 }

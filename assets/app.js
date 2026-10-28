@@ -3,37 +3,85 @@
  document.querySelectorAll('.brand-name').forEach(e=>e.textContent=S.brand);
  document.querySelectorAll('.status-line').forEach(e=>{if(S.availability)e.textContent=S.availability;});
  document.querySelectorAll('.site-email').forEach(e=>{e.textContent=S.email;e.href='mailto:'+S.email});
+ document.querySelectorAll('.reply-time').forEach(e=>{if(S.replyTime)e.textContent=S.replyTime;});
  const t=document.querySelector('.nav-toggle'),n=document.querySelector('.nav-links');
  if(t&&n)t.addEventListener('click',()=>{const o=n.classList.toggle('open');t.setAttribute('aria-expanded',o);t.textContent=o?'Close':'Menu';document.body.classList.toggle('menu-open',o)});
  if(n)n.addEventListener('click',e=>{if(e.target.closest('a')){n.classList.remove('open');document.body.classList.remove('menu-open');if(t){t.setAttribute('aria-expanded','false');t.textContent='Menu';}}});
- // checkout buttons: never fake a purchase
- document.querySelectorAll('[data-checkout]').forEach(b=>{
-  const href=b.getAttribute('href');
-  const real=b.tagName==='A'&&href&&href!=='#';
-  if(S.checkoutUrl){
-   const url=S.checkoutUrl+(S.checkoutUrl.includes('?')?'&':'?')+'product='+encodeURIComponent(b.dataset.checkout);
-   if(b.tagName==='A')b.href=url;
-   b.textContent=b.dataset.label||'Buy now';
-  }else if(!real){
-   if(b.tagName==='A')b.removeAttribute('href');
-   b.classList.add('disabled');b.setAttribute('aria-disabled','true');b.textContent='Checkout opens soon';
-   b.addEventListener('click',e=>e.preventDefault());
+ function payhipKey(raw){
+  const v=String(raw||"").trim();
+  if(!v)return "";
+  if(/^https?:\/\//i.test(v)){
+   try{
+    const u=new URL(v);
+    const q=u.searchParams.get("link");
+    if(q)return q;
+    const parts=u.pathname.split("/").filter(Boolean);
+    if((parts[0]==="b"||parts[0]==="buy")&&parts[1])return parts[1];
+   }catch(e){}
+   return "";
   }
- });
- // Weekly plan: subscriptionUrl is the switch. Empty never starts a charge.
- document.querySelectorAll('[data-subscribe]').forEach(b=>{
-  if(S.subscriptionUrl){
-   b.textContent=b.dataset.label||'Subscribe';
-   b.classList.remove('disabled');
-   b.removeAttribute('aria-disabled');
-   b.addEventListener('click',()=>{location.href=S.subscriptionUrl;});
+  return v;
+ }
+ function payhipHref(raw){
+  const key=payhipKey(raw);
+  return key?"https://payhip.com/buy?link="+encodeURIComponent(key):"";
+ }
+ function trackBuy(el,key){
+  if(typeof fbq!=="function"||!key)return;
+  fbq("trackCustom","BuyClick",{content_name:el.dataset.contentName||"",content_ids:[key],value:3.99,currency:"USD"});
+ }
+ function armBuy(el,raw){
+  const href=payhipHref(raw),key=payhipKey(raw);
+  if(href){
+   el.href=href;
+   el.classList.remove("disabled");
+   el.removeAttribute("aria-disabled");
+   el.textContent=el.dataset.label||"Buy now";
+   el.addEventListener("click",()=>trackBuy(el,key));
   }else{
-   b.classList.add('disabled');
-   b.setAttribute('aria-disabled','true');
-   b.textContent='Checkout opens soon';
-   b.addEventListener('click',e=>e.preventDefault());
+   el.removeAttribute("href");
+   el.classList.add("disabled");
+   el.setAttribute("aria-disabled","true");
+   el.textContent="Checkout opens soon";
+   el.addEventListener("click",e=>e.preventDefault());
+  }
+ }
+ const urls=S.checkoutUrls||{};
+ document.querySelectorAll("[data-checkout].btn").forEach(el=>armBuy(el,urls[el.dataset.checkout]||""));
+ document.querySelectorAll("[data-subscribe].btn").forEach(el=>armBuy(el,S.subscriptionUrl||""));
+ document.querySelectorAll("[data-signin]").forEach(el=>{
+  const url=String(S.storeSignInUrl||"").trim();
+  const note=document.querySelector(".signin-note");
+  if(/^https?:\/\//i.test(url)){
+   el.href=url;
+   el.classList.remove("disabled");
+   el.removeAttribute("aria-disabled");
+   if(note)note.hidden=true;
+  }else{
+   el.removeAttribute("href");
+   el.classList.add("disabled");
+   el.setAttribute("aria-disabled","true");
+   el.addEventListener("click",e=>e.preventDefault());
+   if(note){note.hidden=false;note.textContent="The sign-in link will appear here when the store account is connected. Email us and we will cancel for you.";}
   }
  });
+ document.querySelectorAll("[data-email-cancel]").forEach(el=>{
+  if(!S.email)return;
+  el.href="mailto:"+S.email+"?subject="+encodeURIComponent("Cancel my Weekly Packet Plan");
+ });
+ if(S.metaPixelId&&/^\d{5,20}$/.test(String(S.metaPixelId))){
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+  fbq("init",String(S.metaPixelId));
+  fbq("track","PageView");
+  const view=document.querySelector("[data-pixel-view]");
+  if(view){
+   const raw=view.dataset.subscribe?S.subscriptionUrl:(urls[view.dataset.checkout]||"");
+   const key=payhipKey(raw);
+   const payload={content_name:view.dataset.contentName||view.dataset.subscribe||"",value:3.99,currency:"USD"};
+   if(key)payload.content_ids=[key];
+   fbq("track","ViewContent",payload);
+  }
+ }
  // grade → subject → skill → pack. Nothing is preselected.
  const chooser=document.getElementById('chooser');
  if(chooser){
