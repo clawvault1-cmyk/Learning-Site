@@ -9,14 +9,14 @@
  if(n)n.addEventListener('click',e=>{if(e.target.closest('a')){n.classList.remove('open');document.body.classList.remove('menu-open');if(t)t.setAttribute('aria-expanded','false');}});
  document.querySelectorAll(".gallery").forEach(g=>{
   const track=g.querySelector(".slides");
-  const thumbs=[...g.querySelectorAll(".thumb")];
   if(!track)return;
-  function go(i){track.scrollTo({left:i*track.clientWidth,behavior:"smooth"});}
+  const slides=[...track.children],thumbs=[...g.querySelectorAll(".thumb")],dots=[...g.querySelectorAll(".dot")],count=g.querySelector(".gal-count");
+  const step=()=>{const w=slides[0]?slides[0].getBoundingClientRect().width:track.clientWidth;const gap=parseFloat(getComputedStyle(track).columnGap)||parseFloat(getComputedStyle(track).gap)||0;return Math.max(w+gap,1);};
+  const mark=i=>{thumbs.forEach((b,n)=>b.classList.toggle("on",n===i));dots.forEach((b,n)=>b.classList.toggle("on",n===i));if(count)count.textContent=(i+1)+" / "+slides.length;};
+  const go=i=>track.scrollTo({left:i*step(),behavior:"smooth"});
   thumbs.forEach((b,i)=>b.addEventListener("click",()=>go(i)));
-  track.addEventListener("scroll",()=>{
-   const i=Math.round(track.scrollLeft/Math.max(track.clientWidth,1));
-   thumbs.forEach((b,n)=>b.classList.toggle("on",n===i));
-  },{passive:true});
+  dots.forEach((b,i)=>b.addEventListener("click",()=>go(i)));
+  track.addEventListener("scroll",()=>mark(Math.round(track.scrollLeft/step())),{passive:true});
  });
  function payhipKey(raw){
   const v=String(raw||"").trim();
@@ -57,6 +57,8 @@
    el.addEventListener("click",e=>e.preventDefault());
   }
  }
+ const mainBuy=document.querySelector(".buybox .btn.buy"),bar=document.querySelector(".buybar");
+ if(mainBuy&&bar)new IntersectionObserver(([e])=>{bar.hidden=e.isIntersecting;}).observe(mainBuy);
  const urls=S.checkoutUrls||{};
  document.querySelectorAll("[data-checkout].btn").forEach(el=>armBuy(el,urls[el.dataset.checkout]||""));
  document.querySelectorAll("[data-subscribe].btn").forEach(el=>armBuy(el,S.subscriptionUrl||""));

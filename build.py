@@ -121,18 +121,21 @@ def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False):
     lazy_attr=' loading="lazy" decoding="async"' if lazy else ""
     return (f'<img src="{{R}}assets/img/packs/{slug}/{stem}-{default}.webp" srcset="{art_srcset(slug, stem, widths)}" sizes="{sizes}" alt="{alt}" width="{w}" height="{h}"{lazy_attr}>')
 def slide_gallery(slug, name, attrs, interiors=True):
-    items=[("cover-4x3", name, 1600, 1200, COVER_WIDTHS, f"assets/img/packs/{slug}/cover-1x1-600.webp")]
+    items=[("cover-4x3", name, 1600, 1200, COVER_WIDTHS, f"assets/img/packs/{slug}/cover-1x1-600.webp", "cover")]
     if interiors:
-        items.append(("guide", "Parent guide", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/guide-480.webp"))
+        items.append(("guide", "Parent guide", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/guide-480.webp", "page"))
         for n in range(1,6):
-            items.append((f"interior-{n:02d}", "Practice page", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp"))
-        items.append(("tracker", "Progress tracker", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/tracker-480.webp"))
-    slides=[]; thumbs=[]
-    for i,(stem,alt,w,h,widths,thumb) in enumerate(items):
-        slides.append(art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0))
+            items.append((f"interior-{n:02d}", "Practice page", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp", "page"))
+        items.append(("tracker", "Progress tracker", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/tracker-480.webp", "page"))
+    slides=[]; thumbs=[]; dots=[]
+    for i,(stem,alt,w,h,widths,thumb,kind) in enumerate(items):
+        slides.append(f'<div class="slide {kind}">{art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0)}</div>')
         thumbs.append(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{thumb}" alt=""></button>')
-    thumb_row=f'<div class="thumbs">{"".join(thumbs)}</div>' if len(items)>1 else ""
-    return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div>{thumb_row}</div>'
+        dots.append(f'<button type="button" class="dot{" on" if i==0 else ""}" data-i="{i}" aria-label="Page {i+1}"></button>')
+    n=len(items)
+    thumb_row=f'<div class="thumbs">{"".join(thumbs)}</div>' if n>1 else ""
+    nav=f'<div class="gal-nav"><div class="dots">{"".join(dots)}</div><p class="gal-count">1 / {n}</p></div>' if n>1 else ""
+    return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div>{nav}{thumb_row}</div>'
 def og_for(slug):
     path=f"assets/img/packs/{slug}/cover-4x3-1600.webp"
     return (f"https://proudlittlelearners.com/{path}", 1600, 1200, path)
@@ -184,25 +187,34 @@ def product_page(p):
     d=PACKS[p["slug"]]
     gallery=slide_gallery(p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"')
     og_url,og_w,og_h,og_path=og_for(p["slug"])
-    others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES, lazy=True)}</span><p class="test">{COPY[o["slug"]]["ask"]}</p><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
+    others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "interior-01", PAGE_WIDTHS, 1200, 1553, "", "(min-width:768px) 240px, 42vw", lazy=True)}</span><p class="test">{COPY[o["slug"]]["ask"]}</p><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
     ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":og_url,"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
+    buy=f'<a class="btn buy" aria-disabled="true" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>'
     page(f"products/k-addition-{p['slug']}.html", c["title"], c["desc"], f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="product-top"><div class="wrap prod-top">
 {gallery}
 <div class="buybox"><h1>{c["name"]}</h1><p class="test">{c["test"]}</p><p>{c["sub"]}</p>
 <p class="price price-lg">$3.99</p>
-<a class="btn buy" aria-disabled="true" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
+{buy}
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>What's inside</h2>
-<ul class="ticks"><li>18 practice pages, easy to harder</li><li>An answer key for every page</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</li><li class="has-shot"><img class="shot" src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</li><li>Color cover. Black-and-white pages save ink.</li><li>You'll need a pencil and some cereal or toys.</li></ul>
-<p class="micro">Instant download. Print for your family or one classroom.</p></div></section>
-<section class="sec alt"><div class="wrap prose"><h2>What you say</h2><blockquote>{c["quote"]}</blockquote><p>{c["says"]}</p>
-<h2>When to move up</h2><p>{c["move"]}</p>
+<div class="inside-grid">
+<div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/interior-01-480.webp" alt="" width="480" height="621">18 practice pages, easy to harder</div>
+<div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/interior-02-480.webp" alt="" width="480" height="621">An answer key for every page</div>
+<div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</div>
+<div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</div>
+</div>
+<p class="micro">Color cover. Black-and-white pages save ink.</p>
+<p class="micro">You'll need a pencil and some cereal or toys.</p>
+<p class="micro">Instant download. Print for your family or one classroom.</p>
+<details class="details"><summary>What you say</summary><blockquote>{c["quote"]}</blockquote><p>{c["says"]}</p></details>
+<details class="details"><summary>When to move up</summary><p>{c["move"]}</p></details>
 </div></section>
 <section class="sec"><div class="wrap"><h2>Other packs</h2><div class="level-grid">{others}</div>
 </div></section>
-<script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h))
+<div class="buybar" hidden><span class="buybar-price">$3.99</span>{buy}</div>
+<script type="application/ld+json">{ld}</script>''', og=(og_url, og_w, og_h), cls="product")
 for p in prods:
     product_page(p)
 
@@ -212,6 +224,7 @@ WEEKS=[
 wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False)
 wog_url,wog_w,wog_h,_=og_for("weekly")
 weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
+wbuy='<a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>'
 page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday. $3.99/month.",f'''
 <div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="product-top"><div class="wrap prod-top">
@@ -219,16 +232,17 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
 <p>A new packet every Monday: counting, shapes, adding, and more. Get this month's packets today.</p>
 <p class="price price-lg">$3.99/month</p>
-<a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
+{wbuy}
 <p class="cancel-line">Renews monthly until you cancel. Cancel online anytime.</p>
 <p class="cancel-line">Access ends when you cancel. New members: full refund within 7 days.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>In each packet</h2>
 <p>7 or 8 practice pages, answer keys, a 1-page parent note, and a tracker.</p>
-<h2>The first 8 weeks</h2>
-<ol class="week-grid">{weeklist}</ol>
+<details class="details"><summary>The first 8 weeks</summary>
+<ol class="week-grid">{weeklist}</ol></details>
 <p>Want to focus on adding? <a href="{{R}}index.html#packs">See the packs.</a></p>
-</div></section>''', og=(wog_url, wog_w, wog_h))
+</div></section>
+<div class="buybar" hidden><span class="buybar-price">$3.99/month</span>{wbuy}</div>''', og=(wog_url, wog_w, wog_h), cls="product")
 
 moved='''
 <section class="tight"><div class="wrap prose"><h1>This page moved</h1>
@@ -242,13 +256,14 @@ head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="
 cards=""
 for slug in ("beginner","intermediate","advanced"):
     c=COPY[slug]
-    cover=art_img(slug, "cover-4x3", COVER_WIDTHS, 1600, 1200, "", CARD_SIZES)
-    cards+=f'<article class="pack-card"><a class="mock" href="products/k-addition-{slug}.html">{cover}</a><div class="card-copy"><p class="test">{c["ask"]}</p><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p class="facts">{c["facts"]}</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
+    shot=art_img(slug, "interior-01", PAGE_WIDTHS, 1200, 1553, "", "(min-width:1024px) 360px, 120px")
+    cards+=f'<article class="pack-card lv-{slug}"><a class="mock" href="products/k-addition-{slug}.html">{shot}</a><div class="card-copy"><p class="test">{c["ask"]}</p><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p class="facts">{c["facts"]}</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
+wshot=art_img("weekly", "cover-4x3", COVER_WIDTHS, 1600, 1200, "Weekly Kindergarten Math Plan", "(min-width:768px) 240px, 120px", lazy=True)
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Which one fits?</h1>
 <p class="lead">Try these with real toys. Pick the last one your child gets right.</p>
 <div class="pack-grid">{cards}</div>
-<div class="card weekly-extra"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday: counting, shapes, adding, and more.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
+<article class="plan-card weekly-extra"><a class="mock" href="weekly.html">{wshot}</a><div class="card-copy"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday: counting, shapes, adding, and more.</p><p class="price">$3.99/month</p></div><div class="card-actions"><a class="btn" href="weekly.html">See the weekly plan</a></div></article>
 </div></section>''')
 
 def prose(fn,title,desc,inner,h1=None):
