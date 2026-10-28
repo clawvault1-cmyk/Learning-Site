@@ -89,13 +89,41 @@ def qa(p):
 <h3>When should we repeat a skill, and when should we move on?</h3><p>{p["repeat"]}</p>
 <h3>What’s included?</h3>
 <ul class="ticks"><li>Where to start</li><li>Pages in order</li><li>A parent prompt</li><li>An answer key</li><li>A progress tracker</li><li>Black-and-white PDF for US Letter paper</li></ul>
-<p class="micro">Page count will be listed with the final file.</p>
+<p class="micro">{BY[p["checkout"]]["practicePages"]} practice pages, with a matching answer key for each one.</p>
 <aside class="standards-note"><h3>Learning goals</h3><p>{p["standards"]} <a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core kindergarten addition</a>.</p></aside>'''
 
 PACKS=json.load(open("assets/packs.json"))
+FILE=json.load(open("packs/packs.json"))
+BY={item["id"]:item for item in FILE["packs"]}
+def preview_kind(path):
+    for key,label in (("cover","Cover"),("guide","Parent guide"),("tracker","Progress tracker"),("practice","Practice page")):
+        if key in path: return label
+    return "Page"
+def pick_previews(paths):
+    pngs=[p for p in paths if p.endswith(".png")]
+    chosen=[]
+    for key in ("cover","practice","guide","tracker"):
+        hits=[p for p in pngs if key in p]
+        if hits: chosen.append(hits[0])
+    return chosen
+def support_sentence(src):
+    s=src["supportingPages"]
+    bits=[f'{src["answerPages"]} answer-key pages']
+    if s.get("guide"):
+        n=s["guide"]
+        bits.append("a parent guide" if n==1 else f"a {n}-page parent guide")
+    if s.get("parentNote"): bits.append("a parent note")
+    if s.get("cover"): bits.append("a cover")
+    if s.get("tracker"): bits.append("a tracker")
+    if s.get("certificate"): bits.append("a certificate")
+    return ", ".join(bits)
 def product_page(p):
-    d=PACKS[p["slug"]]
-    gallery="".join(f'<img src="{{R}}{src}" alt="Preview placeholder for {d["name"]}" width="800" height="1000" loading="lazy" decoding="async">' for src in d["previews"])
+    d=dict(PACKS[p["slug"]])
+    src=BY[d["checkout"]]
+    d["activityPages"]=f'{src["practicePages"]} practice pages'
+    d["supportingPages"]=support_sentence(src)
+    d["previews"]=pick_previews(src["previewImages"])
+    gallery="".join(f'<img src="{{R}}{path}" alt="{preview_kind(path)} from {d["name"]}" width="800" height="1000" loading="lazy" decoding="async">' for path in d["previews"])
     facts="".join(f'<div><h3>{h}</h3><p>{d[k]}</p></div>' for h,k in [
         ("Activity pages", "activityPages"),
         ("Supporting pages", "supportingPages"),
@@ -136,6 +164,7 @@ def product_page(p):
 for p in prods:
     product_page(p)
 
+WEEK_LIST="".join(f'<li>Week {w["week"]}: {w["name"]}</li>' for w in FILE["weekly"])
 DISCLOSURE='''<p class="renew-note"><strong>$3.99/month (+ tax where applicable). Renews automatically every month until you cancel.</strong> You get this month's kindergarten math packets right away, then a new packet every Monday. Cancel anytime online in a few clicks, or by email. Cancelling stops billing and ends access right away, so download packets you want to keep first. <a href="{R}cancel.html">How to cancel</a>.</p>'''
 
 page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets right away, then a new packet every Monday. $3.99 a month, plus tax where applicable. Cancel anytime online. Access ends when you cancel.",f'''
@@ -144,7 +173,8 @@ page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets
 <p class="lead">Get this month's packets right away, then a new printable packet every Monday. Renews monthly until you cancel. Cancel anytime online in a few clicks, or by email. Access ends when you cancel.</p>
 <p class="which"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month (+ tax where applicable). Cancel anytime online. Access ends when you cancel.</p>
 <p class="price">$3.99<span class="per">/mo</span> <small class="tax">(+ tax where applicable)</small></p>
-<p class="owner-ph">[OWNER: each weekly packet, for example 5 practice pages + 1 answer key + a short parent note. Put the exact count here.]</p>
+<p>Eight kindergarten packets are written. Each one has 7 or 8 practice pages, a matching answer key, a short parent note, and a tracker.</p>
+<ul class="ticks">{WEEK_LIST}</ul>
 <p>Reading and other grades are coming next. <a href="index.html#packs">See the three kindergarten packs</a>.</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
 {DISCLOSURE}
@@ -247,7 +277,7 @@ faqs=[
 ("How do I choose a grade?","Start with the three kindergarten addition packs. Each one says what your child should already be able to do. Other grades are coming next."),
 ("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
 ("How do I get files after purchase?","Payhip shows a download page and emails a receipt from contact@payhip.com. Check spam if you do not see it. The weekly plan lives in your Payhip members area. If a link stops working, email us and we reply within 1 business day."),
-("How many pages are in each pack?","Page counts will be listed when each final PDF is ready."),
+("How many pages are in each pack?","Each kindergarten pack is 41 pages: 18 practice pages, 18 answer-key pages, a 2-page parent guide, a cover, a tracker, and a certificate."),
 ("Is there a weekly plan?","Yes. Weekly Packet Plan: Kindergarten Math, $3.99/month (+ tax where applicable). You get this month's packets right away, then a new packet every Monday. It renews monthly until you cancel. Cancel anytime online. Access ends when you cancel, so download packets first. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
 ("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
 ("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),

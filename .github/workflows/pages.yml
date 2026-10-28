@@ -27,6 +27,8 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Keep full packet files off the public site
+        run: find packs \( -name '*.pdf' -o -name 'contact-sheet.png' \) -delete
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
