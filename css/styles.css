@@ -113,8 +113,10 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .cancel-line{margin:12px 0 0}
 .tonight{display:grid;gap:12px;margin-top:24px}
 .tonight .card{padding:16px 20px}
-.tonight h3{margin:0 0 8px}
+.tonight h3{display:flex;align-items:center;gap:8px;margin:0 0 8px}
 .tonight p{margin:0}
+.step-n{flex:none;width:28px;height:28px;border-radius:50%;background:var(--marigold);display:grid;place-items:center;font-size:16px;line-height:1}
+a.nowrap{white-space:nowrap}
 #start p{margin-top:12px}
 #start .btn{margin-top:24px}
 .faq details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:4px 20px;margin:16px 0}
@@ -198,6 +200,10 @@ footer.site .fine{margin-top:32px;padding-top:16px;border-top:1px solid rgba(255
  .sec > .wrap > h2{text-align:center}
  .g2,.g3{grid-template-columns:1fr}
  .g4{grid-template-columns:1fr 1fr}
+}
+@media(max-width:479px){
+ .compare{grid-template-columns:1fr}
+ .compare-card .mock{height:160px}
 }
 @media(min-width:768px){
  .wrap{padding:0 32px}
