@@ -116,23 +116,33 @@ CARD_SIZES="(min-width:1024px) 360px, 92vw"
 GALLERY_SIZES="(min-width:1024px) 640px, 92vw"
 def art_srcset(slug, stem, widths):
     return ", ".join(f"{{R}}assets/img/packs/{slug}/{stem}-{w}.webp {w}w" for w in widths)
-def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False):
-    default=widths[1] if len(widths)>2 else widths[-1]
-    lazy_attr=' loading="lazy" decoding="async"' if lazy else ""
+COVER_SIZES="(min-width:1024px) 560px, 80vw"
+def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False, large=False):
+    default=widths[-1] if large else (widths[1] if len(widths)>2 else widths[-1])
+    lazy_attr=' loading="lazy" decoding="async"' if lazy else ' decoding="async"'
     return (f'<img src="{{R}}assets/img/packs/{slug}/{stem}-{default}.webp" srcset="{art_srcset(slug, stem, widths)}" sizes="{sizes}" alt="{alt}" width="{w}" height="{h}"{lazy_attr}>')
-def slide_gallery(slug, name, attrs, interiors=True):
-    items=[("cover-4x3", name, 1600, 1200, COVER_WIDTHS, f"assets/img/packs/{slug}/cover-1x1-600.webp", "cover")]
+def slide_gallery(slug, name, attrs, interiors=True, extra_pages=None):
+    specs=[("cover", name, "cover-4x3", COVER_WIDTHS, 1600, 1200, COVER_SIZES, f"assets/img/packs/{slug}/cover-1x1-600.webp", True)]
     if interiors:
-        items.append(("guide", "Parent guide", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/guide-480.webp", "page"))
+        specs.append(("page", "Parent guide", "guide", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/guide-480.webp", False))
         for n in range(1,6):
-            items.append((f"interior-{n:02d}", "Practice page", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp", "page"))
-        items.append(("tracker", "Progress tracker", 1200, 1553, PAGE_WIDTHS, f"assets/img/packs/{slug}/tracker-480.webp", "page"))
+            specs.append(("page", "Practice page", f"interior-{n:02d}", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp", False))
+        specs.append(("page", "Progress tracker", "tracker", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/tracker-480.webp", False))
+    extras=list(extra_pages or [])
+    n=len(specs)+len(extras)
     slides=[]; thumbs=[]; dots=[]
-    for i,(stem,alt,w,h,widths,thumb,kind) in enumerate(items):
-        slides.append(f'<div class="slide {kind}">{art_img(slug, stem, widths, w, h, alt, GALLERY_SIZES, lazy=i>0)}</div>')
+    i=0
+    def emit(kind, img, thumb):
+        slides.append(f'<div class="slide {kind}">{img}</div>')
         thumbs.append(f'<button type="button" class="thumb{" on" if i==0 else ""}" data-i="{i}"><img src="{{R}}{thumb}" alt=""></button>')
         dots.append(f'<button type="button" class="dot{" on" if i==0 else ""}" data-i="{i}" aria-label="Page {i+1}"></button>')
-    n=len(items)
+    for kind, alt, stem, widths, w, h, sizes, thumb, large in specs:
+        emit(kind, art_img(slug, stem, widths, w, h, alt, sizes, lazy=0<i<n-2, large=large), thumb)
+        i+=1
+    for src, alt in extras:
+        loading=' loading="lazy"' if 0<i<n-2 else ''
+        emit("page", f'<img src="{{R}}{src}" alt="{alt}" width="1200" height="1553" decoding="async"{loading}>', src)
+        i+=1
     thumb_row=f'<div class="thumbs">{"".join(thumbs)}</div>' if n>1 else ""
     nav=f'<div class="gal-nav"><div class="dots">{"".join(dots)}</div><p class="gal-count">1 / {n}</p></div>' if n>1 else ""
     return f'<div class="gallery" {attrs}><div class="gallery-main"><div class="slides">{"".join(slides)}</div></div>{nav}{thumb_row}</div>'
@@ -157,7 +167,7 @@ COPY={
   ask="Can your child count 5 toys?",
   test="Start here if your child can count 5 toys.",
   sub="Count two groups, then put them together, like 2 + 1 = 3.",
-  facts="$3.99 · 18 pages · adding up to 5",
+  detail="18 pages · adding up to 5",
   quote='"Count this group. Count the other group. Now count every object."',
   says='When the plus sign shows up: "Plus means we put the groups together."',
   move="When pages 16, 17, and 18 are right with only a little help."),
@@ -167,7 +177,7 @@ COPY={
   ask="Can your child add 2 toys and 3 toys?",
   test="Start here if your child can add 2 toys and 3 toys.",
   sub="Go from pictures to adding, like 4 + 3 = 7.",
-  facts="$3.99 · 18 pages · adding up to 10",
+  detail="18 pages · adding up to 10",
   quote='"Fill the top row first. A full top row is 5. Now count the rest."',
   says="The guide shows this on a box with 10 spaces. Fill it with cereal first.",
   move="When your child can add up to 10 with only a little help, including page 18."),
@@ -177,7 +187,7 @@ COPY={
   ask="Can your child add 4 toys and 5 toys?",
   test="Start here if your child can add 4 toys and 5 toys.",
   sub='Make 10, find missing numbers, and solve short stories you read aloud, like "3 ducks swim. 2 more come. How many now?"',
-  facts="$3.99 · 18 pages · making 10 and math stories",
+  detail="18 pages · making 10 and math stories",
   quote='"What happened?" Then ask, "How many?"',
   says="Act the story out with cereal or coins. Your child doesn't need to read.",
   move="When these pages feel easy, your child has finished all three packs."),
@@ -205,9 +215,11 @@ def product_page(p):
 <div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/guide-480.webp" alt="" width="480" height="621">A 2-page parent guide</div>
 <div class="inside-tile"><img src="{{R}}assets/img/packs/{p["slug"]}/tracker-480.webp" alt="" width="480" height="621">A tracker and a certificate</div>
 </div>
-<p class="micro">Color cover. Black-and-white pages save ink.</p>
-<p class="micro">You'll need a pencil and some cereal or toys.</p>
-<p class="micro">Instant download. Print for your family or one classroom.</p>
+<div class="inside-notes">
+<p>Color cover. Black-and-white pages save ink.</p>
+<p>You'll need a pencil and some cereal or toys.</p>
+<p>Instant download. Print for your family or one classroom.</p>
+</div>
 <details class="details"><summary>What you say</summary><blockquote>{c["quote"]}</blockquote><p>{c["says"]}</p></details>
 <details class="details"><summary>When to move up</summary><p>{c["move"]}</p></details>
 </div></section>
@@ -221,7 +233,12 @@ for p in prods:
 WEEKS=[
 "Counting to 5","Counting to 10","More and fewer","Adding within 5",
 "Story problems within 5","Adding within 10","Taking away within 5","Shapes and patterns"]
-wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False)
+wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False, extra_pages=[
+ ("packs/weekly/week-01/preview-practice-01.webp","Practice page"),
+ ("packs/weekly/week-02/preview-practice-05.webp","Practice page"),
+ ("packs/weekly/week-03/preview-practice-01.webp","Practice page"),
+ ("packs/weekly/week-01/preview-practice-05.webp","Practice page"),
+])
 wog_url,wog_w,wog_h,_=og_for("weekly")
 weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
 wbuy='<a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>'
@@ -257,8 +274,8 @@ cards=""
 for slug in ("beginner","intermediate","advanced"):
     c=COPY[slug]
     shot=art_img(slug, "interior-01", PAGE_WIDTHS, 1200, 1553, "", "(min-width:1024px) 360px, 120px")
-    cards+=f'<article class="pack-card lv-{slug}"><a class="mock" href="products/k-addition-{slug}.html">{shot}</a><div class="card-copy"><p class="test">{c["ask"]}</p><h3><a href="products/k-addition-{slug}.html">{c["name"]}</a></h3><p class="facts">{c["facts"]}</p></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
-wshot=art_img("weekly", "cover-4x3", COVER_WIDTHS, 1600, 1200, "Weekly Kindergarten Math Plan", "(min-width:768px) 240px, 120px", lazy=True)
+    cards+=f'<article class="pack-card lv-{slug}"><a class="mock" href="products/k-addition-{slug}.html">{shot}</a><div class="card-copy"><h3>{c["ask"]}</h3><p class="pack-name"><a href="products/k-addition-{slug}.html">{c["name"]}</a></p><p class="price">$3.99</p><span class="meta">{c["detail"]}</span></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
+wshot='<img src="packs/weekly/week-01/preview-practice-01.webp" alt="Weekly Kindergarten Math Plan" width="1200" height="1553" loading="lazy" decoding="async">'
 page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
 <section class="tight"><div class="wrap"><h1>Which one fits?</h1>
 <p class="lead">Try these with real toys. Pick the last one your child gets right.</p>
