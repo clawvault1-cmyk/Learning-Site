@@ -1,0 +1,449 @@
+{
+  "packs": [
+    {
+      "id": "k-add-beginner",
+      "name": "Adding within 5",
+      "totalPages": 41,
+      "practicePages": 18,
+      "answerPages": 18,
+      "supportingPages": {
+        "cover": 1,
+        "guide": 2,
+        "tracker": 1,
+        "certificate": 1
+      },
+      "skillsPracticed": [
+        "Counting one group up to 5",
+        "Counting two groups, including an empty group as 0",
+        "Combining two groups and writing the total",
+        "Writing a number sentence within 5",
+        "Solving a short read-aloud addition story within 5"
+      ],
+      "prerequisites": "Counts objects to 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/k-add-beginner/proud-little-learners-adding-within-5.pdf",
+      "previewImages": [
+        "packs/k-add-beginner/preview-cover.png",
+        "packs/k-add-beginner/preview-cover.webp",
+        "packs/k-add-beginner/preview-guide.png",
+        "packs/k-add-beginner/preview-guide.webp",
+        "packs/k-add-beginner/preview-practice-03.png",
+        "packs/k-add-beginner/preview-practice-03.webp",
+        "packs/k-add-beginner/preview-practice-07.png",
+        "packs/k-add-beginner/preview-practice-07.webp",
+        "packs/k-add-beginner/preview-practice-15.png",
+        "packs/k-add-beginner/preview-practice-15.webp",
+        "packs/k-add-beginner/preview-tracker.png",
+        "packs/k-add-beginner/preview-tracker.webp"
+      ]
+    },
+    {
+      "id": "k-add-intermediate",
+      "name": "Adding within 10",
+      "totalPages": 41,
+      "practicePages": 18,
+      "answerPages": 18,
+      "supportingPages": {
+        "cover": 1,
+        "guide": 2,
+        "tracker": 1,
+        "certificate": 1
+      },
+      "skillsPracticed": [
+        "Writing number sentences from pictures, totals growing from 5 to 10",
+        "Counting dots on a ten-frame",
+        "Adding two groups on a ten-frame within 10",
+        "Adding on a number line within 10"
+      ],
+      "prerequisites": "Comfortable adding within 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/k-add-intermediate/proud-little-learners-adding-within-10.pdf",
+      "previewImages": [
+        "packs/k-add-intermediate/preview-cover.png",
+        "packs/k-add-intermediate/preview-cover.webp",
+        "packs/k-add-intermediate/preview-guide.png",
+        "packs/k-add-intermediate/preview-guide.webp",
+        "packs/k-add-intermediate/preview-practice-04.png",
+        "packs/k-add-intermediate/preview-practice-04.webp",
+        "packs/k-add-intermediate/preview-practice-10.png",
+        "packs/k-add-intermediate/preview-practice-10.webp",
+        "packs/k-add-intermediate/preview-practice-12.png",
+        "packs/k-add-intermediate/preview-practice-12.webp",
+        "packs/k-add-intermediate/preview-tracker.png",
+        "packs/k-add-intermediate/preview-tracker.webp"
+      ]
+    },
+    {
+      "id": "k-add-advanced",
+      "name": "Story problems within 10",
+      "totalPages": 41,
+      "practicePages": 18,
+      "answerPages": 18,
+      "supportingPages": {
+        "cover": 1,
+        "guide": 2,
+        "tracker": 1,
+        "certificate": 1
+      },
+      "skillsPracticed": [
+        "Finding number partners for totals from 5 to 10",
+        "Finding a missing part",
+        "Making 10 on a ten-frame and without one",
+        "Solving short read-aloud story problems within 10",
+        "Explaining an addition sentence with a drawing"
+      ],
+      "prerequisites": "Adds within 10 with pictures.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/k-add-advanced/proud-little-learners-story-problems-within-10.pdf",
+      "previewImages": [
+        "packs/k-add-advanced/preview-cover.png",
+        "packs/k-add-advanced/preview-cover.webp",
+        "packs/k-add-advanced/preview-guide.png",
+        "packs/k-add-advanced/preview-guide.webp",
+        "packs/k-add-advanced/preview-practice-01.png",
+        "packs/k-add-advanced/preview-practice-01.webp",
+        "packs/k-add-advanced/preview-practice-11.png",
+        "packs/k-add-advanced/preview-practice-11.webp",
+        "packs/k-add-advanced/preview-practice-15.png",
+        "packs/k-add-advanced/preview-practice-15.webp",
+        "packs/k-add-advanced/preview-tracker.png",
+        "packs/k-add-advanced/preview-tracker.webp"
+      ]
+    }
+  ],
+  "weekly": [
+    {
+      "id": "week-01",
+      "name": "Counting to 5",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Counting groups up to 5",
+        "Writing a number for a group",
+        "Drawing a given number of dots",
+        "Saying the next number up to 5"
+      ],
+      "prerequisites": "Can point to objects one at a time.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-01/proud-little-learners-week-01-counting-to-5.pdf",
+      "previewImages": [
+        "packs/weekly/week-01/preview-cover.png",
+        "packs/weekly/week-01/preview-cover.webp",
+        "packs/weekly/week-01/preview-guide.png",
+        "packs/weekly/week-01/preview-guide.webp",
+        "packs/weekly/week-01/preview-practice-01.png",
+        "packs/weekly/week-01/preview-practice-01.webp",
+        "packs/weekly/week-01/preview-practice-05.png",
+        "packs/weekly/week-01/preview-practice-05.webp",
+        "packs/weekly/week-01/preview-tracker.png",
+        "packs/weekly/week-01/preview-tracker.webp"
+      ],
+      "week": 1
+    },
+    {
+      "id": "week-02",
+      "name": "Counting to 10",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Counting groups from 6 through 10",
+        "Counting dots on a ten-frame",
+        "Saying the next number up to 10"
+      ],
+      "prerequisites": "Counts objects to 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-02/proud-little-learners-week-02-counting-to-10.pdf",
+      "previewImages": [
+        "packs/weekly/week-02/preview-cover.png",
+        "packs/weekly/week-02/preview-cover.webp",
+        "packs/weekly/week-02/preview-guide.png",
+        "packs/weekly/week-02/preview-guide.webp",
+        "packs/weekly/week-02/preview-practice-05.png",
+        "packs/weekly/week-02/preview-practice-05.webp",
+        "packs/weekly/week-02/preview-practice-06.png",
+        "packs/weekly/week-02/preview-practice-06.webp",
+        "packs/weekly/week-02/preview-tracker.png",
+        "packs/weekly/week-02/preview-tracker.webp"
+      ],
+      "week": 2
+    },
+    {
+      "id": "week-03",
+      "name": "More and fewer",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Comparing two groups as more or fewer",
+        "Deciding whether two groups are the same amount",
+        "Comparing numerals up to 10"
+      ],
+      "prerequisites": "Counts objects to 10.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-03/proud-little-learners-week-03-more-and-fewer.pdf",
+      "previewImages": [
+        "packs/weekly/week-03/preview-cover.png",
+        "packs/weekly/week-03/preview-cover.webp",
+        "packs/weekly/week-03/preview-guide.png",
+        "packs/weekly/week-03/preview-guide.webp",
+        "packs/weekly/week-03/preview-practice-01.png",
+        "packs/weekly/week-03/preview-practice-01.webp",
+        "packs/weekly/week-03/preview-practice-06.png",
+        "packs/weekly/week-03/preview-practice-06.webp",
+        "packs/weekly/week-03/preview-tracker.png",
+        "packs/weekly/week-03/preview-tracker.webp"
+      ],
+      "week": 3
+    },
+    {
+      "id": "week-04",
+      "name": "Adding within 5",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Counting two groups without adding",
+        "Combining groups to totals of 3, then 4, then 5",
+        "Finishing a number sentence within 5"
+      ],
+      "prerequisites": "Counts objects to 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-04/proud-little-learners-week-04-adding-within-5.pdf",
+      "previewImages": [
+        "packs/weekly/week-04/preview-cover.png",
+        "packs/weekly/week-04/preview-cover.webp",
+        "packs/weekly/week-04/preview-guide.png",
+        "packs/weekly/week-04/preview-guide.webp",
+        "packs/weekly/week-04/preview-practice-02.png",
+        "packs/weekly/week-04/preview-practice-02.webp",
+        "packs/weekly/week-04/preview-practice-06.png",
+        "packs/weekly/week-04/preview-practice-06.webp",
+        "packs/weekly/week-04/preview-tracker.png",
+        "packs/weekly/week-04/preview-tracker.webp"
+      ],
+      "week": 4
+    },
+    {
+      "id": "week-05",
+      "name": "Stories within 5",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Finishing number sentences within 5",
+        "Writing a full number sentence from pictures",
+        "Solving a read-aloud addition story within 5"
+      ],
+      "prerequisites": "Can combine two groups within 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-05/proud-little-learners-week-05-stories-within-5.pdf",
+      "previewImages": [
+        "packs/weekly/week-05/preview-cover.png",
+        "packs/weekly/week-05/preview-cover.webp",
+        "packs/weekly/week-05/preview-guide.png",
+        "packs/weekly/week-05/preview-guide.webp",
+        "packs/weekly/week-05/preview-practice-04.png",
+        "packs/weekly/week-05/preview-practice-04.webp",
+        "packs/weekly/week-05/preview-practice-06.png",
+        "packs/weekly/week-05/preview-practice-06.webp",
+        "packs/weekly/week-05/preview-tracker.png",
+        "packs/weekly/week-05/preview-tracker.webp"
+      ],
+      "week": 5
+    },
+    {
+      "id": "week-06",
+      "name": "Adding within 10",
+      "totalPages": 19,
+      "practicePages": 8,
+      "answerPages": 8,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Writing number sentences with totals from 6 to 10",
+        "Adding on a ten-frame",
+        "Seeing 10 as one more than the totals already practiced"
+      ],
+      "prerequisites": "Comfortable adding within 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-06/proud-little-learners-week-06-adding-within-10.pdf",
+      "previewImages": [
+        "packs/weekly/week-06/preview-cover.png",
+        "packs/weekly/week-06/preview-cover.webp",
+        "packs/weekly/week-06/preview-guide.png",
+        "packs/weekly/week-06/preview-guide.webp",
+        "packs/weekly/week-06/preview-practice-05.png",
+        "packs/weekly/week-06/preview-practice-05.webp",
+        "packs/weekly/week-06/preview-practice-08.png",
+        "packs/weekly/week-06/preview-practice-08.webp",
+        "packs/weekly/week-06/preview-tracker.png",
+        "packs/weekly/week-06/preview-tracker.webp"
+      ],
+      "week": 6
+    },
+    {
+      "id": "week-07",
+      "name": "Subtracting within 5",
+      "totalPages": 17,
+      "practicePages": 7,
+      "answerPages": 7,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Counting what is left when some objects are crossed out",
+        "Crossing out a given number within 5",
+        "Writing a subtraction sentence within 5",
+        "Solving a short read-aloud take-away story"
+      ],
+      "prerequisites": "Counts objects to 5 and can add within 5.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-07/proud-little-learners-week-07-subtracting-within-5.pdf",
+      "previewImages": [
+        "packs/weekly/week-07/preview-cover.png",
+        "packs/weekly/week-07/preview-cover.webp",
+        "packs/weekly/week-07/preview-guide.png",
+        "packs/weekly/week-07/preview-guide.webp",
+        "packs/weekly/week-07/preview-practice-03.png",
+        "packs/weekly/week-07/preview-practice-03.webp",
+        "packs/weekly/week-07/preview-practice-07.png",
+        "packs/weekly/week-07/preview-practice-07.webp",
+        "packs/weekly/week-07/preview-tracker.png",
+        "packs/weekly/week-07/preview-tracker.webp"
+      ],
+      "week": 7
+    },
+    {
+      "id": "week-08",
+      "name": "Shapes and patterns",
+      "totalPages": 19,
+      "practicePages": 8,
+      "answerPages": 8,
+      "supportingPages": {
+        "cover": 1,
+        "parentNote": 1,
+        "tracker": 1
+      },
+      "skillsPracticed": [
+        "Counting corners, including 0 for a circle",
+        "Counting sides of triangles, squares, and rectangles",
+        "Counting how many of a named shape",
+        "Extending AB, ABB, and ABC patterns"
+      ],
+      "prerequisites": "Counts objects to 10.",
+      "materialsNeeded": [
+        "printer",
+        "pencil",
+        "optional counters such as cereal or coins"
+      ],
+      "fileFormat": "PDF",
+      "paperSize": "US Letter",
+      "pdf": "packs/weekly/week-08/proud-little-learners-week-08-shapes-and-patterns.pdf",
+      "previewImages": [
+        "packs/weekly/week-08/preview-cover.png",
+        "packs/weekly/week-08/preview-cover.webp",
+        "packs/weekly/week-08/preview-guide.png",
+        "packs/weekly/week-08/preview-guide.webp",
+        "packs/weekly/week-08/preview-practice-01.png",
+        "packs/weekly/week-08/preview-practice-01.webp",
+        "packs/weekly/week-08/preview-practice-05.png",
+        "packs/weekly/week-08/preview-practice-05.webp",
+        "packs/weekly/week-08/preview-tracker.png",
+        "packs/weekly/week-08/preview-tracker.webp"
+      ],
+      "week": 8
+    }
+  ]
+}
