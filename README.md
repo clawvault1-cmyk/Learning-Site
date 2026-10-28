@@ -1,4 +1,4 @@
-# StepWise Printables
+# Proud Little Learners
 
 This repository is a static website. The pages are HTML, CSS, and JavaScript at the repository root. No build step is required to open the site.
 

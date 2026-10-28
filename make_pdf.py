@@ -3,12 +3,12 @@ from reportlab.pdfgen import canvas
 import random
 random.seed(5)
 W,H=letter;c=canvas.Canvas("downloads/free-k-addition-within-5-sample.pdf",pagesize=letter)
-c.setTitle("Free Kindergarten Addition Within 5 Sample - StepWise Printables")
+c.setTitle("Free Kindergarten Addition Within 5 Sample - Proud Little Learners")
 def hdr(t,sub):
     c.setFont("Helvetica",12);c.drawString(54,H-50,"Name: ______________________   Date: ____________")
     c.setFont("Helvetica-Bold",22);c.drawString(54,H-90,t);c.setFont("Helvetica",12);c.drawString(54,H-110,sub)
 def foot():
-    c.setFont("Helvetica",9);c.drawString(54,30,"StepWise Printables · Free sample · Kindergarten Addition Within 5 · Personal/classroom use only");c.showPage()
+    c.setFont("Helvetica",9);c.drawString(54,30,"Proud Little Learners · Free sample · Addition within 5 · Personal or classroom use");c.showPage()
 pages=[[(1,1),(2,1),(1,3),(2,2),(3,2),(4,1)],[(0,3),(2,3),(1,4),(3,1),(5,0),(1,2)]]
 ans=[]
 for pi,probs in enumerate(pages):

@@ -1,6 +1,6 @@
 # Generates all HTML pages. Change BRAND here (and in assets/config.js), then: python3 build.py
 import os
-BRAND="StepWise Printables"
+BRAND="Proud Little Learners"
 EMAIL="hello@example.com"
 LINKS=dict(
  cc_math="https://www.thecorestandards.org/Math/Content/K/OA/",
@@ -25,14 +25,16 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
         st=f'<div class="sticky-cta"><a class="btn" href="{href}">{label}</a></div>'
     else:
         st=""
+    canon="https://proudlittlelearners.com/"+("" if fn=="index.html" else fn)
+    canon_tags="" if 'rel="canonical"' in head else f'<link rel="canonical" href="{canon}"><meta property="og:url" content="{canon}">'
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title} | {BRAND}</title><meta name="description" content="{desc}"><meta property="og:title" content="{title} | {BRAND}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website">
+<title>{title} | {BRAND}</title><meta name="description" content="{desc}"><meta property="og:title" content="{title} | {BRAND}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website">{canon_tags}
 <link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="preload" href="{R}assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}assets/fonts/inter-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}css/styles.css">
 {head}<!-- Analytics placeholder: add GA4 / Meta Pixel snippet here once IDs exist -->
 </head><body data-root="{R}" class="{cls}{' has-sticky' if sticky else ''}"><a class="skip" href="#main">Skip to content</a>
-<header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">S</i><span class="brand-name">{BRAND}</span></a>
-<button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}<li><a class="btn" style="padding:10px 18px;min-height:0;color:#fff" href="{R}index.html#grades">Choose a Grade</a></li></ul></nav></header>
+<header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">P</i><span class="brand-name">{BRAND}</span></a>
+<button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}<li><a class="btn" style="padding:10px 18px;min-height:44px;color:#fff" href="{R}index.html#grades">Choose a Grade</a></li></ul></nav></header>
 <main id="main">{body}</main>
 <footer class="site"><div class="wrap"><div class="grid g4">
 <div><h4 class="brand-name">{BRAND}</h4><p>Printable worksheets for Pre-K to 2nd grade, with a next step you can see.</p></div>
@@ -127,7 +129,7 @@ page("products/k-addition-bundle.html","Weekly plan","The old three-level page n
 <section class="tight"><div class="wrap prose"><h1>This page moved</h1>
 <p>A new packet every week is $3.99 a month. <a href="{R}weekly.html">See the weekly plan</a>.</p></div></section>
 <script>location.replace("{R}weekly.html");</script>''',
-head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="{R}weekly.html">')
+head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="https://proudlittlelearners.com/weekly.html"><meta property="og:url" content="https://proudlittlelearners.com/weekly.html">')
 
 # ---------- CATEGORY ----------
 cards="".join(f'''<div class="card"><p><span class="{p["bc"]}">{p["lv"]}</span></p><h3>{p["nm"]}</h3><p>{p["summary"]}</p><p><strong>A good time to start:</strong> {p["start"]}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{p["slug"]}.html">View {p["lv"]} pack</a></div>''' for p in prods)

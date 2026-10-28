@@ -55,7 +55,7 @@ function motion(initScene){
   addEventListener("touchmove",kick,{passive:true});
   addEventListener("keydown",kick);
   lenis.on("scroll",ST.update);
-  $$('a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{const t=$(a.getAttribute("href"));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-70});kick();}}));
+  $$('a[href^="#"]').forEach(a=>a.addEventListener("click",e=>{const t=$(a.getAttribute("href"));if(t){e.preventDefault();lenis.scrollTo(t,{offset:-104});kick();}}));
 
   const canvas=$("#gl"),S=initScene(canvas,{mobile});
   html.classList.add("gl");

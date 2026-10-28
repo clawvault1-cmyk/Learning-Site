@@ -69,7 +69,7 @@ html:has(body.home){scroll-behavior:auto}
 .scroll-hint span{width:1px;height:38px;background:linear-gradient(var(--navy),transparent);animation:sh 1.8s var(--ease) infinite}
 @keyframes sh{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 #after{position:relative;z-index:6;background:var(--cream);border-radius:36px 36px 0 0;box-shadow:0 -30px 60px -40px rgba(36,55,70,.3)}
-.sec{padding:64px 0}.sec.white{background:#fffdf9}.sec-head{margin-bottom:22px}.sec-head .display,.split .display{letter-spacing:-.02em}
+.sec{padding:var(--space-8) 0}.sec.white{background:#fffdf9}.sec-head{margin-bottom:var(--space-5)}.sec-head .display,.split .display{letter-spacing:-.02em;margin-bottom:var(--space-2)}
 .split{display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center}
 .facts{list-style:none;margin:0;padding:0;border-top:1px solid rgba(36,55,70,.14)}
 .facts li{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:20px 0;border-bottom:1px solid rgba(36,55,70,.14)}
@@ -79,7 +79,7 @@ html:has(body.home){scroll-behavior:auto}
 @media (max-width:760px){
 
  .panel{left:22px;right:22px;width:auto}
- .p-hero{top:78px}.p-hero .eyebrow{letter-spacing:.1em;font-size:.68rem}.p-hero .display{font-size:clamp(1.72rem,7.4vw,2.15rem);max-width:none}.p-hero .lead{font-size:.92rem;line-height:1.4;margin-bottom:12px}
+ .p-hero{top:104px}.p-hero .eyebrow{letter-spacing:.1em;font-size:.68rem}.p-hero .display{font-size:clamp(1.72rem,7.4vw,2.15rem);max-width:none}.p-hero .lead{font-size:.92rem;line-height:1.4;margin-bottom:12px}
  .p-hero .btn-row{gap:8px}.p-hero .btn{padding:12px 16px;min-height:46px;font-size:.92rem;width:100%}
  .p-hero .support{font-size:.82rem;line-height:1.35;margin-top:8px}
  .poster{left:50%;right:auto;top:auto;bottom:-34vh;width:70vw;transform:translateX(-50%)}
@@ -91,11 +91,11 @@ html:has(body.home){scroll-behavior:auto}
  .jump-side{justify-content:space-between;border-radius:14px;padding:8px 12px}
  .jump-cap{font-size:.8rem}
  .bigtype{font-size:19vw;justify-content:flex-start;padding-top:20vh;padding-bottom:0}
- .lineup-head{top:70px}.lineup-head .eyebrow{font-size:.64rem;letter-spacing:.1em}.lineup-head .display{font-size:1.6rem}
+ .lineup-head{top:104px}.lineup-head .eyebrow{font-size:.64rem;letter-spacing:.1em}.lineup-head .display{font-size:1.6rem}
  .pack{padding:7px 10px;border-radius:12px}.pk-l{font-size:.72rem}.pk-p{font-size:1rem}
  .progress{right:12px;top:auto;bottom:calc(84px + 2vh);transform:none;width:44px}.progress svg{width:44px;height:44px}.ring-num{top:13px;font-size:.78rem}.ring-label{display:none}
  .scroll-hint{display:none}
- .sec{padding:44px 0}.split{grid-template-columns:1fr;gap:22px}.facts li{grid-template-columns:110px 1fr}
+ .sec{padding:var(--space-7) 0}.split{grid-template-columns:1fr;gap:var(--space-3)}.facts li{grid-template-columns:110px 1fr}
  #after{border-radius:26px 26px 0 0}
 }
 /* ---- static / reduced-motion fallback ---- */
@@ -114,7 +114,7 @@ html:has(body.home){scroll-behavior:auto}
 .rm .progress,.rm .scroll-hint{display:none}
 @media (max-width:760px){.rm .p-level{grid-template-columns:1fr}.rm .p-level .thumb{max-width:260px}.rm .lineup{grid-template-columns:1fr 1fr}.rm .poster{position:relative;left:auto;transform:none;margin:30px auto 0;top:0;bottom:auto}.rm .p-hero{min-height:0}}
 
-.home header.site.solid{background:rgba(250,248,243,.85);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-color:rgba(36,55,70,.08)}
+.home header.site.solid{background:var(--cream);backdrop-filter:none;-webkit-backdrop-filter:none;border-color:rgba(36,55,70,.08)}
 .rm .bigtype{position:relative;z-index:3}
 /* v3 */
 .p-hero .display .ln{display:block}
@@ -198,8 +198,11 @@ body.story-on.has-sticky{padding-bottom:0}
 .page-row img{width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 16px 36px -28px rgba(36,55,70,.7)}
 .page-row figcaption{margin-top:6px;font-size:.85rem;color:var(--muted)}
 .home .steps{list-style:none;padding:0;margin:0}
-.price-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:16px;align-items:stretch}
+.price-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:var(--space-3);align-items:stretch}
 .price-feature{border:2px solid var(--navy)}
+.price-feature .badge,.price-one .badge{margin-bottom:var(--space-2)}
+.price-feature h3,.price-one h3{margin:var(--space-2) 0 0}
+.home .narrow{max-width:var(--measure)}
 .save-pill{display:inline-block;margin-left:8px;background:var(--marigold);color:var(--navy);font-family:Inter,system-ui,sans-serif;font-size:.85rem;font-weight:700;padding:4px 10px;border-radius:999px;vertical-align:middle}
 .one-list{list-style:none;padding:0;margin:8px 0 0}
 .one-list li{margin:8px 0}
@@ -210,14 +213,13 @@ body.story-on.has-sticky{padding-bottom:0}
 @media(max-width:800px){.page-row,.price-layout{grid-template-columns:1fr 1fr}}
 @media(max-width:760px){
  .price-layout{grid-template-columns:1fr}
- .buybar{display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;bottom:0;z-index:45;min-height:56px;padding:12px 16px;background:var(--marigold);color:var(--navy);font-weight:700;text-decoration:none;box-shadow:0 -10px 24px -18px rgba(36,55,70,.8)}
- .buybar.is-hidden{transform:translateY(110%);pointer-events:none}
- body.home{padding-bottom:64px}
+ .buybar{display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;bottom:0;z-index:60;min-height:var(--bar);padding:12px 20px;background:var(--marigold);color:var(--navy);font-weight:700;text-decoration:none;box-shadow:0 -10px 24px -18px rgba(36,55,70,.8)}
+ body.home{padding-bottom:calc(var(--bar) + var(--space-4))}
  .page-row{grid-template-columns:1fr 1fr}
  .p-hero .micro{margin-top:8px}
 }
 @media (max-width:760px){
- .levels-track{left:16px;right:16px;bottom:auto;top:74px}.lt-title{display:none}
+ .levels-track{left:16px;right:16px;bottom:auto;top:96px}.lt-title{display:none}
  .levels-track ol{gap:6px}.levels-track li{font-size:.72rem;padding:6px 10px 6px 8px}.levels-track li small{display:none}
  .p-level{top:142px}
  .progress{bottom:2.5vh}

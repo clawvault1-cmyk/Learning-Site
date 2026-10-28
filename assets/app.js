@@ -109,7 +109,7 @@
  const onHome=/\/(?:index\.html)?$/.test(location.pathname);
  function jumpTo(id,immediate){
   const el=document.querySelector(id);if(!el)return;
-  if(window.__lenis)window.__lenis.scrollTo(el,{offset:-84,immediate:!!immediate});
+  if(window.__lenis)window.__lenis.scrollTo(el,{offset:-104,immediate:!!immediate});
   else el.scrollIntoView({behavior:immediate?'auto':'smooth',block:'start'});
  }
  document.querySelectorAll('a[href="#grades"],a[href="#price"],a[href="#pages"],a[href="#benefits"],a[href="#familiar"],a[href="#works"],a[href="#questions"],a[href$="index.html#grades"]').forEach(a=>{
@@ -136,9 +136,5 @@
  const sticky=document.querySelector('.sticky-cta'),grades=document.getElementById('grades');
  if(sticky&&grades&&'IntersectionObserver' in window){
   new IntersectionObserver(([e])=>{sticky.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.2}).observe(grades);
- }
- const buybar=document.getElementById('buybar'),price=document.getElementById('price');
- if(buybar&&price&&'IntersectionObserver' in window){
-  new IntersectionObserver(([e])=>{buybar.classList.toggle('is-hidden',e.isIntersecting);},{threshold:0.15}).observe(price);
  }
 })();

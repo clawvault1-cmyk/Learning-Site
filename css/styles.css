@@ -131,3 +131,44 @@ footer.site{background:#1e2f3c}footer.site h4{font-family:var(--serif);font-weig
 .save-pill{display:inline-block;margin-left:8px;background:var(--marigold);color:var(--navy);font-family:Inter,system-ui,sans-serif;font-size:.85rem;font-weight:700;padding:4px 10px;border-radius:999px;vertical-align:middle}
 @media(max-width:760px){.page-row{grid-template-columns:1fr 1fr}}
 .sheet .label{background:rgba(36,55,70,.82);letter-spacing:.02em}
+
+/* Spacing scale. 8px base. Later rules win over the earlier ones. */
+:root{
+  --space-1:8px;--space-2:16px;--space-3:24px;--space-4:32px;--space-5:40px;
+  --space-6:48px;--space-7:64px;--space-8:80px;--space-9:96px;
+  --header:72px;--bar:72px;--measure:68ch
+}
+html{scroll-padding-top:calc(var(--header) + var(--space-2));scroll-padding-bottom:calc(var(--bar) + var(--space-2))}
+.wrap{padding:0 var(--space-3)}
+@media(min-width:768px){.wrap{padding:0 var(--space-4)}}
+.nav{min-height:var(--header);gap:var(--space-2)}
+.logo{min-height:44px}
+section{padding:var(--space-8) 0}
+section.tight{padding:var(--space-7) 0}
+@media(max-width:767px){
+  section{padding:var(--space-7) 0}
+  section.tight{padding:var(--space-6) 0}
+  .logo{font-size:.95rem;gap:8px;max-width:calc(100% - 108px)}
+  .logo i{width:32px;height:32px;flex:none}
+  .logo .brand-name{line-height:1.15}
+}
+.prose,.lead{max-width:var(--measure)}
+.card{padding:var(--space-4)}
+@media(max-width:767px){.card{padding:var(--space-3)}}
+.grid{gap:var(--space-3)}
+h1,h2,h3,h4{margin:0 0 var(--space-2)}
+h1{margin-bottom:var(--space-3)}
+.prose h2{margin-top:var(--space-7);margin-bottom:var(--space-2)}
+.prose h3{margin-top:var(--space-5);margin-bottom:var(--space-2)}
+.price{display:block;margin:var(--space-3) 0 var(--space-2)}
+.crumbs{padding:var(--space-4) 0 0}
+.faq details{padding:var(--space-3);margin:var(--space-2) 0}
+.faq summary{min-height:44px;display:flex;align-items:center}
+.btn{min-height:48px;line-height:1.2}
+.nav-links .btn{min-height:44px;display:inline-flex;align-items:center}
+.btn-row{gap:var(--space-2)}
+.cta-band{padding:var(--space-6);gap:var(--space-3)}
+.one-list a,.f-list a{min-height:44px;display:flex;align-items:center}
+#ideas,#reading{scroll-margin-top:calc(var(--header) + var(--space-2))}
+footer.site{padding:var(--space-8) 0 var(--space-5)}
+header.site{background:var(--cream)}
