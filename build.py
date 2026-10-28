@@ -214,7 +214,6 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 {wgallery}
 <div class="buybox"><span class="badge">Weekly plan</span><h1>Weekly Kindergarten Math Plan</h1>
 <p>Join anytime. You get this month's packets today, then a new one every Monday.</p>
-<p>Start with this month's packets today. Then get a new printable packet every Monday.</p>
 <p class="price price-lg">$3.99/month</p>
 <p class="bestif">Best if you want new pages every week, starting with counting.</p>
 <a class="btn buy" aria-disabled="true" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>

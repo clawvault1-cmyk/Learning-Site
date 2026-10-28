@@ -66,6 +66,7 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .fix{margin:24px 0 0}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
 .compare-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:12px;box-shadow:0 1px 2px rgba(36,55,70,.06),0 8px 24px rgba(36,55,70,.06)}
+.compare-card:first-child{display:flex;flex-direction:column;justify-content:center}
 .compare-card .mock{aspect-ratio:auto;height:160px}
 .compare-card .mock img{object-position:top}
 .compare-card h3{margin:12px 0 8px;font-size:18px}
