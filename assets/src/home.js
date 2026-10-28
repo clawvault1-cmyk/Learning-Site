@@ -64,10 +64,10 @@ function motion(initScene){
   const sh=S.sheets.map(s=>s.st),hero=sh[0];
   const E=()=>S.extent();
   // progress ring
-  const ring=$(".ring-fg"),L=2*Math.PI*26,lbl=$(".ring-label"),num=$(".ring-num");ring.style.strokeDasharray=L;
+  const ring=$(".ring-fg"),L=2*Math.PI*26,lbl=$(".ring-label"),num=$(".ring-num");if(ring)ring.style.strokeDasharray=L;
   const ch=[[0,"Intro"],[.16,"Beginner"],[.36,"Intermediate"],[.55,"Advanced"],[.68,"No jumps"],[.86,"The packs"]];
   let tlRef=null;const steps=$$(".levels-track li");
-  function progress(p){const u=p*(tlRef?tlRef.duration():7),ai=u<2?0:u<3.4?1:2;steps.forEach((li,i)=>li.classList.toggle("on",i===ai));ring.style.strokeDashoffset=L*(1-p);let k=0;ch.forEach((c,i)=>{if(p>=c[0])k=i;});
+  function progress(p){if(!ring||!lbl||!num)return;const u=p*(tlRef?tlRef.duration():7),ai=u<2?0:u<3.4?1:2;steps.forEach((li,i)=>li.classList.toggle("on",i===ai));ring.style.strokeDashoffset=L*(1-p);let k=0;ch.forEach((c,i)=>{if(p>=c[0])k=i;});
     if(lbl.textContent!==ch[k][1]){lbl.textContent=ch[k][1];num.textContent=String(k+1).padStart(2,"0");}}
   // layout helpers (functions so they re-evaluate on resize)
   const fan=mobile

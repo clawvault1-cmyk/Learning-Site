@@ -234,6 +234,14 @@ html:has(body.home){scroll-behavior:auto}
 .tonight .card{position:relative;padding-top:58px}
 .tonight .card:before{counter-increment:ton;content:counter(ton);position:absolute;top:18px;left:22px;width:32px;height:32px;border-radius:50%;background:var(--yellow);display:grid;place-items:center;font-family:var(--serif);font-weight:700}
 @media(max-width:700px){.compare{grid-template-columns:1fr}}
+.picker{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;margin:0 0 var(--space-4)}
+.picker h3{margin:0 0 12px}
+.picker-q{font-size:1.15rem;margin:0 0 16px}
+.picker-actions{display:flex;gap:12px}
+.picker-actions[hidden]{display:none}
+.picker-actions .btn{min-height:48px;flex:1}
+.picker-result{margin:12px 0 0}
+#picker-reset{background:none;border:0;color:var(--teal);font:inherit;font-weight:650;text-decoration:underline;min-height:44px;padding:8px 4px;cursor:pointer}
 .weekly-line{margin:0 0 var(--space-4);font-size:1.08rem;line-height:1.45}
 .weekly-line a{color:var(--navy);font-weight:650;text-underline-offset:3px}
 .which{font-size:1.05rem;line-height:1.5;margin:var(--space-4) 0}

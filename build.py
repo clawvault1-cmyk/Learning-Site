@@ -15,15 +15,16 @@ LINKS=dict(
 )
 def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,sticky_label=None):
     depth=fn.count("/");R="../"*depth
-    nav=[("Home","index.html"),("How it works","index.html#works"),("Kindergarten packs","index.html#packs"),("Plans and prices","index.html#packs"),("FAQ","faq.html"),("Contact","contact.html")]
+    nav=[("Packs","index.html#packs"),("Weekly plan","weekly.html"),("Questions","faq.html"),("Contact","contact.html")]
     navh="".join(f'<li><a href="{R}{h}">{t}</a></li>' for t,h in nav)
     body=body.replace("{R}",R).replace("{BRAND}",BRAND)
     head=head.replace("{R}",R).replace("{BRAND}",BRAND)
     st=""
     canon="https://proudlittlelearners.com/"+("" if fn=="index.html" else fn)
     canon_tags="" if 'rel="canonical"' in head else f'<link rel="canonical" href="{canon}"><meta property="og:url" content="{canon}">'
+    shown=title if " | " in title else f"{title} | {BRAND}"
     html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title} | {BRAND}</title><meta name="description" content="{desc}"><meta property="og:title" content="{title} | {BRAND}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="https://proudlittlelearners.com/assets/img/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://proudlittlelearners.com/assets/img/og-share.png">{canon_tags}
+<title>{shown}</title><meta name="description" content="{desc}"><meta property="og:title" content="{shown}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:image" content="https://proudlittlelearners.com/assets/img/og-share.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://proudlittlelearners.com/assets/img/og-share.png">{canon_tags}
 <link rel="icon" href="{R}favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{R}assets/img/apple-touch-icon.png"><link rel="preload" href="{R}assets/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="{R}assets/fonts/inter-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}css/styles.css">
 {head}<!-- Meta Pixel loads from app.js only when SITE.metaPixelId is set. -->
@@ -31,12 +32,14 @@ def page(fn,title,desc,body,sticky=False,head='',js='',cls='',sticky_href=None,s
 <header class="site"><nav class="wrap nav" aria-label="Main"><a class="logo" href="{R}index.html"><i aria-hidden="true">P</i><span class="brand-name">{BRAND}</span></a>
 <button class="nav-toggle" aria-expanded="false" aria-controls="nl">Menu</button><ul class="nav-links" id="nl">{navh}</ul></nav></header>
 <main id="main">{body}</main>
-<footer class="site"><div class="wrap"><div class="grid g4">
-<div><h4 class="brand-name">{BRAND}</h4><p>Kindergarten addition packets, with more on the way.</p></div>
-<div><h4>Shop</h4><ul><li><a href="{R}index.html#packs">Kindergarten packs</a></li><li><a href="{R}kindergarten-math.html">Kindergarten Math</a></li><li><a href="{R}weekly.html">Weekly plan</a></li><li><a href="{R}index.html#packs">Plans and prices</a></li></ul></div>
-<div><h4>Learn</h4><ul><li><a href="{R}our-educational-approach.html">Our Educational Approach</a></li><li><a href="{R}resources/index.html">Parent Resources</a></li><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}about.html">About</a></li></ul></div>
-<div><h4>Help</h4><ul><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}privacy.html">Privacy</a></li><li><a href="{R}terms.html">Terms</a></li><li><a href="{R}refund-policy.html">Refunds</a></li><li><a href="{R}cancel.html">Cancel</a></li></ul></div></div>
-<p class="fine">© 2026 <span class="brand-name">{BRAND}</span>. For parents, caregivers, and teachers. We do not knowingly collect information from children.</p></div></footer>
+<footer class="site"><div class="wrap">
+<p class="brand-name">{BRAND}</p><p>Printable kindergarten math for parents.</p>
+<div class="grid g4">
+<div><h4>Shop</h4><ul><li><a href="{R}index.html#packs">Packs</a></li><li><a href="{R}weekly.html">Weekly plan</a></li></ul></div>
+<div><h4>Help</h4><ul><li><a href="{R}faq.html">Questions</a></li><li><a href="{R}contact.html">Contact</a></li><li><a href="{R}cancel.html">Cancel weekly plan</a></li></ul></div>
+<div><h4>About</h4><ul><li><a href="{R}about.html">About us</a></li><li><a href="{R}our-educational-approach.html">How we teach</a></li><li><a href="{R}resources/index.html">Parent tips</a></li></ul></div>
+<div><h4>Policies</h4><ul><li><a href="{R}privacy.html">Privacy</a></li><li><a href="{R}terms.html">Terms</a></li><li><a href="{R}refund-policy.html">Refunds</a></li></ul></div></div>
+<p class="fine">© 2026 {BRAND}</p></div></footer>
 {st}<script src="{R}assets/config.js"></script><script src="{R}assets/products.js"></script><script src="{R}assets/app.js"></script>{js}</body></html>'''
     os.makedirs(os.path.dirname(fn) or ".",exist_ok=True);open(fn,"w").write(html)
 
@@ -46,7 +49,7 @@ def steps(a="",b="",c="",d=""):
 
 # ---------- HOME (scrollytelling; scene and motion live in assets/js) ----------
 home=open("assets/src/home-body.html").read()
-page("index.html","Kindergarten Math Practice","Printable kindergarten addition packets with clear starting levels, parent guidance, and answer keys.",home,cls="home",
+page("index.html","Kindergarten Math Printables for Parents | Proud Little Learners","Help your kindergartner with math at home. Printable pages in small steps, with a parent guide that tells you what to say. $3.99 a pack.",home,cls="home",
  head='<link rel="stylesheet" href="assets/vendor/lenis.css"><link rel="stylesheet" href="css/home.css">',
  js='<script type="module" src="assets/js/home.js"></script>')
 
@@ -117,187 +120,181 @@ def support_sentence(src):
     if s.get("tracker"): bits.append("a tracker")
     if s.get("certificate"): bits.append("a certificate")
     return ", ".join(bits)
+COPY={
+ "beginner":dict(name="Beginner: Adding within 5",badge="Level 1",bc="badge",
+  title="Beginner: Adding within 5 | Proud Little Learners",
+  desc="Kindergarten math printables. Your child counts two small groups and puts them together, with totals up to 5. Parent guide and answer keys included. $3.99.",
+  sub="Your child counts two small groups and puts them together.",
+  fit="Start here if your child can count to 10.",
+  practice="A page shows 2 dots and 1 more dot. Your child counts them all and writes 2 + 1 = 3. Totals stay at 5 or less. The last pages have a short story problem you read out loud.",
+  help="Sit next to your child. Ask, \"Point to the two groups. How many in all?\" If they get stuck, count the first group together, then let them count the rest.",
+  move="Move to Intermediate: Adding within 10 when these pages feel easy. If you're still helping on most problems, do a few pages again."),
+ "intermediate":dict(name="Intermediate: Adding within 10",badge="Level 2",bc="badge peach",
+  title="Intermediate: Adding within 10 | Proud Little Learners",
+  desc="Kindergarten math printables. Your child turns pictures into problems like 4 + 3 = 7, with totals up to 10. Parent guide and answer keys included. $3.99.",
+  sub="Your child turns pictures into problems like 4 + 3 = 7.",
+  fit="Start here if adding up to 5 is easy.",
+  practice="Your child goes from counting pictures to writing the problem, like 4 + 3 = 7. Some pages use a box with 10 spaces so numbers up to 10 are easy to see. Totals stay at 10 or less.",
+  help="Point to the bigger number and say it. Then count on together: \"4… 5, 6, 7.\" Let your child do the next one. If the 10-space box is new, fill it with cereal first.",
+  move="Move to Advanced: Story problems within 10 when adding up to 10 feels easy. If your child is still guessing, do a few pages again."),
+ "advanced":dict(name="Advanced: Story problems within 10",badge="Level 3",bc="badge teal",
+  title="Advanced: Story problems within 10 | Proud Little Learners",
+  desc="Kindergarten math printables. Short story problems you read aloud, plus making 10 and finding missing numbers. Parent guide and answer keys included. $3.99.",
+  sub="Your child solves short story problems you read out loud.",
+  fit="Start here if adding up to 10 is easy.",
+  practice="Your child splits a number into two parts, like 7 is 4 and 3. They find a missing number, like 4 + ? = 7, and what makes 10. Then they solve short stories, like \"3 ducks swim. 2 more come. How many now?\" You read the stories, and your child doesn't need to read.",
+  help="Act out the story with cereal or toys. Ask \"What's happening?\" before \"How many?\" If a missing number is hard, go back to two groups your child can see.",
+  move="When these pages feel easy, your child has finished all three levels. If missing numbers are still hard, do a few pages again."),
+}
 def product_page(p):
-    d=dict(PACKS[p["slug"]])
-    src=BY[d["checkout"]]
-    d["activityPages"]=f'{src["practicePages"]} practice pages'
-    d["supportingPages"]=support_sentence(src)
-    d["previews"]=pick_previews(src["previewImages"])
-    gallery="".join(f'<img src="{{R}}{path}" alt="{preview_kind(path)} from {d["name"]}" width="800" height="1000" loading="lazy" decoding="async">' for path in d["previews"])
-    facts="".join(f'<div><h3>{h}</h3><p>{d[k]}</p></div>' for h,k in [
-        ("Activity pages", "activityPages"),
-        ("Supporting pages", "supportingPages"),
-        ("Skills", "skills"),
-        ("Before you start", "prerequisites"),
-        ("File and paper", "format"),
-        ("Printing", "printing"),
-        ("What you receive", "shipping"),
-        ("What you need", "materials"),
-        ("License", "license"),
-        ("Delivery", "delivery"),
-        ("Help", "help"),
-    ])
-    # File and paper are two facts; show paper on its own line inside the format card.
-    facts=facts.replace(f'<div><h3>File and paper</h3><p>{d["format"]}</p></div>', f'<div><h3>File and paper</h3><p>{d["format"]} · {d["paper"]}</p></div>')
-    ld=json.dumps({
-        "@context":"https://schema.org","@type":"Product",
-        "name":d["name"],
-        "description":p["summary"],
-        "image":"https://proudlittlelearners.com/"+d["previews"][0],
-        "brand":{"@type":"Brand","name":BRAND},
-        "offers":{"@type":"Offer","price":d["price"],"priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}
-    }, ensure_ascii=False)
-    others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{o["bc"]}">{o["lv"]}</span><h3>{o["nm"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
-    page(f"products/k-addition-{p['slug']}.html", d["name"], p["summary"]+" Kindergarten addition packet with a parent prompt, answer key, and tracker.", f'''
-<div class="wrap crumbs"><a href="{{R}}index.html">Home</a> › <a href="{{R}}kindergarten-math.html">Kindergarten Math</a> › {d["name"]}</div>
+    c=COPY[p["slug"]]
+    d=PACKS[p["slug"]]
+    previews=pick_previews(BY[d["checkout"]]["previewImages"])
+    gallery="".join(f'<img src="{{R}}{path}" alt="{c["name"]}" width="800" height="1000" loading="lazy" decoding="async">' for path in previews)
+    others="".join(f'<a class="card link" href="k-addition-{o["slug"]}.html"><span class="{COPY[o["slug"]]["bc"]}">{COPY[o["slug"]]["badge"]}</span><h3>{COPY[o["slug"]]["name"]}</h3><p>$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
+    ld=json.dumps({"@context":"https://schema.org","@type":"Product","name":c["name"],"description":c["sub"],"image":"https://proudlittlelearners.com/"+previews[0],"brand":{"@type":"Brand","name":BRAND},"offers":{"@type":"Offer","price":"3.99","priceCurrency":"USD","url":"https://proudlittlelearners.com/products/k-addition-"+p["slug"]+".html"}},ensure_ascii=False)
+    page(f"products/k-addition-{p['slug']}.html", c["title"], c["desc"], f'''
+<div class="wrap crumbs"><a href="{{R}}index.html#packs">Packs</a></div>
 <section class="tight"><div class="wrap prod-top">
 <div class="gallery">{gallery}</div>
-<div class="buybox" data-pixel-view data-content-name="{d["name"]}" data-checkout="{d["checkout"]}"><span class="{p["bc"]}">{p["lv"]}</span><h1>{d["name"]}</h1><p>{p["summary"]}</p>
-<p class="price">${d["price"]}</p>
+<div class="buybox" data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"><span class="{c["bc"]}">{c["badge"]}</span><h1>{c["name"]}</h1><p>{c["sub"]}</p>
+<p class="price">$3.99</p>
+<p class="fit">{c["fit"]}</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
-<a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{d["name"]}" data-value="{d["price"]}" data-label="Buy now: ${d["price"]}">Checkout opens soon</a>
+<a class="btn buy" data-checkout="{d["checkout"]}" data-content-name="{c["name"]}" data-value="3.99" data-label="Buy now">Checkout opens soon</a>
 </div></div></section>
-<section class="tight white"><div class="wrap"><h2>About this pack</h2><div class="facts">{facts}</div></div></section>
-<section class="tight"><div class="wrap prose"><h2>Questions parents ask</h2>{qa(p)}</div></section>
-<section class="tight white"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}</div></div></section>
+<section class="tight white"><div class="wrap"><h2>What's inside</h2>
+<ul class="ticks"><li>18 practice pages</li><li>An answer key for every page</li><li>A 2-page parent guide</li><li>A progress tracker and a certificate</li><li>Black-and-white PDF for regular paper</li><li>You'll need a pencil and small things to count, like cereal or buttons</li></ul>
+<p class="micro">Download right after you pay. Print for your family or one classroom.</p></div></section>
+<section class="tight"><div class="wrap prose"><h2>What your child will practice</h2><p>{c["practice"]}</p>
+<h2>How you help</h2><p>{c["help"]}</p>
+<h2>When to move on</h2><p>{c["move"]}</p></div></section>
+<section class="tight white"><div class="wrap"><h2>Other levels</h2><div class="grid g3">{others}</div>
+<p>These are kindergarten skills from the Common Core math standards.</p></div></section>
 <script type="application/ld+json">{ld}</script>''')
 for p in prods:
     product_page(p)
 
-WEEK_LIST="".join(f'<li>Week {w["week"]}: {w["name"]}</li>' for w in FILE["weekly"])
-DISCLOSURE='''<p class="renew-note"><strong>$3.99/month. Renews automatically every month until you cancel.</strong> You get this month's kindergarten math packets right away, then a new packet every Monday. Cancel anytime online in a few clicks, or by email. Cancelling stops billing and ends access right away, so download packets you want to keep first. <a href="{R}cancel.html">How to cancel</a>.</p>'''
-
-page("weekly.html","Weekly Packet Plan","Kindergarten math. This month's packets right away, then a new packet every Monday. $3.99/month. Cancel anytime online. Access ends when you cancel.",f'''
-<section class="tight"><div class="wrap" style="max-width:720px" data-pixel-view data-content-name="Weekly Packet Plan: Kindergarten Math" data-subscribe="weekly"><span class="badge">Weekly</span>
-<h1>Weekly Packet Plan: Kindergarten Math</h1>
-<p class="lead">Get this month's packets right away, then a new printable packet every Monday. Renews monthly until you cancel. Cancel anytime online in a few clicks, or by email. Access ends when you cancel.</p>
-<p class="which"><strong>Which is right for me?</strong> Single pack: one level, $3.99 once, yours to keep. Weekly: kindergarten math, this month's packets right away, then a new packet every Monday for $3.99/month. Cancel anytime online. Access ends when you cancel.</p>
-<p class="price">$3.99<span class="per">/month</span></p>
-<p>Eight kindergarten packets are written. Each one has 7 or 8 practice pages, a matching answer key, a short parent note, and a tracker.</p>
-<ul class="ticks">{WEEK_LIST}</ul>
-<p>Reading and other grades are coming next. <a href="index.html#packs">See the three kindergarten packs</a>.</p>
+page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A new printable kindergarten math packet every Monday, plus this month's packets right away. $3.99/month. Cancel anytime.",'''
+<section class="tight"><div class="wrap" style="max-width:720px" data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"><span class="badge">Weekly plan</span>
+<h1>Weekly Kindergarten Math Plan</h1>
+<p class="lead">A new printable math packet every Monday. Get this month's packets right away.</p>
+<p class="price">$3.99/month</p>
 <p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
-{DISCLOSURE}
-<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Packet Plan: Kindergarten Math" data-value="3.99" data-label="Start weekly · $3.99/month">Checkout opens soon</a>
-<p><a href="terms.html#6-the-weekly-packet-plan-subscription">Terms</a> · <a href="refund-policy.html">Refunds</a> · <a href="cancel.html">Cancel</a></p>
-</div></section>''')
-
-page("products/k-addition-bundle.html","Weekly plan","The old three-level page now points to the weekly plan.",'''
-<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
-<p>A new packet every week is $3.99 a month. <a href="{R}weekly.html">See the weekly plan</a>.</p></div></section>
-<script>location.replace("{R}weekly.html");</script>''',
-head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="https://proudlittlelearners.com/weekly.html"><meta property="og:url" content="https://proudlittlelearners.com/weekly.html">')
-
-# ---------- CATEGORY ----------
-cards="".join(f'''<div class="card"><p><span class="{p["bc"]}">{p["lv"]}</span></p><h3>{p["nm"]}</h3><p>{p["summary"]}</p><p><strong>A good time to start:</strong> {p["start"]}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{p["slug"]}.html">View {p["lv"]} pack</a></div>''' for p in prods)
-page("kindergarten-math.html","Kindergarten Addition Packs","Three kindergarten addition packs: adding within 5, adding within 10, and story problems within 10. Each is $3.99.",f'''
-<div class="wrap crumbs"><a href="index.html">Home</a> › Kindergarten Math</div>
-<section class="tight"><div class="wrap"><span class="eyebrow">Kindergarten · Math</span><h1>Kindergarten addition</h1>
-<p class="lead">Start with the level that matches what your child can already do.</p>
-<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p></div></section>
-<section class="tight white"><div class="wrap"><h2>Your child’s next steps, already organized.</h2>
-<ol class="step-path"><li>Combine small groups</li><li>Add within 10</li><li>Explore number relationships</li></ol>
-<div class="grid g3" style="margin-top:28px">{cards}</div>
-<div class="card" style="margin-top:28px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center"><div><span class="badge">Weekly</span><h3>Weekly Packet Plan: Kindergarten Math</h3><p>This month's packets right away, then a new packet every Monday. $3.99/month. Cancel anytime online. Access ends when you cancel.</p></div><div><span class="price">$3.99<span class="per">/month</span></span> <a class="btn" href="weekly.html">See the weekly plan</a></div></div></div></section>
-<section class="tight"><div class="wrap"><h2>Coming soon</h2>
-<div class="grid g3"><div class="card"><span class="badge soon">Coming soon</span><h3>Subtraction</h3><p>Taking some away, after addition feels comfortable.</p></div>
-<div class="card"><span class="badge soon">Coming soon</span><h3>Counting and numbers</h3><p>Counting objects and reading numbers.</p></div>
-<div class="card"><span class="badge soon">Coming soon</span><h3>Reading</h3><p>Sounds and letters, simple words like cat, map, and sit, plus high-frequency words and words a child learns to recognize right away. <a href="our-educational-approach.html#reading">See how reading practice will work</a>.</p></div></div>
-<p style="margin-top:20px"><a href="weekly.html">See the weekly plan</a></p></div></section>''')
-
-# Old address. Sends visitors to the weekly plan.
-page("free-printables.html","Weekly plan","The weekly plan is a new packet every week.",'''
-<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
-<p><a href="{R}weekly.html">See the weekly plan</a>.</p></div></section>
-<script>location.replace("{R}weekly.html");</script>''',
-head='<meta http-equiv="refresh" content="0;url={R}weekly.html"><link rel="canonical" href="https://proudlittlelearners.com/weekly.html"><meta property="og:url" content="https://proudlittlelearners.com/weekly.html">')
-
-# ---------- APPROACH ----------
-def row(name,how,links):
-    return f'<tr><th>{name}</th><td>{how}<p>{links}</p></td></tr>'
-page("our-educational-approach.html","Our Educational Approach","How learning standards and research-informed teaching practices shape the worksheets.",f'''
-<section class="tight"><div class="wrap prose"><span class="eyebrow">Our educational approach</span>
-<h1>Designed around established learning standards and research-informed teaching practices.</h1>
-<p class="lead">You can help your child. We use established learning standards to choose the skills, and research-informed teaching practices to organize the practice.</p>
-<ul class="ticks"><li><strong>Common Core learning standards.</strong> The learning goals practiced.</li><li><strong>IES guidance.</strong> Building skills progressively, and connecting objects, pictures, and equations.</li><li><strong>Structured literacy.</strong> Explicitly connecting sounds, letters, reading, and spelling.</li><li><strong>NAEYC.</strong> Adapting practice to the child, and hands-on learning.</li></ul>
-</div></section>
-<section class="tight" id="ideas"><div class="wrap prose">
-<h2>Learning ideas behind the design</h2>
-<p>These research-informed ideas shape how the pages are organized.</p>
-<ul class="ideas">
-<li><b>Zone of proximal development</b><span>New work should sit just past what a child can do alone, where a little help makes it possible.</span> <a href="{LINKS["eric_zpd"]}" target="_blank" rel="noopener">Scaffolding and the zone of proximal development (ERIC)</a></li>
-<li><b>Scaffolding</b><span>An adult helps with the hard part, then takes that help away as the child can do more. Wood, Bruner, and Ross described this in 1976.</span> <a href="{LINKS["eric_scaffold"]}" target="_blank" rel="noopener">Scaffolding and the zone of proximal development, revisited (ERIC)</a></li>
-<li><b>A progression from objects to symbols</b><span>Teach number ideas in order. Begin with objects and informal marks, then connect them to number symbols.</span> <a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">IES practice guide: Teaching Math to Young Children</a></li>
-<li><b>Progress monitoring</b><span>Watch what a child can do, then choose a next step that is not too easy and not too hard.</span> <a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">IES practice guide: Teaching Math to Young Children</a></li>
-<li><b>Developmentally appropriate practice</b><span>Build on what this child can already do, in a way that fits that child.</span> <a href="{LINKS["dap"]}" target="_blank" rel="noopener">NAEYC: defining developmentally appropriate practice</a></li>
+<a class="btn buy" data-subscribe="weekly" data-content-name="Weekly Kindergarten Math Plan" data-value="3.99" data-label="Start the weekly plan">Checkout opens soon</a>
+<p class="renew-note">Renews monthly. Cancel anytime.</p>
+<h2>What's in each packet</h2>
+<p>7 or 8 practice pages, answer keys, a short parent guide, and a tracker.</p>
+<h2>The first 8 weeks</h2>
+<ul class="ticks">
+<li>Week 1: Counting to 5</li>
+<li>Week 2: Counting to 10</li>
+<li>Week 3: More and fewer</li>
+<li>Week 4: Adding within 5</li>
+<li>Week 5: Story problems within 5</li>
+<li>Week 6: Adding within 10</li>
+<li>Week 7: Taking away within 5</li>
+<li>Week 8: Shapes and patterns</li>
 </ul>
-</div></section>
-<section class="tight white"><div class="wrap prose">
-<h2>Where each idea shows up</h2>
-<table class="sources"><thead><tr><th>Foundation</th><th>How it informs the materials</th></tr></thead><tbody>
-{row("Common Core learning standards","These standards name the learning goals. Kindergarten addition includes putting groups together with objects, drawings, and number sentences, with totals up to 10, breaking numbers into parts, and finding what makes 10. The packs practice those goals. You can read the stories aloud.",
-f'<a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">Common Core, kindergarten addition</a>')}
-{row("Institute of Education Sciences / What Works Clearinghouse","<em>Teaching Math to Young Children</em> recommends building number skills progressively and linking what children see to the symbols they write. <em>Foundational Skills to Support Reading</em> recommends connecting sounds in speech to letters, then reading and spelling the patterns that were taught. Pack levels follow that order. Reading packs are coming soon.",
-f'<a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">Teaching Math to Young Children</a><br><a href="{LINKS["wwc_read"]}" target="_blank" rel="noopener">Foundational reading skills, grades K–3</a>')}
-{row("NAEYC developmentally appropriate practice","NAEYC describes practice that fits the child and includes hands-on learning. Each pack says where to start. You can stay with a page or move on, based on what you see.",
-f'<a href="{LINKS["dap"]}" target="_blank" rel="noopener">NAEYC: defining developmentally appropriate practice</a>')}
-{row("Structured literacy","The International Dyslexia Association describes teaching that explicitly connects sounds, letters, reading, and spelling, from easier patterns to harder ones. Coming reading pages will follow that connection.",
-f'<a href="{LINKS["ida"]}" target="_blank" rel="noopener">Structured Literacy overview from the International Dyslexia Association</a>')}
-{row("Head Start Early Learning Outcomes Framework","This framework describes learning from birth to age 5, including early counting and language. It is a guide for what young children are ready to explore, not a test. Pre-K pages, when they are ready, will stay in that range.",
-f'<a href="{LINKS["elof"]}" target="_blank" rel="noopener">Interactive Head Start Early Learning Outcomes Framework</a>')}
-</tbody></table>
-</div></section>
-<section class="tight" id="reading"><div class="wrap prose">
-<h2>How reading practice will work</h2>
-<p>Reading packs are coming soon. Kindergarten reading goals are published with the <a href="{LINKS["cc_ela"]}" target="_blank" rel="noopener">Common Core kindergarten reading standards</a>.</p>
-<h3>Sounds, letters, reading, and spelling</h3>
-<p>A child learns that a letter stands for a sound. The letter m stands for the sound at the beginning of map. They blend sounds to read a word, and they spell the pattern they just learned.</p>
-<h3>CVC words, in plain English</h3>
-<p>CVC words are simple words like cat, map, and sit. You can hear three sounds: a consonant, a short vowel, and another consonant. A longer explanation is in our <a href="resources/cvc-words-explained-for-parents.html">parent guide to CVC words</a>.</p>
-<h3>High-frequency words and sight words</h3>
-<p>A high-frequency word is a word that occurs often in text, such as the, and, or said.</p>
-<p>A sight word is a word a reader recognizes automatically, instantly. A high-frequency word can become a sight word once your child knows it right away. They are not the same thing.</p>
-<p>Practice will connect the sounds and the spelling, including any part that does not follow the usual pattern. Recognizing the word instantly comes from that connection.</p>
+<p><a href="index.html#packs">Want just one level? See the packs.</a></p>
 </div></section>''')
 
-# ---------- SIMPLE PAGES ----------
-def prose(fn,title,desc,inner): page(fn,title,desc,f'<section class="tight"><div class="wrap prose"><h1>{title}</h1>{inner}</div></section>')
-prose("about.html","About Us","Kindergarten addition packets with a clear starting point, a parent prompt, and an answer key. More grades are on the way.",f'''<p class="lead">These pages are for parents, caregivers, homeschool families, and teachers who want a clear next step in kindergarten addition.</p>
-<h2>Who makes these pages</h2>
-<p class="owner-note">[Your name]</p>
-<p class="owner-note">[Write a few sentences in your own words. Add a credential only if you want it listed.]</p>
-<h2>What you can count on</h2><ul class="ticks"><li>Each pack says what your child will practice, and what they should already be able to do.</li><li>Kindergarten addition is the set on the site now. Other skills are marked Coming soon.</li><li>A parent prompt, an answer key, and a progress tracker come with each pack.</li></ul>
-<h2>Where we are now</h2><p>Three kindergarten addition packs and a weekly kindergarten math plan are listed. <span class="status-line">Checkout opens soon. No payment is taken yet.</span> Reading and other grades are coming next. <a href="contact.html">Tell us what you need.</a></p>
-''')
+moved='''
+<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
+<p><a href="{R}index.html#packs">See the kindergarten math packs.</a></p></div></section>
+<script>location.replace("{R}index.html#packs");</script>'''
+page("products/k-addition-bundle.html","Page moved | Proud Little Learners","This page has moved.",moved,
+head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
+page("free-printables.html","Page moved | Proud Little Learners","This page has moved.",moved,
+head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
+
+home_cards=[
+ ("beginner","badge","Count two small groups and put them together.","Start here if your child can count to 10."),
+ ("intermediate","badge peach","Turn pictures into problems like 4 + 3 = 7.","Start here if adding up to 5 is easy."),
+ ("advanced","badge teal","Solve short story problems you read out loud.","Start here if adding up to 10 is easy."),
+]
+cards=""
+for slug,bc,what,fit in home_cards:
+    c=COPY[slug]
+    cards+=f'<div class="card"><p><span class="{bc}">{c["badge"]}</span></p><h3>{c["name"]}</h3><p>{what}</p><p>{fit}</p><p class="price">$3.99</p><a class="btn" href="products/k-addition-{slug}.html">See this pack</a></div>'
+page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
+<section class="tight"><div class="wrap"><h1>Kindergarten math packs</h1>
+<p class="lead">Start with the level that fits your child. $3.99 each.</p>
+<p class="status-line pay-note">Checkout opens soon. No payment is taken yet.</p>
+<div class="grid g3" style="margin-top:28px">{cards}</div>
+<div class="card" style="margin-top:28px"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday. Get this month's packets right away.</p><p class="price">$3.99/month</p><a class="btn" href="weekly.html">See the weekly plan</a></div>
+</div></section>''')
+
+def prose(fn,title,desc,inner,h1=None):
+    page(fn,title,desc,f'<section class="tight"><div class="wrap prose"><h1>{h1 or title}</h1>{inner}</div></section>')
+
+prose("about.html","About Us | Proud Little Learners","We make printable kindergarten math packs that help parents practice at home, one small step at a time.",'''
+<p class="lead">We make printable kindergarten math for parents who want to help at home but don't know where to start.</p>
+<h2>What you get</h2>
+<ul class="ticks"><li>Pages in the right order, so each one is a small step.</li><li>A guide that tells you what to say.</li><li>An answer key and a tracker, so you know when to move on.</li></ul>
+<p>Questions or ideas? Email <a href="mailto:hello@proudlittlelearners.com">hello@proudlittlelearners.com</a>.</p>''',"About us")
+
 faqs=[
-("What if a page is too hard?","Stop that page and step back, or show the same idea with objects or pictures. That temporary help is called scaffolding. Take it away when the work feels easier."),
-("How much help should I give?","Show one example, try the next one together, then let your child try. That is scaffolding: help first, then fade the help. You do not need to give every answer."),
-("When should we move forward?","Move on when this step feels comfortable with little help, not after one easy page. The IES early-math guide says a child should be comfortable with an earlier step before a harder one."),
-("Why an organized pack instead of a loose page?","A loose page can jump to a skill your child is not ready for. A pack keeps one progression, with a prompt, an answer key, and a tracker."),
-("How do I choose a grade?","Start with the three kindergarten addition packs. Each one says what your child should already be able to do. Other grades are coming next."),
-("What format are the worksheets?","PDF files for US Letter paper, designed for black-and-white home printing."),
-("How do I get files after purchase?","Payhip shows a download page and emails a receipt from contact@payhip.com. Check spam if you do not see it. The weekly plan lives in your Payhip members area. If a link stops working, email us and we reply within 1 business day."),
-("How many pages are in each pack?","Each kindergarten pack is 41 pages: 18 practice pages, 18 answer-key pages, a 2-page parent guide, a cover, a tracker, and a certificate."),
-("Is there a weekly plan?","Yes. Weekly Packet Plan: Kindergarten Math, $3.99/month. You get this month's packets right away, then a new packet every Monday. It renews monthly until you cancel. Cancel anytime online. Access ends when you cancel, so download packets first. Checkout opens soon. No payment is taken yet. Reading and other grades are coming next."),
-("What learning standards and teaching methods inform the worksheets?","Our worksheets are informed by established learning standards and research-informed teaching practices. Kindergarten addition packs practice selected Common Core math goals, using clear examples, visual models, and a gradual sequence. Our educational approach page explains the sources and how they inform the materials. Start with your child’s grade, then choose the skills they are ready to practice."),
-("Can I share the files?","You may print them for your own children or your own classroom. Please don't redistribute or resell the files. See our Terms."),
-("Do you offer refunds?","Yes, in certain situations. See our Refund Policy."),
-("Do you collect information from children?","No. This site is for adults. We do not knowingly collect personal information from children.")]
-prose("faq.html","Questions Parents Ask","Plain answers about difficulty, help at home, moving forward, downloads, and policies.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+'</div><p><a href="terms.html">Terms</a> · <a href="refund-policy.html">Refunds</a> · <a href="cancel.html">Cancel</a> · <a href="contact.html">Contact</a></p>')
-prose("contact.html","Contact Us","Questions about a worksheet, a download, or a skill you want us to make. We reply within 1 business day.",f'''<p class="lead">Questions about a level, a download, or a skill you would like us to make? We would like to hear from you.</p><p>Email: <a class="site-email" href="mailto:{EMAIL}">{EMAIL}</a></p>
-<p>We reply <span class="reply-time">within 1 business day</span>.</p>
-<p><small>For parents, caregivers, and teachers only.</small></p>''')
-def legal(fn,title,desc):
-    prose(fn,title,desc,open("assets/legal/"+fn.replace(".html",".body.html")).read())
-legal("privacy.html","Privacy Policy","What Proud Little Learners collects, why, and who we share it with. We do not sell personal information.")
-legal("terms.html","Terms of Sale and Use","Terms for printable kindergarten packs and the weekly plan, including renewal, cancellation, and the license.")
-legal("refund-policy.html","Refund Policy","Refunds when a file is broken or not as described, and how weekly-plan charges are handled.")
-prose("cancel.html","Cancel the weekly plan","Cancel the kindergarten weekly plan online, or email us. Access ends when you cancel, so download packets first.",'''
-<p class="lead">Cancelling stops access right away. Download any packets you want to keep first. Packets you already saved stay yours.</p>
-<ol class="plain-steps" aria-label="How to cancel"><li>Sign in</li><li>Settings</li><li>Subscriptions</li><li>Cancel</li></ol>
+("Which pack should we start with?","Beginner: Adding within 5, if your child can count to 10. Move up when the pages feel easy."),
+("I'm not a teacher. Can I do this?","Yes. The 2-page guide tells you what to say. Every page has an answer key."),
+("How much should I help?","Show one problem, do the next one together, then let your child try. Help less as it gets easier."),
+("What if a page is too hard?","Stop and count real things, like cereal, instead. Or go back a few pages. Try again tomorrow."),
+("When should we move on?","When your child does most of a pack with little help. One easy page isn't enough to tell."),
+("My child doesn't like worksheets. Will this help?","The pages are short, and you start with real things before the paper. Do one page and stop while it's going well."),
+("Is any of this on a screen?","No. You print the pages, and your child uses a pencil."),
+("What's in a pack?","18 practice pages, 18 answer keys, a 2-page parent guide, a cover, a progress tracker, and a certificate."),
+("How do I get my files?","Right after you pay, you see a download page. You also get an email with the link. Check spam if you don't see it."),
+("How does the weekly plan work?","It's $3.99/month. You get this month's packets right away, then a new one every Monday. Cancel anytime. When you cancel, access ends, so download the packets you want to keep."),
+("How do I cancel?",'Sign in to your account and cancel, or email us. <a href="cancel.html">See how to cancel.</a>'),
+("Can I share the files?","You can print them for your family or one classroom. Please don't share or sell the files."),
+("Can I get a refund?",'If a file doesn\'t work or isn\'t what we described, we\'ll fix it. If we can\'t, we\'ll refund you. If you\'re new to the weekly plan and cancel within 7 days of your first charge, we\'ll refund that charge. <a href="refund-policy.html">See our refund policy.</a>'),
+]
+prose("faq.html","Questions | Proud Little Learners","Answers about which pack to pick, how to help, downloads, the weekly plan, and refunds.",'<div class="faq">'+"".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q,a in faqs)+"</div>","Questions")
+
+prose("contact.html","Contact | Proud Little Learners","Email us with a question about a pack, a download, or the weekly plan.",'''
+<p class="lead">Questions about a pack, a download, or the weekly plan? Email us.</p>
+<p><a class="site-email" href="mailto:hello@proudlittlelearners.com">hello@proudlittlelearners.com</a></p>
+<p>We reply within 1 business day.</p>''',"Contact us")
+
+prose("cancel.html","Cancel the Weekly Kindergarten Math Plan | Proud Little Learners","Cancel the weekly plan online or by email.",'''
+<p class="lead">When you cancel, billing stops and access ends. Download any packets you want to keep first.</p>
+<ol class="plain-steps" aria-label="How to cancel"><li>Sign in</li><li>Go to Subscriptions</li><li>Click Cancel</li></ol>
 <div class="cancel-actions"><a class="btn buy" data-signin>Sign in to cancel</a>
-<a class="btn alt" data-email-cancel href="mailto:hello@proudlittlelearners.com?subject=Cancel%20my%20Weekly%20Packet%20Plan">Email us to cancel</a></div>
+<a class="btn alt" data-email-cancel href="mailto:hello@proudlittlelearners.com?subject=Cancel%20my%20Weekly%20Kindergarten%20Math%20Plan">Email us to cancel</a></div>
 <p class="signin-note" hidden></p>
-<p>Email us with the word “Cancel” and the email address you used. We cancel within 1 business day and confirm by email. You do not need to give a reason.</p>
-<p><a href="terms.html#6-the-weekly-packet-plan-subscription">Weekly plan terms</a> · <a href="refund-policy.html">Refunds</a></p>''')
+<p>Send the email address you signed up with. We'll cancel within 1 business day and email you when it's done.</p>''',"Cancel the weekly plan")
+
+prose("our-educational-approach.html","How We Teach | Proud Little Learners","The simple ideas behind our kindergarten math packs: real things, then pictures, then numbers.",f'''
+<p class="lead">Our packs use a few simple ideas that teachers use every day.</p>
+<h2>Real things, then pictures, then numbers</h2>
+<p>Your child counts cereal or toys first. Then dots on the page. Then numbers, like 2 + 1 = 3.</p>
+<h2>I show you, we do it together, you try</h2>
+<p>You show one problem. You do the next one together. Then your child tries alone. The guide tells you what to say at each step.</p>
+<h2>One small step at a time</h2>
+<p>Each page is just a little harder than the last. A child should feel sure of one step before the next.</p>
+<h2>Where these ideas come from</h2>
+<ul>
+<li><a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">Teaching Math to Young Children, a free guide from the U.S. Department of Education's research office (IES)</a></li>
+<li><a href="{LINKS["cc_math"]}" target="_blank" rel="noopener">The Common Core kindergarten math standards</a></li>
+</ul>''',"How we teach")
+
+def legal(fn,title,desc,h1):
+    prose(fn,title,desc,open("assets/legal/"+fn.replace(".html",".body.html")).read(),h1)
+legal("privacy.html","Privacy Policy | Proud Little Learners","What we collect, why, and who we share it with. We don't sell your information.","Privacy Policy")
+legal("terms.html","Terms | Proud Little Learners","Terms for buying and using our printable packs and the weekly plan.","Terms")
+legal("refund-policy.html","Refund Policy | Proud Little Learners","How refunds work for packs and the weekly plan.","Refund Policy")
+
+page("resources/index.html","Parent Tips | Proud Little Learners","Short, plain guides for helping your kindergartner with math at home.",'''
+<section class="tight"><div class="wrap prose"><h1>Parent tips</h1>
+<p>Short guides for helping your child with math at home.</p>
+<ul class="ticks">
+<li><a href="how-to-know-if-your-kindergartener-is-ready-for-addition.html"><strong>Is My Child Ready to Add?</strong></a> Simple signs your kindergartner is ready, and what to do if they need more time.</li>
+<li><a href="addition-within-5-vs-addition-within-10.html"><strong>Adding Within 5 vs. Within 10</strong></a> What these mean, and when to move up.</li>
+<li><a href="how-to-choose-the-right-worksheet-difficulty.html"><strong>How to Pick the Right Worksheet Level</strong></a> How to find pages that aren't too easy or too hard.</li>
+<li><a href="how-to-help-your-child-practice-without-frustration.html"><strong>How to Keep Practice From Turning Into a Fight</strong></a> Ways to keep practice short and calm.</li>
+</ul>
+<h2>Want the next page ready for you?</h2>
+<p>Get a new kindergarten math packet every Monday.</p>
+<p><a class="btn" href="{R}weekly.html">See the weekly plan</a> <a class="btn alt" href="{R}index.html#packs">See the packs</a></p>
+</div></section>''')
 print("built")

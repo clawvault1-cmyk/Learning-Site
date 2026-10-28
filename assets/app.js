@@ -62,12 +62,12 @@
    el.classList.add("disabled");
    el.setAttribute("aria-disabled","true");
    el.addEventListener("click",e=>e.preventDefault());
-   if(note){note.hidden=false;note.textContent="The sign-in link will appear here when the store account is connected. Email us and we will cancel for you.";}
+   if(note){note.hidden=false;note.textContent="Email us and we'll cancel for you.";}
   }
  });
  document.querySelectorAll("[data-email-cancel]").forEach(el=>{
   if(!S.email)return;
-  el.href="mailto:"+S.email+"?subject="+encodeURIComponent("Cancel my Weekly Packet Plan");
+  el.href="mailto:"+S.email+"?subject="+encodeURIComponent("Cancel my Weekly Kindergarten Math Plan");
  });
  if(S.metaPixelId&&/^\d{5,20}$/.test(String(S.metaPixelId))){
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
@@ -82,78 +82,46 @@
    fbq("track","ViewContent",payload);
   }
  }
- // grade → subject → skill → pack. Nothing is preselected.
- const chooser=document.getElementById('chooser');
- if(chooser){
-  const stage=document.getElementById('chooser-stage');
-  const path=document.getElementById('chooser-path');
-  const back=document.getElementById('chooser-back');
-  const GRADES=[{id:"Kindergarten",label:"Kindergarten"},{id:"Pre-K",label:"Preschool"},{id:"1st Grade",label:"1st Grade"},{id:"2nd Grade",label:"2nd Grade"}];
-  const gradeNote={
-   "Pre-K":"Coming soon.",
-   "Kindergarten":"Math is ready now.",
-   "1st Grade":"Coming soon.",
-   "2nd Grade":"Coming soon."
+ const picker=document.getElementById("pack-picker");
+ if(picker){
+  const qEl=document.getElementById("picker-q");
+  const actions=document.getElementById("picker-actions");
+  const result=document.getElementById("picker-result");
+  const root=document.body.dataset.root||"";
+  const steps=[
+   {q:"Can your child count 5 things, like 5 pieces of cereal?",no:"beginner"},
+   {q:"Can your child add 2 + 1 with a little help or none?",no:"beginner"},
+   {q:"Is adding up to 10, like 4 + 3, easy for your child?",no:"intermediate",yes:"advanced"}
+  ];
+  const rec={
+   beginner:{name:"Beginner: Adding within 5",why:"Your child will count two small groups and put them together."},
+   intermediate:{name:"Intermediate: Adding within 10",why:"Your child will turn pictures into problems like 4 + 3."},
+   advanced:{name:"Advanced: Story problems within 10",why:"Your child will solve short story problems you read out loud."}
   };
-  const skillNote={
-   "Addition":"Putting groups together.",
-   "Subtraction":"Taking some away.",
-   "Counting & Number Recognition":"Counting objects and reading numbers.",
-   "Counting & Early Math":"Counting and early number ideas.",
-   "Addition & Subtraction":"Putting together and taking away.",
-   "Place Value":"Tens and ones.",
-   "CVC Words":"Simple words like cat, map, and sit.",
-   "Sight Words":"Words a reader recognizes automatically, instantly.",
-   "Letter Recognition & Phonics":"Letter names and the sounds they stand for.",
-   "Letter Recognition":"Letters and the sounds they stand for.",
-   "Phonics & Spelling":"Sounds, letters, and spelling patterns.",
-   "Reading Comprehension":"Understanding what a passage says."
-  };
-  const state={grade:"",subject:"",skill:""};
-  const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  function items(){return C.filter(p=>p.grade===state.grade&&(!state.subject||p.subject===state.subject)&&(!state.skill||p.skill===state.skill));}
-  function skills(){const seen=[];items().forEach(p=>{if(!seen.includes(p.skill))seen.push(p.skill);});return seen;}
-  function render(){
-   const bits=[state.grade,state.subject,state.skill].filter(Boolean);
-   const label=v=>v==="Pre-K"?"Preschool":v;
-   path.textContent=bits.length?bits.map(label).join(" · "):"Pick a grade to begin. Nothing is selected yet.";
-   back.hidden=!state.grade;
-   back.textContent=state.skill?"Change skill":state.subject?"Change subject":"Change grade";
-   if(!state.grade){stage.innerHTML='<div class="choice-grid grades">'+GRADES.map(g=>'<button type="button" class="choice'+(g.id==="Kindergarten"?" choice-ready":"")+'" data-grade="'+esc(g.id)+'"><strong>'+esc(g.label)+'</strong><span>'+esc(gradeNote[g.id])+'</span></button>').join('')+'</div>';return;}
-   if(!state.subject){
-    const mathNote=state.grade==="Kindergarten"?"Ready now.":"Coming soon.";
-    stage.innerHTML='<p class="chooser-lead">You chose <strong>'+esc(state.grade==="Pre-K"?"Preschool":state.grade)+'</strong>. Math or reading?</p><div class="choice-grid subjects"><button type="button" class="choice'+(state.grade==="Kindergarten"?" choice-ready":"")+'" data-subject="Math"><strong>Math</strong><span>'+esc(mathNote)+'</span></button><button type="button" class="choice" data-subject="Reading"><strong>Reading</strong><span>Coming soon.</span></button></div>';
-    return;
-   }
-   if(!state.skill){
-    const read=state.subject==="Reading"?'<p class="chooser-note">Reading packs are coming soon. CVC words are simple words like cat, map, and sit. A high-frequency word shows up often, like the or and. A sight word is one a reader knows right away. They are not the same.</p>':'';
-    const list=skills();
-    stage.innerHTML=read+'<p class="chooser-lead"><strong>'+esc(state.grade)+' · '+esc(state.subject)+'</strong>. Choose a skill.</p><div class="choice-grid skills">'+list.map(sk=>'<button type="button" class="choice" data-skill="'+esc(sk)+'"><strong>'+esc(sk)+'</strong><span>'+esc(skillNote[sk]||"")+'</span></button>').join('')+'</div>';
-    return;
-   }
-   const found=items();
-   const av=found.filter(p=>p.status==="available");
-   if(av.length){
-    stage.innerHTML='<p class="chooser-lead"><strong>'+esc(state.grade)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</strong> is ready to view.</p><ul class="f-list">'+av.map(p=>'<li><a href="'+R+p.url+'"><span><strong>'+esc(p.short||p.title)+'</strong><small>'+esc(p.summary)+'</small></span><span>$'+p.price.toFixed(2)+'</span></a></li>').join('')+'</ul>';
-   }else{
-    const shown=state.grade==="Pre-K"?"Preschool":state.grade;
-    stage.innerHTML='<div class="soon-card"><span class="badge soon">Coming soon</span><h3>'+esc(shown)+' · '+esc(state.subject)+' · '+esc(state.skill)+'</h3><p>Coming soon. The weekly plan is where new packets will show up.</p><a class="btn" href="'+R+'weekly.html">See the weekly plan</a></div>';
-   }
+  let step=0;
+  function show(){
+   result.hidden=true;
+   actions.hidden=false;
+   qEl.textContent=steps[step].q;
+   document.querySelectorAll("[data-pack]").forEach(el=>el.classList.remove("is-pick"));
   }
-  stage.addEventListener('click',e=>{
-   const b=e.target.closest('button');if(!b)return;
-   if(b.dataset.grade){state.grade=b.dataset.grade;state.subject="";state.skill="";}
-   if(b.dataset.subject){state.subject=b.dataset.subject;state.skill="";}
-   if(b.dataset.skill){state.skill=b.dataset.skill;}
-   render();
+  function finish(key){
+   const item=rec[key];
+   actions.hidden=true;
+   qEl.textContent="Start here:";
+   result.hidden=false;
+   result.innerHTML="<strong>"+item.name+"</strong>. "+item.why+' <a href="'+root+"products/k-addition-"+key+'.html">See this pack</a>. <button type="button" id="picker-reset">Start over</button>';
+   document.querySelectorAll("[data-pack]").forEach(el=>el.classList.toggle("is-pick",el.dataset.pack===key));
+   document.getElementById("picker-reset").addEventListener("click",()=>{step=0;show();});
+  }
+  actions.addEventListener("click",e=>{
+   const b=e.target.closest("[data-answer]");if(!b)return;
+   const cur=steps[step];
+   if(b.dataset.answer==="no"){finish(cur.no);return;}
+   if(cur.yes){finish(cur.yes);return;}
+   step+=1;show();
   });
-  back.addEventListener('click',()=>{
-   if(state.skill)state.skill="";
-   else if(state.subject)state.subject="";
-   else state.grade="";
-   render();
-  });
-  render();
+  show();
  }
  // Jump in-page goals without scrubbing the whole story. Manual scrolling still plays it.
  const onHome=/\/(?:index\.html)?$/.test(location.pathname);
