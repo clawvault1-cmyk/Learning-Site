@@ -27,8 +27,12 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
-      - name: Keep full packet files off the public site
-        run: find packs -type f \( -name '*.pdf' -o -name 'contact-sheet.png' \) -print -delete
+      - name: Keep internal files off the public site
+        run: |
+          find packs -type f \( -name '*.pdf' -o -name 'contact-sheet.png' -o -name '*.py' -o -name '*.json' \) -print -delete
+          rm -rf docs assets/src
+          rm -f build.py make_pdf.py
+          find . -name '*.md' -not -path './.git/*' -print -delete
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

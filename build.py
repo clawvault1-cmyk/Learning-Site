@@ -124,10 +124,10 @@ def art_img(slug, stem, widths, w, h, alt, sizes, lazy=False, large=False):
 def slide_gallery(slug, name, attrs, interiors=True, extra_pages=None):
     specs=[("cover", name, "cover-4x3", COVER_WIDTHS, 1600, 1200, COVER_SIZES, f"assets/img/packs/{slug}/cover-1x1-600.webp", True)]
     if interiors:
-        specs.append(("page", "Parent guide", "guide", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/guide-480.webp", False))
+        specs.append(("page", f"Parent guide from {name}", "guide", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/guide-480.webp", False))
         for n in range(1,6):
-            specs.append(("page", "Practice page", f"interior-{n:02d}", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp", False))
-        specs.append(("page", "Progress tracker", "tracker", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/tracker-480.webp", False))
+            specs.append(("page", f"Practice page from {name}", f"interior-{n:02d}", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/interior-{n:02d}-480.webp", False))
+        specs.append(("page", f"Progress tracker from {name}", "tracker", PAGE_WIDTHS, 1200, 1553, GALLERY_SIZES, f"assets/img/packs/{slug}/tracker-480.webp", False))
     extras=list(extra_pages or [])
     n=len(specs)+len(extras)
     slides=[]; thumbs=[]; dots=[]
@@ -180,7 +180,7 @@ COPY={
   title="Intermediate: Adding within 10 | Proud Little Learners",
   desc="Kindergarten math printables: go from pictures to adding, like 4 + 3 = 7. Totals up to 10. 20 practice pages, guide, and answer keys. $3.99.",
   ask="Can your child add 2 toys and 3 toys?",
-  test="Start here if adding up to 5 already feels easy, like 2 toys and 3 toys.",
+  test="Start here if adding up to 5 already feels comfortable, like 2 toys and 3 toys.",
   sub="Go from pictures to adding, like 4 + 3 = 7.",
   pages=20, dice=18,
   detail="20 practice pages · adding up to 10",
@@ -196,7 +196,7 @@ COPY={
   ask="Can your child add 4 toys and 5 toys?",
   test="Start here if your child can add up to 10 with pictures to count, like 4 toys and 5 toys.",
   read="You read the stories out loud. Still guessing in Adding within 10? Finish that pack first.",
-  sub='Make 10, find missing numbers, and solve short stories, like "3 ducks swim. 2 more come. How many now?"',
+  sub='Make 10, find missing numbers, and solve short stories, like "Leo has four balls. Leo gets two more. How many balls now?"',
   pages=18, dice=18,
   detail="18 practice pages · making 10 and math stories",
   say_h="What you say", move_h="When it's finished",
@@ -204,14 +204,14 @@ COPY={
    ("On practice pages 11 and 12, you say:", '"How many empty spaces? That is how many more make 10."'),
    ("On practice pages 14 to 17, you say:", '"What happened in the story? How many now?"'),
   ],
-  move="When practice pages 16, 17, and 18 feel easy with only a little help. It's the last of the three addition packs."),
+  move="When practice pages 16, 17, and 18 feel comfortable with only a little help. It's the last of the three addition packs."),
 }
 def product_page(p):
     c=COPY[p["slug"]]
     d=PACKS[p["slug"]]
     gallery=slide_gallery(p["slug"], c["name"], f'data-pixel-view data-content-name="{c["name"]}" data-checkout="{d["checkout"]}"', extra_pages=[
-        (f"packs/{p['checkout']}/preview-cutpaste.webp","Practice page"),
-        (f"packs/{p['checkout']}/preview-dice.webp","Practice page"),
+        (f"packs/{p['checkout']}/preview-cutpaste.webp", f"Practice page from {c['name']}"),
+        (f"packs/{p['checkout']}/preview-dice.webp", f"Practice page from {c['name']}"),
     ])
     og_url,og_w,og_h,og_path=og_for(p["slug"])
     others="".join(f'<a class="level-card" href="k-addition-{o["slug"]}.html"><span class="mock">{art_img(o["slug"], "interior-01", PAGE_WIDTHS, 1200, 1553, "", "(min-width:768px) 240px, 42vw", lazy=True)}</span><p class="test">{COPY[o["slug"]]["ask"]}</p><h3>{COPY[o["slug"]]["name"]}</h3><p class="price">$3.99</p></a>' for o in prods if o["slug"]!=p["slug"])
@@ -256,10 +256,10 @@ WEEKS=[
 "Counting to 5","Counting to 10","More and fewer","Adding within 5",
 "Story problems within 5","Adding within 10","Taking away within 5","Shapes and patterns"]
 wgallery=slide_gallery("weekly", "Weekly Kindergarten Math Plan", 'data-pixel-view data-content-name="Weekly Kindergarten Math Plan" data-subscribe="weekly"', interiors=False, extra_pages=[
- ("packs/weekly/week-01/preview-practice-01.webp","Practice page"),
- ("packs/weekly/week-02/preview-practice-05.webp","Practice page"),
- ("packs/weekly/week-03/preview-practice-01.webp","Practice page"),
- ("packs/weekly/week-01/preview-practice-05.webp","Practice page"),
+ ("packs/weekly/week-01/preview-practice-01.webp","Week 1 practice page"),
+ ("packs/weekly/week-02/preview-practice-05.webp","Week 2 practice page"),
+ ("packs/weekly/week-03/preview-practice-01.webp","Week 3 practice page"),
+ ("packs/weekly/week-01/preview-practice-05.webp","Week 1 practice page"),
 ])
 wog_url,wog_w,wog_h,_=og_for("weekly")
 weeklist="".join(f"<li>{w}</li>" for w in WEEKS)
@@ -276,7 +276,7 @@ page("weekly.html","Weekly Kindergarten Math Plan | Proud Little Learners","A ne
 <p class="cancel-line">Access ends when you cancel. New members: full refund within 7 days.</p>
 </div></div></section>
 <section class="sec"><div class="wrap"><h2>In each packet</h2>
-<p>7 or 8 practice pages, answer keys, a 1-page parent note, and a tracker.</p>
+<p>6 to 8 practice pages, answer keys, a 1-page parent note, and a tracker.</p>
 <details class="details"><summary>The first 8 weeks</summary>
 <ol class="week-grid">{weeklist}</ol></details>
 <p>Want the full 2-page guide and a certificate? <a href="{{R}}index.html#packs">See the packs.</a></p>
@@ -292,18 +292,19 @@ head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="
 page("free-printables.html","Page moved | Proud Little Learners","This page has moved.",moved,
 head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
 
-cards=""
-for slug in ("beginner","intermediate","advanced"):
-    c=COPY[slug]
-    shot=art_img(slug, "interior-01", PAGE_WIDTHS, 1200, 1553, "", "(min-width:1024px) 360px, 120px")
-    cards+=f'<article class="pack-card lv-{slug}"><a class="mock" href="products/k-addition-{slug}.html">{shot}</a><div class="card-copy"><h3>{c["ask"]}</h3><p class="pack-name"><a href="products/k-addition-{slug}.html">{c["name"]}</a></p><p class="price">$3.99</p><span class="meta">{c["detail"]}</span></div><div class="card-actions"><a class="btn" href="products/k-addition-{slug}.html">See inside</a></div></article>'
-wshot='<img src="packs/weekly/week-01/preview-practice-01.webp" alt="Weekly Kindergarten Math Plan" width="1200" height="1553" loading="lazy" decoding="async">'
-page("kindergarten-math.html","Kindergarten Math Packs | Proud Little Learners","Three printable kindergarten math packs, $3.99 each: Adding within 5, Adding within 10, and Story problems within 10.",f'''
-<section class="tight"><div class="wrap"><h1>Which one fits?</h1>
-<p class="lead">Try these with real toys. Start with the hardest one your child can do.</p>
-<div class="pack-grid">{cards}</div>
-<article class="plan-card weekly-extra"><a class="mock" href="weekly.html">{wshot}</a><div class="card-copy"><span class="badge">Weekly plan</span><h3>Weekly Kindergarten Math Plan</h3><p>A new packet every Monday, with a 1-page parent note.</p><p class="price">$3.99/month</p></div><div class="card-actions"><a class="btn" href="weekly.html">See the weekly plan</a></div></article>
-</div></section>''')
+page("kindergarten-math.html","Page moved | Proud Little Learners","This page has moved.",moved,
+head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url={R}index.html#packs">')
+tips_moved='''
+<section class="tight"><div class="wrap prose"><h1>This page moved</h1>
+<p><a href="/resources/">Parent tips</a></p></div></section>
+<script>location.replace("/resources/");</script>'''
+for fn in ("resources/cvc-words-explained-for-parents.html","resources/how-to-choose-the-right-worksheet-difficulty.html"):
+    page(fn,"Page moved | Proud Little Learners","This page has moved.",tips_moved,
+    head='<meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=/resources/">')
+page("404.html","Page not found | Proud Little Learners","This page isn't here.",'''
+<section class="tight"><div class="wrap prose"><h1>This page isn't here.</h1>
+<p><a href="/#packs">See the packs</a> or <a href="/weekly.html">the weekly plan</a>.</p></div></section>''',
+head='<meta name="robots" content="noindex">')
 
 def prose(fn,title,desc,inner,h1=None):
     page(fn,title,desc,f'<section class="tight"><div class="wrap prose"><h1>{h1 or title}</h1>{inner}</div></section>')
@@ -315,14 +316,14 @@ prose("about.html","About Us | Proud Little Learners","Printable kindergarten ma
 
 faqs=[
 ("Which pack should we start with?","Beginner: Adding within 5, if your child can count 5 toys. Can't yet? Count apples or blocks up to 5 for a few days first."),
-("I'm not a teacher. Can I do this?","Yes. Every page has an answer key, and the guide is 2 short pages in plain words."),
-("What if a page is too hard?","Go back a page, or count real things like cereal. Try again tomorrow."),
+("I'm not a teacher. Can I do this?","Yes. Every practice page has an answer key, and the guide is 2 short pages in plain words."),
+("What if a page is too hard?","Go back to the page the guide names. Try again tomorrow."),
 ("When do we move up?","When the last few practice pages are right with only a little help. The guide names the pages."),
-("My child doesn't like worksheets. Will this help?","The pages are short, and you start with real things. Stop while it's still fun."),
+("My child doesn't like worksheets. Will this help?","Each pack has cut-and-paste and a dice game. One page, about 10 minutes, then stop while your child is still willing."),
 ("Is it on a screen?","No. You print it, and your child uses a pencil."),
 ("How do I get my files?","You get a download link right after you pay, and by email."),
 ("How does the weekly plan work?","$3.99/month. This month's packets today, then a new one every Monday. Cancel anytime. Access ends when you cancel."),
-("Are weekly packets the same as the packs?","No. A weekly packet has 7 or 8 practice pages and a 1-page note. A pack goes deeper on adding, with the full 2-page guide, a tracker, and a certificate. You keep it."),
+("Are weekly packets the same as the packs?","No. A weekly packet is one topic, with 6 to 8 practice pages and a 1-page note. A pack goes deeper on adding, with the full 2-page guide and a certificate. You keep it."),
 ("How do I cancel?",'Sign in and <a href="cancel.html">cancel</a>, or email us.'),
 ("Can I get a refund?",'If a file has a problem, we\'ll fix it or refund you. New weekly members can get <a href="refund-policy.html">a full refund within 7 days</a>.'),
 ("Can I share the files?","Print them for your family, homeschool, or one classroom. Please don't share the files."),
@@ -342,14 +343,14 @@ prose("cancel.html","Cancel the Weekly Kindergarten Math Plan | Proud Little Lea
 <p class="signin-note" hidden></p>
 <p>Send the email address you signed up with. We'll cancel within 1 business day and email you when it's done.</p>''',"Cancel the weekly plan")
 
-prose("our-educational-approach.html","How We Teach | Proud Little Learners","The simple ideas behind our kindergarten math packs: real things, then pictures, then numbers.",f'''
-<p class="lead">Our packs use a few simple ideas that teachers use every day.</p>
-<h2>Real things, then pictures, then numbers</h2>
-<p>Your child counts cereal or toys first. Then dots on the page. Then numbers, like 2 + 1 = 3.</p>
-<h2>I show you, we do it together, you try</h2>
-<p>You show one problem. You do the next one together. Then your child tries alone. The guide tells you what to say at each step.</p>
-<h2>One small step at a time</h2>
-<p>Each page is just a little harder than the last. A child should feel sure of one step before the next.</p>
+prose("our-educational-approach.html","How We Teach | Proud Little Learners","How our kindergarten math packs teach: pictures, then numbers, and the words to say.",f'''
+<p class="lead">Three simple ideas many teachers use.</p>
+<h2>Pictures, then numbers</h2>
+<p>Your child counts pictures on the page, then writes number sentences, like 2 + 1 = 3. If counting is hard, count real apples or blocks first.</p>
+<h2>I do, we do, you do</h2>
+<p>On practice pages, you do problem 1 out loud. You do problem 2 together. Your child does the rest. The guide gives you one line to say, then you wait.</p>
+<h2>Easy to harder</h2>
+<p>The pages go from easy to harder. If a page is a guess, the guide names the page to go back to.</p>
 <h2>Where these ideas come from</h2>
 <ul>
 <li><a href="{LINKS["wwc_math"]}" target="_blank" rel="noopener">Teaching Math to Young Children, a free guide from the U.S. Department of Education's research office (IES)</a></li>
@@ -368,7 +369,6 @@ page("resources/index.html","Parent Tips | Proud Little Learners","Short, plain 
 <ul class="ticks">
 <li><a href="how-to-know-if-your-kindergartener-is-ready-for-addition.html"><strong>Is My Child Ready to Add?</strong></a> Simple signs your kindergartner is ready, and what to do if they need more time.</li>
 <li><a href="addition-within-5-vs-addition-within-10.html"><strong>Adding Within 5 vs. Within 10</strong></a> What these mean, and when to move up.</li>
-<li><a href="how-to-choose-the-right-worksheet-difficulty.html"><strong>How to Pick the Right Worksheet Level</strong></a> How to find pages that aren't too easy or too hard.</li>
 <li><a href="how-to-help-your-child-practice-without-frustration.html"><strong>How to Keep Practice From Turning Into a Fight</strong></a> Ways to keep practice short and calm.</li>
 </ul>
 <h2>Want the next page ready for you?</h2>

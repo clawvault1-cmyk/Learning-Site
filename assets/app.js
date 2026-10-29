@@ -95,47 +95,6 @@
    fbq("track","ViewContent",payload);
   }
  }
- const picker=document.getElementById("pack-picker");
- if(picker){
-  const qEl=document.getElementById("picker-q");
-  const actions=document.getElementById("picker-actions");
-  const result=document.getElementById("picker-result");
-  const root=document.body.dataset.root||"";
-  const steps=[
-   {q:"Can your child count 5 things, like 5 pieces of cereal?",no:"beginner"},
-   {q:"Can your child add 2 + 1 with a little help or none?",no:"beginner"},
-   {q:"Is adding up to 10, like 4 + 3, easy for your child?",no:"intermediate",yes:"advanced"}
-  ];
-  const rec={
-   beginner:{name:"Beginner: Adding within 5",why:"Your child will count two small groups and put them together."},
-   intermediate:{name:"Intermediate: Adding within 10",why:"Your child will turn pictures into problems like 4 + 3."},
-   advanced:{name:"Advanced: Story problems within 10",why:"Your child will solve short story problems you read out loud."}
-  };
-  let step=0;
-  function show(){
-   result.hidden=true;
-   actions.hidden=false;
-   qEl.textContent=steps[step].q;
-   document.querySelectorAll("[data-pack]").forEach(el=>el.classList.remove("is-pick"));
-  }
-  function finish(key){
-   const item=rec[key];
-   actions.hidden=true;
-   qEl.textContent="Start here:";
-   result.hidden=false;
-   result.innerHTML="<strong>"+item.name+"</strong>. "+item.why+' <a href="'+root+"products/k-addition-"+key+'.html">See this pack</a>. <button type="button" id="picker-reset">Start over</button>';
-   document.querySelectorAll("[data-pack]").forEach(el=>el.classList.toggle("is-pick",el.dataset.pack===key));
-   document.getElementById("picker-reset").addEventListener("click",()=>{step=0;show();});
-  }
-  actions.addEventListener("click",e=>{
-   const b=e.target.closest("[data-answer]");if(!b)return;
-   const cur=steps[step];
-   if(b.dataset.answer==="no"){finish(cur.no);return;}
-   if(cur.yes){finish(cur.yes);return;}
-   step+=1;show();
-  });
-  show();
- }
  document.querySelectorAll('form[data-placeholder]').forEach(fm=>fm.addEventListener('submit',e=>{e.preventDefault();
   const m=fm.querySelector('.form-msg');m.hidden=false;}));
 })();
