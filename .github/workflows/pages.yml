@@ -29,10 +29,13 @@ jobs:
           enablement: true
       - name: Keep internal files off the public site
         run: |
+          rm -rf _internal docs assets/src
+          rm -f build.py make_pdf.py README.md _config.yml
           find packs -type f \( -name '*.pdf' -o -name 'contact-sheet.png' -o -name '*.py' -o -name '*.json' \) -print -delete
-          rm -rf docs assets/src
-          rm -f build.py make_pdf.py
           find . -name '*.md' -not -path './.git/*' -print -delete
+          # Defense in depth: nothing under _internal should ship even if the
+          # delete above is skipped.
+          rm -rf _internal
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
