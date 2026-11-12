@@ -38,6 +38,7 @@ header.site{position:sticky;top:0;z-index:50;background:var(--cream);border-bott
 .nav-toggle{display:none;width:48px;height:48px;border:0;background:transparent;padding:14px 10px;cursor:pointer}
 .nav-toggle span{display:block;height:2px;background:var(--navy);margin:5px 0;border-radius:2px}
 
+[hidden]{display:none !important}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;background:var(--teal);color:#fff;font-family:Inter,sans-serif;font-weight:700;font-size:17px;line-height:1;border:0;border-radius:12px;text-decoration:none;cursor:pointer;text-align:center}
 .btn:hover{background:var(--teal-dark);color:#fff}
 .btn.alt{background:transparent;color:var(--navy);border:2px solid var(--navy)}
@@ -273,7 +274,10 @@ footer.site .fine{margin-top:32px;padding-top:16px;border-top:1px solid rgba(255
  .level-card h3{font-size:16px;margin:8px 12px}
  .level-card .test{margin:8px 12px 0;font-size:14px}
  .level-card .price{margin:4px 12px 12px;font-size:18px}
- body.product{padding-bottom:72px}
+ body.product{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+}
+@media(min-width:768px) and (max-width:1023px){
+ body.product{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
 }
 @media(min-width:768px){
  .wrap{padding:0 32px}
