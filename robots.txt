@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
+Disallow: /_internal/
+Disallow: /LEGAL-REVIEW-NOTES.md
+Disallow: /NOTES-design-research.md
+Disallow: /README.md
+Disallow: /build.py
+Disallow: /make_pdf.py
+Disallow: /packs/*.py
+Disallow: /packs/*.json
+Disallow: /assets/src/
 
 Sitemap: https://proudlittlelearners.com/sitemap.xml

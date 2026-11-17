@@ -1,0 +1,7 @@
+# If GitHub Pages builds this branch with Jekyll (legacy "deploy from branch"),
+# underscore folders such as _internal are not published. HTML, CSS, and JS
+# have no front matter, so they are copied as static files.
+# Prefer the GitHub Actions workflow as the Pages source.
+exclude:
+  - README.md
+  - _internal
